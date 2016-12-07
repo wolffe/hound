@@ -1,2 +1,2 @@
 # hound
-Hound is a lite, flat-file, PHP-based content management system
+Hound is a light, flat-file, PHP-based content management system.
