@@ -42,7 +42,7 @@ function hound_update_check() {
                 <strong>An updated version of Hound is available.</strong>
                 <br><em>Important: before upgrading, please backup your database and files. For help with updates, visit the Updating Hound page.</em>
             </p>
-            <p><a href="https://github.com/wolffe/hound/releases" class="thin-ui-button thin-ui-button-primary" target="_blank">Get latest version</a></p>';
+            <p><a href="https://github.com/wolffe/hound/releases" class="thin-ui-button thin-ui-button-primary" target="_blank">Get latest version (' . $latest_release . ')</a></p>';
         } else {
             echo '<p><strong>You have the latest version of Hound.</strong></p>';
         }
