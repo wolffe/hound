@@ -17,10 +17,6 @@ if($temppass == $password) {
     include 'includes/sidebar.php'; ?>
 
     <div class="content">
-        <div class="toolbar">
-            <a href="../" target="_blank"><i class="fa fa-fw fa-external-link-square" aria-hidden="true"></i> Site preview</a> &nbsp;&nbsp;
-            <a href="logout.php"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i> Logout</a>
-        </div>
         <div class="content main">
             <?php
             $hound = new hound('', '');
@@ -59,6 +55,9 @@ if($temppass == $password) {
                 You are using Hound <strong><?php echo HOUND_VERSION; ?></strong> on PHP <?php echo PHP_VERSION; ?>.
                 <br><small>Current memory usage is <?php echo convert(memory_get_usage(true)); ?> (<?php echo convert(memory_get_peak_usage(true)); ?>) out of <?php echo convert($memoryAvailable); ?> allocated.</small>
             </p>
+
+            <hr>
+            <p>Thank you for using <a href="https://getbutterfly.com/hound/" rel="external">Hound</a> by getButterfly.</p>
         </div>
     </div>
     <?php

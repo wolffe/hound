@@ -25,6 +25,11 @@ tinymce.init({
     browser_spellcheck : true,
     gecko_spellcheck: true,
 
+    image_caption: true,
+    image_advtab: true,
+    media_live_embeds: true,
+    theme: 'modern',
+
     relative_urls: false,
     remove_script_host: false,
     forced_root_block : false,
@@ -32,17 +37,33 @@ tinymce.init({
     force_p_newlines : false,
     content_css: 'css/thin-ui.css',
     plugins: [
-        "advlist autolink  lists link image charmap print preview anchor",
-        "searchreplace visualblocks code fullscreen",
-        "insertdatetime media table contextmenu paste mediamanager textcolor"
+        "advlist autolink lists link image imagetools charmap print hr preview anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media table contextmenu paste mediamanager textcolor colorpicker textpattern",
+        "emoticons nonbreaking save paste table contextmenu directionality template",
+        "codesample"
     ],
-    toolbar: "mediamanager | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | shortcodesandro forecolor backcolor | link image code",
+    toolbar1: "mediamanager | undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist | shortcodesandro forecolor backcolor emoticons | link image media | code",
+    toolbar2: "insertfile insert codesample | print preview | mybutton",
+
+    style_formats: [
+        { title: 'Bold text', inline: 'strong' },
+        { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
+        { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
+        { title: 'Badge', inline: 'span', styles: { display: 'inline-block', border: '1px solid #2276d2', 'border-radius': '5px', padding: '2px 5px', margin: '0 2px', color: '#2276d2' } },
+        { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
+    ],
+
+    templates: [
+        { title: 'Test template 1', content: 'Test 1' },
+        { title: 'Test template 2', content: 'Test 2' }
+    ],
 
     setup : function(ed) {
       
       ed.addButton('shortcodesandro', {
          type: 'listbox',
-         text: 'bootstrap',
+         text: 'shortcodes',
          icon: false,
          onselect: function(e) {
              ed.insertContent(this.value());
@@ -62,7 +83,17 @@ tinymce.init({
 
             ]
       });
-    }
+
+           ed.addButton('mybutton', {
+      text: 'My button',
+      icon: false,
+      onclick: function () {
+        ed.insertContent('&nbsp;<b>It\'s my button!</b>&nbsp;');
+      }
+    });
+  },
+ 
+    
 });
 </script>
 

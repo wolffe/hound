@@ -1,17 +1,3 @@
-/**
-html,body{
-    height:100%;
-    padding:0
-}
-
-body {
-    color: #000000;
-    margin: 0px;
-    padding: 0px;
-    background:#eeeeee;
-}
-/**/
-
 .form-group{
   padding-bottom: 10px;
 }
@@ -402,25 +388,6 @@ h1 {
     color: rgba(255, 255, 255, 0.25);
 }
 
-.toolbar {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    height: 48px;
-    padding: 0 24px;
-    background-color: #34495E;
-}
-
 .content {
     padding-left: 250px;
 
@@ -494,8 +461,8 @@ h1 {
 }
 .sidebar li a,
 .sidebar li a:hover {
-    font-size: 18px;
-    font-weight: 300;
+    font-size: 14px;
+    font-weight: 400;
     color: #BDC3C7;
     text-decoration: none;
 }
@@ -504,22 +471,14 @@ h1 {
 }
 .sidebar h2 {
     font-size: 24px;
-    font-weight: 300;
+    font-weight: 700;
     margin: 0 0 48px 0;
     color: #ECF0F1;
     line-height: 1;
 }
 .sidebar h2 small {
-    font-size: 14px;
-    font-weight: 300;
+    font-size: 12px;
+    font-weight: 400;
     color: #BDC3C7;
-}
-
-.toolbar a,
-.toolbar a:hover {
-    color: #BDC3C7;
-    text-decoration: none;
-}
-.toolbar a:hover {
-    color: #FFFFFF;
+    vertical-align: super;
 }

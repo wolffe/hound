@@ -1,6 +1,55 @@
 <?php
 include 'constants.php';
 
+function get_variable($item) {
+    $headers = array(
+        'title' => 'Title',
+        'description' => 'Description',
+        'meta.title' => 'Meta.title',
+        'meta.description' => 'Meta.description',
+        'meta.keywords' => 'Meta.keywords',
+        'content' => 'Content',
+        'template' => 'Template',
+        'menu' => 'Menu',
+        'url' => 'Url',
+        'slug' => 'Slug',
+        'order' => 'Order',
+        'link' => 'Link',
+        'item' => 'Item',
+        'featuredimage' => 'Featuredimage',
+        'slogan' => 'Slogan',
+        'include' => '',
+    );
+
+    if(!function_exists('file_get_contents')) {
+        $content = $this->url_get_contents('site/config.txt');
+    } else {
+        $content = file_get_contents('site/config.txt');
+    }
+
+    // Add support for custom headers by hooking into the headers array
+    foreach ($headers as $field => $regex) {
+        if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
+            $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
+        } else {
+            $headers[$field] = '';
+        }
+    }
+
+    $item = $headers[$item];
+
+    return $item;
+}
+
+function get_theme_directory($partial) {
+    $websiteurl = getcwd();
+
+    $template = get_variable('template');
+    $template_path = $websiteurl . '/site/templates/' . $template . '/' . $partial;
+
+    return $template_path;
+}
+
 class hound {
     var $config;
     var $path;

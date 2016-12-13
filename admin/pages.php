@@ -18,32 +18,14 @@ if($temppass == $password) {
     include 'includes/sidebar.php'; ?>
 
     <div class="content">
-        <div class="toolbar">
-            <a href="../" target="_blank"><i class="fa fa-fw fa-external-link-square" aria-hidden="true"></i> Site preview</a> &nbsp;&nbsp;
-            <a href="logout.php"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i> Logout</a>
-        </div>
         <div class="content main">
             <?php
             if($_GET['op'] == 'del') {
                 $file = '../site/pages/page-' . $page . '.txt';
                 if(unlink($file)) {
-                    echo '<div class="panel panel-success">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Success</h3>
-                        </div>
-                        <div class="panel-body">
-                            deleted
-                        </div>
-                    </div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Page deleted successfully.</div>';
                 } else {
-                    echo '<div class="panel panel-error">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Error</h3>
-                        </div>
-                        <div class="panel-body">
-                            I/o error
-                        </div>
-                    </div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting page.</div>';
                 }
             }
 
@@ -78,15 +60,13 @@ if($temppass == $password) {
             </div>
             <br>
 
-            <table data-table-theme="default zebra">
+            <table data-table-theme="default zebra hd-sortable">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Slug</th>
                         <th>Template</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th>File Details</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -104,6 +84,7 @@ if($temppass == $password) {
                             $nameofpage = str_replace('.txt', "", $nameofpage);
                             $i++;
 
+                            $fileinfo = stat($file);
                             echo '<tr>
                                 <td>';
                                     if($parampage['slug'] == "index") {
@@ -119,14 +100,13 @@ if($temppass == $password) {
                                 echo '</td>';
                                 echo '<td>' . $parampage['slug'] . '</td>';
                                 echo '<td><code>' . $parampage['template'] . '</code></td>';
-                                echo '<td><a href="../' . $parampage['slug'] . '">View</a></td>';
-                                echo '<td><a href="edit-page.php?page=' . $nameofpage . '">Edit</a></td>';
-                                echo '<td>';
+                                echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . '<br>' . formatSizeUnits($fileinfo['size']) . '</small></td>';
+                                echo '<td>
+                                    <a href="../' . $parampage['slug'] . '">View</a> | 
+                                    <a href="edit-page.php?page=' . $nameofpage . '">Edit</a> | ';
                                     if($parampage['slug'] != 'index') {
-                                        echo '<a href="pages.php?op=copy&page=' . $nameofpage . '"> Copy</a>';
+                                        echo '<a href="pages.php?op=copy&page=' . $nameofpage . '"> Copy</a> | ';
                                     }
-                                echo '</td>';
-                                echo '<td>';
                                     if($parampage['slug'] != 'index') {
                                         echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="pages.php?op=del&page=' . $nameofpage . '"> Delete</a>';
                                     }

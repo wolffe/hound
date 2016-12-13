@@ -18,10 +18,6 @@ if($temppass == $password) {
     include 'includes/sidebar.php'; ?>
 
     <div class="content">
-        <div class="toolbar">
-            <a href="../" target="_blank"><i class="fa fa-fw fa-external-link-square" aria-hidden="true"></i> Site preview</a> &nbsp;&nbsp;
-            <a href="logout.php"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i> Logout</a>
-        </div>
         <div class="content main">
             <?php
             if($_POST['op'] == 'mod') {

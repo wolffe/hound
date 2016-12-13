@@ -17,10 +17,6 @@ if($temppass == $password) {
     include 'includes/sidebar.php'; ?>
 
     <div class="content">
-        <div class="toolbar">
-            <a href="../" target="_blank"><i class="fa fa-fw fa-external-link-square" aria-hidden="true"></i> Site preview</a> &nbsp;&nbsp;
-            <a href="logout.php"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i> Logout</a>
-        </div>
         <div class="content main">
             <?php
             if($_POST['op'] == 'mod') {
@@ -39,8 +35,8 @@ if($temppass == $password) {
 
                 $template=$_POST['template'];
 
-                $file='../site/pages/'.$currentlanguage."/page-$slug.txt";
-                echo 'creating ' . $file . '...<br>';
+                $file = '../site/pages/page-' . $slug . '.txt';
+                echo '<div class="thin-ui-notification thin-ui-notification-success">Created <code>' . $file . '</code>.</div>';
 
                 //create file
                 $myfile = fopen($file, "a") or die("Unable to open file!");

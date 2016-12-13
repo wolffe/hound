@@ -62,5 +62,5 @@ function sortTable(table, order) {
 }
 
 $(document).ready(function() {
-    sortTable($('.table-menu'), 'asc');
+    sortTable($('.hd-sortable'), 'asc');
 });
