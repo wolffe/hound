@@ -6,15 +6,15 @@ https://getbutterfly.com/demo/hound/
 
 # Official page:
 https://getbutterfly.com/hound/
-
+ 
 # Version
-Current version: `0.1.2`
+Current version: `0.1.3`
 
 Note that versions below 1.0 are considered alpha and not production-ready. I am adding breaking features and changing page loading behaviour.
 
 # Changelog
 
-= 0.1.2 =
+= 0.1.3 =
 
 * UPDATE: Added default theme (Grey)
 * UPDATE: Admin UI tweaks
