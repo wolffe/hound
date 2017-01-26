@@ -9,6 +9,7 @@
 
         <li class="sidebar-separator">Content</li>
         <li><a href="pages.php"><i class="fa fa-fw fa-file-text" aria-hidden="true"></i> Pages</a></li>
+        <li><a href="posts.php"><i class="fa fa-fw fa-file-text" aria-hidden="true"></i> Posts</a></li>
         <li><a href="menu.php"><i class="fa fa-fw fa-file-text-o" aria-hidden="true"></i> Menu</a></li>
         <li><a href="media.php"><i class="fa fa-fw fa-file-image-o" aria-hidden="true"></i> Media</a></li>
 
