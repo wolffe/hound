@@ -8,6 +8,11 @@ function convert($size) {
 
     return round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) . $unit[$i];
 }
+function houndSizeConversion($size) {
+    $unit = array('B','KB','MB','GB','TB','PB');
+
+    return round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) . $unit[$i];
+}
 
 function php_redirect($url) {
     // Get and append query string
@@ -22,7 +27,7 @@ function php_redirect($url) {
 }
 
 // Version Control
-function hound_update_check() {
+function houndUpdateCheck() {
     $opts = array(
         'http' => array(
             'method' => "GET",
@@ -133,4 +138,80 @@ function replace_string_in_file($filename, $string_to_replace, $replace_with){
         }
 
         return $bytes;
+}
+
+/**
+ * Check UNIX write permissions
+ * 
+ * @since 0.1.4
+ * @author Ciprian Popescu
+ * 
+ * @param string $path Directory path
+ * @return bool
+ */
+function houndCheckWritePermissions($path) {
+    $path = (string) trim($path);
+
+    if (is_writable($path)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Check OS memory
+ * 
+ * @since 0.1.4
+ * @author Ciprian Popescu
+ * 
+ * @param string $type Memory check type (available, peak or current usage)
+ * @return string
+ */
+function houndGetMemory($type = 'usage') {
+    if ((string) $type === 'available') {
+        $memoryAvailable = filter_var(ini_get("memory_limit"), FILTER_SANITIZE_NUMBER_INT);
+        $memoryAvailable = $memoryAvailable * 1024 * 1024;
+        $size = (int) $memoryAvailable;
+    } elseif ((string) $type === 'peak') {
+        $size = (int) memory_get_peak_usage(true);
+    } elseif ((string) $type === 'usage') {
+        $size = (int) memory_get_usage(true);
+    } else {
+        $size = 0;
+    }
+
+    return houndSizeConversion($size);
+}
+
+/**
+ * Get configuration parameter
+ * 
+ * @since 0.1.4
+ * @author Ciprian Popescu
+ * 
+ * @param string $name Name of parameter from configuration file
+ * @return string
+ */
+function houndGetParameter($name) {
+    $hound = new hound('', '');
+    $parameter = $hound->read_param('../site/config.txt');
+
+    return (string) $parameter[$name];
+}
+
+/**
+ * Sanitize string
+ * 
+ * @since 0.1.4
+ * @author Ciprian Popescu
+ * 
+ * @param string $name Name of parameter from configuration file
+ * @return string
+ */
+function houndSanitizeString($string) {
+    $string = trim((string) $string);
+    $string = filter_var($string, FILTER_SANITIZE_STRING);
+
+    return $string;
 }

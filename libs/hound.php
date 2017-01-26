@@ -95,6 +95,11 @@ class hound {
                 $listofpage[]=str_replace("site/pages/","",$file);
             } 
 
+            //THE PAGES
+            if (preg_match("/\bpost\b/i", $file)) {
+                $listofpost[]=str_replace("site/pages/","",$file);
+            } 
+
             //THE MENU
             if (preg_match("/\bmenu\b/i", $file)) {
                 $menuparam=$this->read_param($file);
@@ -105,13 +110,18 @@ class hound {
             } 
         }
 
-        //READ FILE CONTENT
+        // READ FILE CONTENT
         if(in_array("page-".$curpage.".txt", $listofpage)){
             $pageparam=$this->read_param("site/pages/page-".$curpage.".txt");
         }else{
             $pageparam=$this->read_param("site/pages/page-index.txt");
         }
 
+        if(in_array("post-".$curpage.".txt", $listofpost)){
+            $pageparam=$this->read_param("site/pages/post-".$curpage.".txt");
+        }else{
+            $pageparam=$this->read_param("site/pages/page-index.txt");
+        }
 
         //BUILD MENU
         array_multisort($arrayofmenu);

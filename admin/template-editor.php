@@ -19,7 +19,6 @@ if($temppass == $password) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
 
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/theme-chrome.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/theme-dawn.js"></script>
@@ -27,16 +26,17 @@ if($temppass == $password) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/theme-textmate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/mode-css.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/mode-html.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/mode-php.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/mode-javascript.js"></script>
     <script src="js/jquery-ace.min.js"></script>
 
     <div class="content">
         <div class="content main">
             <?php
-          if($_POST['op']=="mod"){
-              $content=$_POST['content'];
-              $content=str_replace("\\","",$content);
-              $file="../site/templates/".$param['template']."/".$template.".tpl";
+            if($_POST['op'] == 'mod') {
+                $content = $_POST['content'];
+                $content = str_replace("\\", "", $content);
+                $file = "../site/templates/" . $param['template'] . "/" . $template . ".tpl";
               if(file_put_contents($file, $content))
               echo "
                   <div class=\"panel panel-success\">
@@ -68,17 +68,23 @@ if($temppass == $password) {
                 <select onchange="document.location.href='template-editor.php?template='+this.value" name="template" id="template">
                     <option value="">Choose a file...</option>
                     <?php
-            $dirtmpl=scandir("../site/templates/".$param['template']."/");
-            foreach ($dirtmpl as $itemtpl) {
-              if( !is_dir("../site/templates/".$param['template']."/".$itemtpl) && $itemtpl!="." && $itemtpl!=".." && $itemtpl!=".DS_Store"){
-                if($itemtpl==$paramofpage['template'])$sel2="selected";
-                else $sel2="";
-                $itemtpl=str_replace(".tpl","",$itemtpl);
-                if($template==$itemtpl)echo"<option selected $sel2 value=\"$itemtpl\">$itemtpl</option>";
-                else echo"<option $sel2 value=\"$itemtpl\">$itemtpl</option>";
-              }
-            }
-            ?>
+                    $dirtmpl = scandir('../site/templates/' . $param['template'] . '/');
+                    foreach($dirtmpl as $itemtpl) {
+                        if(!is_dir('../site/templates/' . $param['template'] . '/' . $itemtpl) && $itemtpl != '.' && $itemtpl != '..' && $itemtpl != '.DS_Store' && $itemtpl != 'Thumbs.db') {
+                            if($itemtpl == $param['template']) {
+                                $sel2 = 'selected';
+                            } else {
+                                $sel2 = '';
+                            }
+                            //$itemtpl=str_replace(".php","",$itemtpl);
+                            if($template == $itemtpl) {
+                                echo "<option selected $sel2 value=\"$itemtpl\">$itemtpl</option>";
+                            } else {
+                                echo "<option $sel2 value=\"$itemtpl\">$itemtpl</option>";
+                            }
+                        }
+                    }
+                    ?>
                 </select>
             </div>
 
@@ -88,7 +94,7 @@ if($temppass == $password) {
                 <input type="hidden" value="mod" name="op">
 
                 <p>
-                    <textarea id="txtTextArea1"  name="content" style="width: 100%;" rows="25"><?php echo str_replace('</textarea>', '&lt;/textarea>', file_get_contents('../site/templates/theme/' . $paramofpage['template'] . $template)); ?></textarea>
+                    <textarea id="txtTextArea1"  name="content" style="width: 100%;" rows="25"><?php echo str_replace('</textarea>', '&lt;/textarea>', file_get_contents('../site/templates/' . $param['template'] . '/' . $template)); ?></textarea>
                 </p>
 
                 <p><button type="submit" class="thin-ui-button thin-ui-button-primary">Edit file</button></p>
@@ -100,7 +106,7 @@ if($temppass == $password) {
 <script>
 $('#txtTextArea1').ace({
     theme: 'textmate',
-    lang: 'html',
+    lang: 'php',
 })
 </script>
 
