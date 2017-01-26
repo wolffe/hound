@@ -10,6 +10,10 @@ include 'libs/houndAdmin.php';
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
+$page = $_GET['page'];
+
+$houndAdmin = new houndAdmin('', '');
+$param = $houndAdmin->read_param('../site/config.txt');
 
 if ((string) $temppass === (string) $password) {
     include 'includes/header.php';
@@ -17,38 +21,90 @@ if ((string) $temppass === (string) $password) {
 
     <div class="content">
         <div class="content main">
-            <h2>Dashboard</h2>
-
             <?php
-            houndUpdateCheck();
-
-            if (houndCheckWritePermissions('../site')) {
-                echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Content (templates and pages) folder is writable.</div>';
-            } else {
-                echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Content (templates and pages) folder is not writable.</div>';
+            if ($_GET['op'] === 'del') {
+                $file = '../site/pages/page-' . $page . '.txt';
+                if(unlink($file)) {
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Page deleted successfully.</div>';
+                } else {
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting page.</div>';
+                }
             }
 
-            if (houndCheckWritePermissions('../files')) {
-                echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Uploads folder is writable.</div>';
-            } else {
-                echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Uploads folder is not writable.</div>';
+            if ($_GET['op'] == 'copy') {
+                $file = '../site/pages/page-' . $page . '.txt';
+                $filecopy = '../site/pages/page-' . $page . '-copy.txt';
+
+                if (copy($file, $filecopy)) {
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Page copied successfully.</div>';
+                } else {
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while copying page.</div>';
+                }
             }
             ?>
-
+            <h2>Pages</h2>
+            <div>
+                <a href="new-page.php" class="thin-ui-button thin-ui-button-primary">New page</a>
+            </div>
             <br>
-            <?php
-            echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> cURL is ', function_exists('curl_version') ? 'enabled (' . curl_version()['version'] . '/' . curl_version()['host'] . '/' . curl_version()['ssl_version'] . ')</div>' : 'disabled</div>';
-            echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> <code>file_get_contents()</code> is ', file_get_contents(__FILE__) ? 'enabled</div>' : 'disabled</div>';
-            echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> Current theme folder is <code>/' . houndGetParameter('template') . '/</code></div>';
-            ?>
 
-            <p>
-                You are using Hound <strong><?php echo HOUND_VERSION; ?></strong> on PHP <?php echo PHP_VERSION; ?>.
-                <br><small>Current memory usage is <?php echo houndGetMemory('usage'); ?> (<?php echo houndGetMemory('peak'); ?>) out of <?php echo houndGetMemory('available'); ?> allocated.</small>
-            </p>
+            <table data-table-theme="default zebra hd-sortable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Slug</th>
+                        <th>Template</th>
+                        <th>File Details</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $fileindir = $houndAdmin->get_files('../site/pages/');
+                    foreach ($fileindir as $file) {
+                        if (preg_match("/\bpage\b/i", $file)) {
+                            $parampage = $houndAdmin->read_param($file);
+                            $listofpage[$i]['title'] = $parampage['title'];
+                            //$listofpage[$i]['url'] = $parampage['url'];
+                            $listofpage[$i]['slug'] = $parampage['slug'];
+                            $nameofpage = str_replace('../site/pages/', "", $file);
+                            $nameofpage = str_replace('page-', "", $nameofpage);
+                            $nameofpage = str_replace('.txt', "", $nameofpage);
+                            $i++;
 
-            <hr>
-            <p>Thank you for using <a href="https://getbutterfly.com/hound/" rel="external">Hound</a> by getButterfly.</p>
+                            $fileinfo = stat($file);
+                            echo '<tr>
+                                <td>';
+                                    if ($parampage['slug'] == "index") {
+                                        echo '<i class="fa fa-fw fa-home" aria-hidden="true"></i> ';
+                                    }
+                                    if (preg_match("/\bcopy\b/i", $file)) {
+                                        echo '<i class="fa fa-fw fa-files-o" aria-hidden="true"></i> ';
+                                    }
+                                    echo $parampage['title'];
+                                    if (preg_match("/\bcopy\b/i", $file)) {
+                                        echo ' (copy)';
+                                    }
+                                echo '</td>';
+                                echo '<td>' . $parampage['slug'] . '</td>';
+                                echo '<td><code>' . $parampage['template'] . '</code></td>';
+                                echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . '<br>' . formatSizeUnits($fileinfo['size']) . '</small></td>';
+                                echo '<td>
+                                    <a href="../' . $parampage['slug'] . '">View</a> | 
+                                    <a href="edit-page.php?page=' . $nameofpage . '">Edit</a> | ';
+                                    if ($parampage['slug'] != 'index') {
+                                        echo '<a href="pages.php?op=copy&page=' . $nameofpage . '"> Copy</a> | ';
+                                    }
+                                    if ($parampage['slug'] != 'index') {
+                                        echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="pages.php?op=del&page=' . $nameofpage . '"> Delete</a>';
+                                    }
+                                echo '</td>';
+                            echo '</tr>';
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
     <?php
