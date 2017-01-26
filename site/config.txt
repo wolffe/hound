@@ -1,3 +1,3 @@
-Title: Hound
-Template: template-name
-Slogan: Site description
+Title: Hound Content Management System
+Template: grey
+Slogan: A lightweight, flat-file, PHP-based content management system
