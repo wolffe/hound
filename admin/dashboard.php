@@ -19,16 +19,20 @@ if ((string) $temppass === (string) $password) {
         <div class="content main">
             <h2>Dashboard</h2>
 
-            <div class="hd_infobox">
+            <?php houndUpdateCheck(); ?>
+
+            <div class="hound-at-a-glance thin-ui-infobox">
                 <h3>At a Glance</h3>
-                <p>
-                    <strong><?php echo hd_count_content('page'); ?></strong> pages<br>
-                    <strong><?php echo hd_count_content('menu'); ?></strong> menu items
-                </p>
+                <div class="inside">
+                    <strong><?php echo houndCountContent('page'); ?></strong> pages<br>
+                    <strong><?php echo houndCountContent('menu'); ?></strong> menu items<br>
+                    <strong><?php echo houndCountContent('backup'); ?></strong> backup files<br>
+                    <strong><?php echo houndCountContent('asset'); ?></strong> assets (documents and images)
+                </div>
             </div>
 
             <?php
-            houndUpdateCheck();
+//            /houndUpdateCheck();
 
             if (houndCheckWritePermissions('../site')) {
                 echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Content (templates and pages) folder is writable.</div>';
@@ -46,6 +50,12 @@ if ((string) $temppass === (string) $password) {
                 echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update folder is writable.</div>';
             } else {
                 echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Update folder is not writable.</div>';
+            }
+
+            if (class_exists('ZipArchive') || extension_loaded('zip')) {
+                echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Zip functionality is available.</div>';
+            } else {
+                echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Zip functionality is not available. Backups and automatic updates will not work.</div>';
             }
             ?>
 

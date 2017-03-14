@@ -1,4 +1,4 @@
-Title: Hound Content management System
+Title: Hound Content Management System
 Template: grey
 Slogan: A lightweight, flat-file, PHP-based content management system
-Version: 0.1.8
+Version: 0.2.0

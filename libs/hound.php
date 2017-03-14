@@ -48,9 +48,17 @@ function get_theme_directory($partial) {
     return $template_path;
 }
 
-function hd_count_content($type) {
-    $dir = '../site/pages/';
-    $list = glob($dir . $type . '-*.txt');
+function houndCountContent($type) {
+    if ($type === 'page' || $type === 'menu') {
+        $dir = '../site/pages/';
+        $list = glob($dir . $type . '-*.txt');
+    } else if ($type === 'backup') {
+        $dir = '../backup/';
+        $list = glob($dir . $type . '-*.zip');
+    } else if ($type === 'asset') {
+        $dir = '../files/images/';
+        $list = glob($dir . '*.*');
+    }
 
     return (int) count($list);
 }

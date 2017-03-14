@@ -115,11 +115,12 @@ function houndUpdateCheck() {
                 }
             }
 
-            echo '<p>
-                <strong>An updated version of Hound is available.</strong>
+            echo '<div class="thin-ui-notification thin-ui-notification-info">
+                <b>An updated version of Hound is available!</b>
                 <br><em>Important: before updating, please backup your files. For help with updates, visit the <a href="https://getbutterfly.com/hound/updating-hound/" target="_blank">Updating Hound</a> page.</em>
-            </p>
-            <p>
+            </div>';
+
+            echo '<p>
                 <a href="https://github.com/wolffe/hound/releases" class="thin-ui-button thin-ui-button-primary" target="_blank">Download latest version (' . $latest_release . ')</a>
                 or <a href="?update" class="thin-ui-button thin-ui-button-primary">Update automatically</a>
             </p>';
