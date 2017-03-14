@@ -13,6 +13,7 @@
 
 = 0.2.0 =
 
+* FIX: Removed duplicate license
 * UPDATE: Added backups to "At a Glance" section
 * UPDATE: Added media items to "At a Glance" section
 * UPDATE: Admin UI tweaks
