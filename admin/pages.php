@@ -32,7 +32,7 @@ if ((string) $temppass === (string) $password) {
                 }
             }
 
-            if ($_GET['op'] == 'copy') {
+            if ($_GET['op'] === 'copy') {
                 $file = '../site/pages/page-' . $page . '.txt';
                 $filecopy = '../site/pages/page-' . $page . '-copy.txt';
 

@@ -31,6 +31,7 @@ if ((string) $temppass === (string) $password) {
                     'Title' => $sitename,
                     'Template' => $templatename,
                     'Slogan' => $slogan,
+                    'Version' => houndGetParameter('version'),
                 );
 
                 if ($houndAdmin->write_param($arrayvalue, $file)) {

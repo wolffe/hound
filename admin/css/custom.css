@@ -382,10 +382,9 @@ h1 {
 }
 
 .sidebar li.sidebar-separator {
-    letter-spacing: 4px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    margin: 0 0 12px 0;
+    padding: 0;
 }
 
 .content {
@@ -461,13 +460,17 @@ h1 {
 }
 .sidebar li a,
 .sidebar li a:hover {
-    font-size: 14px;
-    font-weight: 400;
-    color: #BDC3C7;
+    font-size: 15px;
+    font-weight: 300;
+    color: #ECF0F1;
     text-decoration: none;
 }
 .sidebar li a:hover {
     color: #FFFFFF;
+}
+.sidebar li .fa {
+    font-size: 14px;
+    color: #BDC3C7;
 }
 .sidebar h2 {
     font-size: 24px;

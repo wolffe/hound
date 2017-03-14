@@ -9,11 +9,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.4.3/tinymce.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.4/tinymce.min.js"></script>
 <script src="tinymceplugin/plugin.min.js"></script>
 <script src="js/jquery-functions.js"></script>
-<script type="text/javascript">
-//visualblocks_default_state: true,
+<script>
 tinymce.init({
     menubar: true,
     statusbar: true,
@@ -43,9 +42,12 @@ tinymce.init({
         "emoticons nonbreaking save paste table contextmenu directionality template",
         "codesample"
     ],
-    toolbar1: "mediamanager | undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist | shortcodesandro forecolor backcolor emoticons | link image media | code",
-    toolbar2: "insertfile insert codesample | print preview | mybutton",
+    toolbar1: "mediamanager image media | undo redo | bold italic | alignleft aligncenter alignright | bullist numlist | shortcodes forecolor backcolor emoticons | link | codesample | code preview",
+    /**
+    toolbar2: "mybutton",
+    /**/
 
+    /**
     style_formats: [
         { title: 'Bold text', inline: 'strong' },
         { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
@@ -58,42 +60,31 @@ tinymce.init({
         { title: 'Test template 1', content: 'Test 1' },
         { title: 'Test template 2', content: 'Test 2' }
     ],
+    /**/
 
     setup : function(ed) {
-      
-      ed.addButton('shortcodesandro', {
-         type: 'listbox',
-         text: 'shortcodes',
-         icon: false,
-         onselect: function(e) {
-             ed.insertContent(this.value());
+        ed.addButton('shortcodes', {
+            type: 'listbox',
+            text: 'Shortcodes',
+            icon: false,
+            onselect: function(e) {
+                ed.insertContent(this.value());
             },
             values: [
-                {text: '1 row - 1 columns', value: '<div class=\"row\"><div class=\"col-md-12\">SOME CONTENT <br>SOME CONTENT</div></div><br>'},
-                {text: '1 row - 2 columns 6-6', value: '<div class=\"row\"><div class=\"col-md-6\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-6\">SOME CONTENT <br>SOME CONTENT</div></div><br>'},
-                {text: '1 row - 2 columns 3-9', value: '<div class=\"row\"><div class=\"col-md-3\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-9\">SOME CONTENT <br>SOME CONTENT</div></div><br>'},
-                {text: '1 row - 2 columns 9-3', value: '<div class=\"row\"><div class=\"col-md-9\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-3\">SOME CONTENT <br>SOME CONTENT</div></div><br>'},
-                {text: '1 row - 3 columns', value: '<div class=\"row\"><div class=\"col-md-4\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-4\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-4\">SOME CONTENT <br>SOME CONTENT</div></div><br>'},
-                {text: '1 row - 4 columns', value: '<div class=\"row\"><div class=\"col-md-3\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-3\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-3\">SOME CONTENT <br>SOME CONTENT</div><div class=\"col-md-3\">SOME CONTENT <br>SOME CONTENT</div></div><br>'},
-                {text: 'Button success', value: '<br><a class=\"btn btn-lg btn-success\">button text</a><br><br>'},
-                {text: 'Button warning', value: '<br><a class=\"btn btn-lg btn-warning\">button text</a><br><br>'},
-                {text: 'Button info', value: '<br><a class=\"btn btn-lg btn-info\">button text</a><br><br>'},
-                {text: 'Divider', value: '<br><br>'},
-                {text: 'Paragraph', value: '<p><br></p>'}
-
+                {text: 'Gallery', value: '[gallery "/path/to/directory/"]'},
             ]
-      });
+        });
 
-           ed.addButton('mybutton', {
-      text: 'My button',
-      icon: false,
-      onclick: function () {
-        ed.insertContent('&nbsp;<b>It\'s my button!</b>&nbsp;');
-      }
-    });
-  },
- 
-    
+        /**
+        ed.addButton('mybutton', {
+            text: 'My button',
+            icon: false,
+            onclick: function () {
+                ed.insertContent('[gallery "/path/to/directory/"]');
+            }
+        });
+        /**/
+    },
 });
 </script>
 

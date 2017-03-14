@@ -71,15 +71,9 @@ if($temppass == $password) {
             </form>
         </div>
     </div>
-</body>
-</html>
-      
-
-<?php
+    <?php
+    include 'includes/footer.php';
 }
-else{
-  echo"<script language=javascript>";
-  echo"document.location.href='index.php?err=1'";
-  echo"</script>";
+else {
+    php_redirect('index.php?err=1');
 }
-?>

@@ -1,6 +1,4 @@
 <?php
-include 'constants.php';
-
 function get_variable($item) {
     $headers = array(
         'title' => 'Title',
@@ -50,6 +48,13 @@ function get_theme_directory($partial) {
     return $template_path;
 }
 
+function hd_count_content($type) {
+    $dir = '../site/pages/';
+    $list = glob($dir . $type . '-*.txt');
+
+    return (int) count($list);
+}
+
 class hound {
     var $config;
     var $path;
@@ -77,7 +82,8 @@ class hound {
         //$curpage=str_replace("/","",$curpage);
 
         // Retrieve a page
-        $curpath = str_replace($this->path, '', $_SERVER['REQUEST_URI']);
+        $current_url = explode('?', $_SERVER['REQUEST_URI']);
+        $curpath = str_replace($this->path, '', $current_url[0]);
 
         //PATH WITHOUT FINAL SLASH  www.site.it/page
         //$curpage=substr($curpath, strrpos($curpath, '/') + 1);
@@ -93,11 +99,6 @@ class hound {
             //THE PAGES
             if (preg_match("/\bpage\b/i", $file)) {
                 $listofpage[]=str_replace("site/pages/","",$file);
-            } 
-
-            //THE PAGES
-            if (preg_match("/\bpost\b/i", $file)) {
-                $listofpost[]=str_replace("site/pages/","",$file);
             } 
 
             //THE MENU
@@ -117,12 +118,6 @@ class hound {
             $pageparam=$this->read_param("site/pages/page-index.txt");
         }
 
-        if(in_array("post-".$curpage.".txt", $listofpost)){
-            $pageparam=$this->read_param("site/pages/post-".$curpage.".txt");
-        }else{
-            $pageparam=$this->read_param("site/pages/page-index.txt");
-        }
-
         //BUILD MENU
         array_multisort($arrayofmenu);
         $menuitems="";
@@ -132,9 +127,6 @@ class hound {
             </a>
             </li>";
         }
- 
-        if(strlen($pageparam['featuredimage'])>0)$linkfeaturedimage="<img src=\"".$pageparam['featuredimage']."\">";
-
 
         $this->run_hooks('after_read_param');
 
@@ -145,6 +137,7 @@ class hound {
         $layout->set("meta.title", $pageparam['meta.title']." | ".$titleofsite);
         $layout->set("meta.description", $pageparam['meta.description']);
         $layout->set("title", $pageparam['title']);
+        $layout->set("featuredimage", $pageparam['featuredimage']);
 
         // Turn this into a function
         $pattern = '/\[gallery(.*?)?\](?:(.+?)?\[\/gallery\])?/';
@@ -177,8 +170,11 @@ class hound {
         $layout->set("content", $pageparam['content']);
         $layout->set("menu", $menuitems);  
         $layout->set("urlwebsite", $this->websiteurl); 
-        //$layout->set("featuredimage", $linkfeaturedimage); 
+        $layout->set("site.title", $config['title']);
         $layout->set("slogan", $config['slogan']);
+
+        $layout->set("slug", $pageparam['slug']);
+        $layout->set("excerpt", substr(strip_tags(trim($pageparam['content'])), 0, 300));
             
         //$this->run_hooks('after_render');
         echo $layout->output();
@@ -227,6 +223,7 @@ class hound {
             'featuredimage' => 'Featuredimage',
             'slogan' => 'Slogan',
             'include' => '',
+        'version' => 'Version',
 
         );
 

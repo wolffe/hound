@@ -3,6 +3,7 @@
  * Simple template engine class (use [@tag] tags in your templates).
  * 
  * @link http://www.broculos.net/ Broculos.net Programming Tutorials
+ * @link http://www.broculos.net/2008/03/how-to-make-simple-html-template-engine.html
  * @author Nuno Freitas <nunofreitas@gmail.com>
  * @version 1.0
  */

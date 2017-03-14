@@ -26,6 +26,36 @@ function php_redirect($url) {
     die($content);
 }
 
+
+
+function recurse_copy($src,$dst) { 
+    $dir = opendir($src);
+    if ( !is_dir($dst)) {
+        mkdir($dst); 
+    }
+    while(false !== ( $file = readdir($dir)) ) { 
+        if (( $file != '.' ) && ( $file != '..' )) { 
+            if ( is_dir($src . '/' . $file) ) { 
+                echo '<br>copying ' . $src . '/' . $file . ' to ' . $dst . '/' . $file;
+                recurse_copy($src . '/' . $file,$dst . '/' . $file); 
+            } 
+            else { 
+                copy($src . '/' . $file,$dst . '/' . $file); 
+            } 
+        } 
+    } 
+    closedir($dir); 
+} 
+
+function deleteDir($path) {
+    if (empty($path)) { 
+        return false;
+    }
+    return is_file($path) ?
+            unlink($path) :
+            array_map(__FUNCTION__, glob($path.'/*')) == rmdir($path);
+}
+
 // Version Control
 function houndUpdateCheck() {
     $opts = array(
@@ -37,17 +67,62 @@ function houndUpdateCheck() {
     $context = stream_context_create($opts);
     $current_releases = file_get_contents("https://api.github.com/repos/wolffe/hound/releases", false, $context);
 
-    if($current_releases !== false) {
+    if ($current_releases !== false) {
         $releases = json_decode($current_releases);
         $latest_release = $releases[0]->tag_name;
         $latest_release = str_replace('v', '', $latest_release);
 
-        if(version_compare($latest_release, HOUND_VERSION) >= 1) {
+        if (version_compare($latest_release, houndGetParameter('version')) >= 1) {
+            if (isset($_GET['update'])) {
+                if ( !is_dir('../tmp')) {
+                    mkdir('../tmp'); 
+                }
+
+                copy('https://github.com/wolffe/hound/archive/v' . $latest_release . '.zip', '../tmp/' . $latest_release . '.zip');
+                $zip = new ZipArchive;
+                $res = $zip->open('../tmp/' . $latest_release . '.zip');
+                if ($res === true) {
+                    $zip->extractTo('../tmp');
+                    $zip->close();
+
+                    $src = '../tmp/hound-' . $latest_release;
+                    //$dst = '../files/update';
+                    $dst = '../';
+
+                    deleteDir($src . '/files');
+                    deleteDir($src . '/site');
+                    unlink($src . '/.htaccess');
+                    unlink($src . '/config.php');
+                    recurse_copy($src, $dst);
+                    deleteDir('../tmp');
+
+                    $houndAdmin = new houndAdmin('', '');   
+                    $file = '../site/config.txt';
+                    $arrayvalue = array(
+                        'Title' => houndGetParameter('title'),
+                        'Template' => houndGetParameter('template'),
+                        'Slogan' => houndGetParameter('slogan'),
+                        'Version' => $latest_release,
+                    );
+
+                    if ($houndAdmin->write_param($arrayvalue, $file)) {
+                        echo '<div class="thin-ui-notification thin-ui-notification-success">Hound sucessfully updated.</div>';
+                    } else {
+                        echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while updating Hound.</div>';
+                    }
+                } else {
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while updating Hound.</div>';
+                }
+            }
+
             echo '<p>
                 <strong>An updated version of Hound is available.</strong>
-                <br><em>Important: before upgrading, please backup your files. For help with updates, visit the Updating Hound page.</em>
+                <br><em>Important: before updating, please backup your files. For help with updates, visit the <a href="https://getbutterfly.com/hound/updating-hound/" target="_blank">Updating Hound</a> page.</em>
             </p>
-            <p><a href="https://github.com/wolffe/hound/releases" class="thin-ui-button thin-ui-button-primary" target="_blank">Get latest version (' . $latest_release . ')</a></p>';
+            <p>
+                <a href="https://github.com/wolffe/hound/releases" class="thin-ui-button thin-ui-button-primary" target="_blank">Download latest version (' . $latest_release . ')</a>
+                or <a href="?update" class="thin-ui-button thin-ui-button-primary">Update automatically</a>
+            </p>';
         } else {
             echo '<p><strong>You have the latest version of Hound.</strong></p>';
         }
@@ -56,6 +131,22 @@ function houndUpdateCheck() {
     }
 }
 
+function houndUpdate() {
+    //$version = file_get_contents('domain.com/repository/version.txt');
+    $version = '0.1.7';
+    if (version_compare($version, houndGetParameter('version'))) {
+        copy('https://github.com/wolffe/hound/archive/v' . $version . '.zip', 'tmp/' . $version . '.zip');
+        $zip = new ZipArchive;
+        $res = $zip->open('tmp/' . $version . '.zip');
+        if ($res === true) {
+            $zip->extractTo('tmp');
+            $zip->close(); 
+            echo 'ok';
+        } else {
+            echo 'failed';
+        }
+    }
+}
 
 
 

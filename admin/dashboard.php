@@ -19,6 +19,14 @@ if ((string) $temppass === (string) $password) {
         <div class="content main">
             <h2>Dashboard</h2>
 
+            <div class="hd_infobox">
+                <h3>At a Glance</h3>
+                <p>
+                    <strong><?php echo hd_count_content('page'); ?></strong> pages<br>
+                    <strong><?php echo hd_count_content('menu'); ?></strong> menu items
+                </p>
+            </div>
+
             <?php
             houndUpdateCheck();
 
@@ -33,6 +41,12 @@ if ((string) $temppass === (string) $password) {
             } else {
                 echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Uploads folder is not writable.</div>';
             }
+
+            if (houndCheckWritePermissions('../files/update')) {
+                echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update folder is writable.</div>';
+            } else {
+                echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Update folder is not writable.</div>';
+            }
             ?>
 
             <br>
@@ -43,7 +57,7 @@ if ((string) $temppass === (string) $password) {
             ?>
 
             <p>
-                You are using Hound <strong><?php echo HOUND_VERSION; ?></strong> on PHP <?php echo PHP_VERSION; ?>.
+                You are using Hound <strong><?php echo houndGetParameter('version'); ?></strong> on PHP <?php echo PHP_VERSION; ?>.
                 <br><small>Current memory usage is <?php echo houndGetMemory('usage'); ?> (<?php echo houndGetMemory('peak'); ?>) out of <?php echo houndGetMemory('available'); ?> allocated.</small>
             </p>
 
