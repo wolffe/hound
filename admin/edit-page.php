@@ -3,14 +3,13 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 $page = $_GET['page'];
 
-$houndAdmin = new houndAdmin('', '');
+$houndAdmin = new hound('', '');
 $param = $houndAdmin->read_param('../site/config.txt');
 
 if($temppass == $password) {
@@ -27,7 +26,7 @@ if($temppass == $password) {
                 $content = str_replace("\n","",$content);
                 $content = str_replace("\\","",$content);
 
-                $slug = $houndAdmin->makeUrlFriendly($slug);
+                $slug = trim($slug);
 
                 $metatitle=$_POST['metatitle'];
                 $metadescription=$_POST['metadescription'];
@@ -45,7 +44,7 @@ if($temppass == $password) {
                     'Featuredimage' => $featuredimage
                 );
 
-                if($houndAdmin->write_param($arrayvalue, $file)) {
+                if(writeParam($arrayvalue, $file)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
                 } else {
                     echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';

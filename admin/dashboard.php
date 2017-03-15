@@ -5,7 +5,6 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 

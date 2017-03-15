@@ -5,15 +5,13 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 $page = houndSanitizeString($_GET['page']);
 
-$houndAdmin = new houndAdmin('', '');
-$param = $houndAdmin->read_param('../site/config.txt');
+$houndAdmin = new hound('', '');
 
 if ((string) $temppass === (string) $password) {
     include 'includes/header.php';

@@ -1,4 +1,17 @@
 <?php
+function writeParam($arrayvalue, $file) {
+    $current = '';
+    foreach ($arrayvalue as $value => $key) {
+        $current .= "$value: $key\n";
+    }
+
+    if (file_put_contents($file, $current)) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 function get_title($title = '') {
     echo trim($title);
 }

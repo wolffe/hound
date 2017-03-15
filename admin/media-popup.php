@@ -3,16 +3,12 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 $page = $_GET['page'];
 $nome = $_GET['nome'];
-
-$houndAdmin = new houndAdmin('', '');
-$param = $houndAdmin->read_param('../site/config.txt');
 
 if($temppass == $password) { ?>
 <!doctype>
@@ -245,4 +241,3 @@ function trovaStringa($text,$wordToSearch)
 function makeSafe( $file ) {
         return str_replace( '..', '', urldecode( $file ) );
 }
-?>

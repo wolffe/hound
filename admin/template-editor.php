@@ -3,14 +3,13 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 $page = $_GET['page'];
 
-$houndAdmin = new houndAdmin('', '');
+$houndAdmin = new hound('', '');
 $param = $houndAdmin->read_param('../site/config.txt');
 
 $template = $_GET['template'];

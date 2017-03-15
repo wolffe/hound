@@ -3,13 +3,12 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 
-$houndAdmin = new houndAdmin('', '');
+$houndAdmin = new hound('', '');
 $param = $houndAdmin->read_param('../site/config.txt');
 
 if($temppass == $password) {
@@ -25,7 +24,6 @@ if($temppass == $password) {
                 $content=$_POST['content'];
                 $content=str_replace("\n","",$content);
                 $content=str_replace("\\","",$content);
-                //$slug=$houndAdmin->makeUrlFriendly($slug);
 
                 $metatitle=$_POST['metatitle'];
                 $metadescription=$_POST['metadescription'];
@@ -51,7 +49,7 @@ if($temppass == $password) {
                     'Template'=> $template
                 );
                 //print_r($arrayvalue);
-                if($houndAdmin->write_param($arrayvalue,$file))echo "
+                if(writeParam($arrayvalue,$file))echo "
                 <div class=\"panel panel-success\">
                     <div class=\"panel-heading\">
                       <h3 class=\"panel-title\">Success</h3>

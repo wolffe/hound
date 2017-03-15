@@ -3,14 +3,10 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
-
-$houndAdmin = new houndAdmin('', '');
-$param = $houndAdmin->read_param('../site/config.txt');
 
 if($temppass == $password) {
     include 'includes/header.php';
@@ -25,7 +21,7 @@ if($temppass == $password) {
                 $order=$_POST['order'];
                 $item=$_POST['item'];
                 $link=$_POST['link'];
-                $slug=$houndAdmin->makeUrlFriendly($item);
+                $slug=trim($item);
 
                 $file="../site/pages/menu-$slug.txt";
 
@@ -39,7 +35,7 @@ if($temppass == $password) {
                     'Link' => $link
                 );
                 //print_r($arrayvalue);
-                if($houndAdmin->write_param($arrayvalue,$file))echo "
+                if(writeParam($arrayvalue,$file))echo "
                   <div class=\"panel panel-success\">
                     <div class=\"panel-heading\">
                       <h3 class=\"panel-title\">Success</h3>

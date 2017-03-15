@@ -5,7 +5,6 @@ session_start();
 
 include '../config.php';
 include '../libs/hound.php';
-include 'libs/houndAdmin.php';
 
 include 'includes/functions.php';
 
@@ -25,7 +24,6 @@ if ((string) $temppass === (string) $password) {
                 $templatename = $_POST['templatename'];
                 $slogan = $_POST['slogan'];
 
-                $houndAdmin = new houndAdmin('', '');   
                 $file = '../site/config.txt';
                 $arrayvalue = array(
                     'Title' => $sitename,
@@ -34,7 +32,7 @@ if ((string) $temppass === (string) $password) {
                     'Version' => houndGetParameter('version'),
                 );
 
-                if ($houndAdmin->write_param($arrayvalue, $file)) {
+                if (writeParam($arrayvalue, $file)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved.</div>';
                 } else {
                     echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
