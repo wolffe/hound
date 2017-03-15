@@ -247,7 +247,7 @@ class hound {
         return $headers;
     }
 
-    public function url_get_contents ($Url) {
+    public function url_get_contents($url) {
         if (function_exists('curl_exec')){ 
                 $conn = curl_init($url);
                 curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, true);
