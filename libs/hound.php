@@ -43,9 +43,9 @@ function get_theme_directory($partial) {
     $websiteurl = getcwd();
 
     $template = get_variable('template');
-    $template_path = $websiteurl . '/site/templates/' . $template . '/' . $partial;
+    $templatePath = $websiteurl . '/site/templates/' . $template . '/' . $partial;
 
-    return $template_path;
+    return $templatePath;
 }
 
 function houndCountContent($type) {
@@ -86,8 +86,8 @@ class hound {
         $titleofsite = $config['title'];
 
         // Retrieve a page
-        $current_url = explode('?', $_SERVER['REQUEST_URI']);
-        $curpath = str_replace($this->path, '', $current_url[0]);
+        $currentUrl = explode('?', $_SERVER['REQUEST_URI']);
+        $curpath = str_replace($this->path, '', $currentUrl[0]);
 
         $listofword = explode('/', $curpath);
         $curpage = $listofword[count($listofword) - 1];
@@ -145,14 +145,14 @@ class hound {
             $gstring = '<div class="gallery">';
                 for($i=1; $i<count($files); $i++) {
                     $image = $files[$i];
-                    $supported_file = array(
+                    $supportedFile = array(
                         'gif',
                         'jpg',
                         'jpeg',
                         'png'
                     );
                     $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-                    if(in_array($ext, $supported_file)) {
+                    if(in_array($ext, $supportedFile)) {
                         //print $image ."<br />";
                         $gstring .= '<div><img src="' . $image . '" alt=""></div>';
                     } else {
@@ -179,7 +179,7 @@ class hound {
 
     function get_files($directory, $ext = ''){
 
-        $array_items = array();
+        $arrayItems = array();
         if ($files = scandir($directory)) {
             foreach ($files as $file) {
                 if (in_array(substr($file, -1), array('~', '#'))) {
@@ -187,18 +187,18 @@ class hound {
                 }
                 if (preg_match("/^(^\.)/", $file) === 0) {
                     if (is_dir($directory . "/" . $file)) {
-                        $array_items = array_merge($array_items, $this->get_files($directory . "/" . $file, $ext));
+                        $arrayItems = array_merge($arrayItems, $this->get_files($directory . "/" . $file, $ext));
                     } else {
                         $file = $directory . "/" . $file;
                         if (!$ext || strstr($file, $ext)) {
-                            $array_items[] = preg_replace("/\/\//si", "/", $file);
+                            $arrayItems[] = preg_replace("/\/\//si", "/", $file);
                         }
                     }
                 }
             }
         }
 
-        return $array_items;
+        return $arrayItems;
     }
 
     function read_param($file) {
@@ -253,17 +253,17 @@ class hound {
                 curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, true);
                 curl_setopt($conn, CURLOPT_FRESH_CONNECT,  true);
                 curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
-                $url_get_contents_data = (curl_exec($conn));
+                $urlGetContentsData = (curl_exec($conn));
                 curl_close($conn);
             }elseif(function_exists('file_get_contents')){
-                $url_get_contents_data = file_get_contents($url);
+                $urlGetContentsData = file_get_contents($url);
             }elseif(function_exists('fopen') && function_exists('stream_get_contents')){
                 $handle = fopen ($url, "r");
-                $url_get_contents_data = stream_get_contents($handle);
+                $urlGetContentsData = stream_get_contents($handle);
             }else{
-                $url_get_contents_data = false;
+                $urlGetContentsData = false;
             }
-        return $url_get_contents_data;
+        return $urlGetContentsData;
     }
 
 
@@ -277,9 +277,9 @@ class hound {
         if (!empty($plugins)) {
             foreach ($plugins as $plugin) {
                 include_once($plugin);
-                $plugin_name = preg_replace("/\\.[^.\\s]{3}$/", '', basename($plugin));
-                if (class_exists($plugin_name)) {
-                    $obj = new $plugin_name;
+                $pluginName = preg_replace("/\\.[^.\\s]{3}$/", '', basename($plugin));
+                if (class_exists($pluginName)) {
+                    $obj = new $pluginName;
                     $this->plugins[] = $obj;
                 }
             }
@@ -290,15 +290,15 @@ class hound {
     /**
      * Processes any hooks and runs them
      *
-     * @param string $hook_id the ID of the hook
+     * @param string $hookId the ID of the hook
      * @param array $args optional arguments
      */
-    public function run_hooks($hook_id, $args = array())
+    public function run_hooks($hookId, $args = array())
     {
         if (!empty($this->plugins)) {
             foreach ($this->plugins as $plugin) {
-                if (is_callable(array($plugin, $hook_id))) {
-                    call_user_func_array(array($plugin, $hook_id), $args);
+                if (is_callable(array($plugin, $hookId))) {
+                    call_user_func_array(array($plugin, $hookId), $args);
                 }
             }
         }
