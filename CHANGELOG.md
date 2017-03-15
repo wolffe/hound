@@ -1,5 +1,6 @@
 = 0.2.1 =
 
+* FEATURE: Added a welcome screen for fresh installations or for no index page found
 * TODO: Move /libs/houndAdmin.php to includes/functions.php
 * TODO: Document all functions
 * TODO: Delete all files before applying automatic updates

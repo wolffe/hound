@@ -79,61 +79,50 @@ class hound {
         $this->load_plugins();
         $this->run_hooks('plugins_loaded');
 
+        $listofpage = array();
+
         // Read template
         $config = $this->read_param('site/config.txt');
         $titleofsite = $config['title'];
-
-        // If name of page is in format: page.html
-        //.htaccess
-        //RewriteRule ^(.*).html$ /index.php
-        //$curpage=str_replace(".html","",$curpath);
-        //$curpage=str_replace("/","",$curpage);
 
         // Retrieve a page
         $current_url = explode('?', $_SERVER['REQUEST_URI']);
         $curpath = str_replace($this->path, '', $current_url[0]);
 
-        //PATH WITHOUT FINAL SLASH  www.site.it/page
-        //$curpage=substr($curpath, strrpos($curpath, '/') + 1);
-
-        //PATH WIT FINAL SLASH  www.site.it/page/
         $listofword = explode('/', $curpath);
         $curpage = $listofword[count($listofword) - 1];
 
-        //LOAD FILE IN PAGES FOLDER
-        $i=0;
-        $fileindir=$this->get_files('site/pages/');
+        // Load files in /pages/
+        $i = 0;
+        $fileindir = $this->get_files('site/pages/');
         foreach ($fileindir as $file) {
-            //THE PAGES
             if (preg_match("/\bpage\b/i", $file)) {
-                $listofpage[]=str_replace("site/pages/","",$file);
-            } 
+                $listofpage[] = str_replace('site/pages/', '', $file);
+            }
 
-            //THE MENU
             if (preg_match("/\bmenu\b/i", $file)) {
-                $menuparam=$this->read_param($file);
-                $arrayofmenu[$i]['order']=$menuparam['order'];
-                $arrayofmenu[$i]['link']=$menuparam['link'];
-                $arrayofmenu[$i]['item']=$menuparam['item'];
+                $menuparam = $this->read_param($file);
+                $arrayofmenu[$i]['order'] = $menuparam['order'];
+                $arrayofmenu[$i]['link'] = $menuparam['link'];
+                $arrayofmenu[$i]['item'] = $menuparam['item'];
                 $i++;
-            } 
+            }
         }
 
-        // READ FILE CONTENT
-        if(in_array("page-".$curpage.".txt", $listofpage)){
-            $pageparam=$this->read_param("site/pages/page-".$curpage.".txt");
-        }else{
-            $pageparam=$this->read_param("site/pages/page-index.txt");
+        // Read file content
+        if (in_array('page-' . $curpage . '.txt', $listofpage)) {
+            $pageparam = $this->read_param('site/pages/page-' . $curpage . '.txt');
+        } else {
+            $pageparam = $this->read_param('site/pages/page-index.txt');
         }
 
-        //BUILD MENU
-        array_multisort($arrayofmenu);
-        $menuitems="";
-        foreach ($arrayofmenu as $itemmenu) {
-            $menuitems.="<li>
-            <a href=\"".$itemmenu['link']."\">".$itemmenu['item']."
-            </a>
-            </li>";
+        // Build menu
+        $menuitems = '';
+        if (!empty($arrayofmenu) && is_array($arrayofmenu)) {
+            array_multisort($arrayofmenu);
+            foreach ($arrayofmenu as $itemmenu) {
+                $menuitems .= '<li><a href="' . $itemmenu['link'] . '">' . $itemmenu['item'] . '</a></li>';
+            }
         }
 
         $this->run_hooks('after_read_param');
@@ -212,7 +201,12 @@ class hound {
         return $array_items;
     }
 
-    function read_param($file){
+    function read_param($file) {
+        if (!file_exists($file)) {
+            include 'admin/templates/install.php';
+
+            return;
+        }
 
         $headers = array(
             'title' => 'Title',
@@ -231,17 +225,15 @@ class hound {
             'featuredimage' => 'Featuredimage',
             'slogan' => 'Slogan',
             'include' => '',
-        'version' => 'Version',
-
+            'version' => 'Version',
         );
 
-        if (!function_exists('file_get_contents')){ 
-            $content=$this->url_get_contents($file);
-        }else {
+        if (!function_exists('file_get_contents')) {
+            $content = $this->url_get_contents($file);
+        } else {
             $content = file_get_contents($file);
         }
 
-    
         // Add support for custom headers by hooking into the headers array
         foreach ($headers as $field => $regex) {
             if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
