@@ -31,8 +31,6 @@ if ((string) $temppass === (string) $password) {
             </div>
 
             <?php
-//            /houndUpdateCheck();
-
             if (houndCheckWritePermissions('../site')) {
                 echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Content (templates and pages) folder is writable.</div>';
             } else {
@@ -68,6 +66,10 @@ if ((string) $temppass === (string) $password) {
             <p>
                 You are using Hound <strong><?php echo houndGetParameter('version'); ?></strong> on PHP <?php echo PHP_VERSION; ?>.
                 <br><small>Current memory usage is <?php echo houndGetMemory('usage'); ?> (<?php echo houndGetMemory('peak'); ?>) out of <?php echo houndGetMemory('available'); ?> allocated.</small>
+                <?php if (function_exists('sys_getloadavg')) {
+                    $load = sys_getloadavg();
+                    ?><br><small><?php echo 'Current CPU load is ' . implode(', ', $load); ?></small>
+                <?php } ?>
             </p>
 
             <hr>

@@ -1,6 +1,6 @@
-= 0.2.2 =
+= 0.2.3 =
 
-* FIX: Fixed a fatal error
+* FEATURE: Added CPU load in Dashboard
 * TODO: Document all functions
 * TODO: Delete all files before applying automatic updates
 * TODO: "Last login" functionality
@@ -10,6 +10,10 @@
 * TODO: Add theme screenshots (?)
 * TODO: Add Headline as the second official theme
 * TODO: Figure out how plugins work (and then the world opens up)
+
+= 0.2.2 =
+
+* FIX: Fixed a fatal error
 
 = 0.2.1 =
 
