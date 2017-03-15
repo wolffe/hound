@@ -1,8 +1,4 @@
-[![Code Climate](https://codeclimate.com/github/wolffe/hound/badges/gpa.svg)](https://codeclimate.com/github/wolffe/hound)
-
-[![Test Coverage](https://codeclimate.com/github/wolffe/hound/badges/coverage.svg)](https://codeclimate.com/github/wolffe/hound/coverage)
-
-[![Issue Count](https://codeclimate.com/github/wolffe/hound/badges/issue_count.svg)](https://codeclimate.com/github/wolffe/hound)
+[![Code Climate](https://codeclimate.com/github/wolffe/hound/badges/gpa.svg)](https://codeclimate.com/github/wolffe/hound) [![Issue Count](https://codeclimate.com/github/wolffe/hound/badges/issue_count.svg)](https://codeclimate.com/github/wolffe/hound)
 
 # Hound
 Hound is a light, flat-file, PHP-based content management system.
