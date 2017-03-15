@@ -1,8 +1,6 @@
-= 0.2.1 =
+= 0.2.2 =
 
-* FEATURE: Added a welcome screen for fresh installations or for no index page found
-* REFACTORING: Removed /libs/houndAdmin.php
-* REFACTORING: Code cleanup
+* FIX: Fixed a fatal error
 * TODO: Document all functions
 * TODO: Delete all files before applying automatic updates
 * TODO: "Last login" functionality
@@ -12,6 +10,12 @@
 * TODO: Add theme screenshots (?)
 * TODO: Add Headline as the second official theme
 * TODO: Figure out how plugins work (and then the world opens up)
+
+= 0.2.1 =
+
+* FEATURE: Added a welcome screen for fresh installations or for no index page found
+* REFACTORING: Removed /libs/houndAdmin.php
+* REFACTORING: Code cleanup
 
 = 0.2.0 =
 

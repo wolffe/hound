@@ -109,7 +109,6 @@ function houndUpdateCheck() {
                     recurse_copy($src, $dst);
                     deleteDir('../tmp');
 
-                    $houndAdmin = new houndAdmin('', '');   
                     $file = '../site/config.txt';
                     $arrayvalue = array(
                         'Title' => houndGetParameter('title'),
@@ -118,7 +117,7 @@ function houndUpdateCheck() {
                         'Version' => $latest_release,
                     );
 
-                    if ($houndAdmin->write_param($arrayvalue, $file)) {
+                    if (writeParam($arrayvalue, $file)) {
                         echo '<div class="thin-ui-notification thin-ui-notification-success">Hound sucessfully updated.</div>';
                     } else {
                         echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while updating Hound.</div>';
