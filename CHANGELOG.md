@@ -1,3 +1,8 @@
+= 0.2.4 =
+
+* FIX: Fixed template editor to not append .tpl at the end of saved files
+* UPDATE: Removed Ace editor
+
 = 0.2.3 =
 
 * FEATURE: Added CPU load in Dashboard

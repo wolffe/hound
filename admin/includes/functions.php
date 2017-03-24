@@ -102,10 +102,19 @@ function houndUpdateCheck() {
                     //$dst = '../files/update';
                     $dst = '../';
 
-                    deleteDir($src . '/files');
-                    deleteDir($src . '/site');
+                    //deleteDir($src . '/files');
+                    //deleteDir($src . '/site');
+
+                    // Delete old files
+                    deleteDir($dst . 'admin');
+                    deleteDir($dst . 'libs');
+                    //
+
+                    // Delete unneccesary files from the downloaded package
                     unlink($src . '/.htaccess');
                     unlink($src . '/config.php');
+                    //
+
                     recurse_copy($src, $dst);
                     deleteDir('../tmp');
 
@@ -204,11 +213,10 @@ function replace_in_file($FilePath, $OldText, $NewText)
     return $Result;
 }
 
-function replace_string_in_file($filename, $stringToReplace, $replaceWith) {
-    $content = file_get_contents($filename);
-    $contentChunks = explode($stringToReplace, $content);
-    $content = implode($replaceWith, $contentChunks);
-
+function replace_string_in_file($filename, $string_to_replace, $replace_with){
+    $content=file_get_contents($filename);
+    $content_chunks=explode($string_to_replace, $content);
+    $content=implode($replace_with, $content_chunks);
     file_put_contents($filename, $content);
 }
 
