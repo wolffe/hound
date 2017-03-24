@@ -1,18 +1,18 @@
 = 0.2.4 =
 
 * FIX: Fixed template editor to not append .tpl at the end of saved files
+* FIX: Removed unused styles and compressed stylesheets
+* FIX: Fixed a fatal error with the theme editor
 * UPDATE: Removed Ace editor
+* UPDATE: Allowed removal of all files before applying automatic updates
 
 = 0.2.3 =
 
 * FEATURE: Added CPU load in Dashboard
 * TODO: Document all functions
-* TODO: Delete all files before applying automatic updates
 * TODO: "Last login" functionality
 * TODO: Clean up all files
-* TODO: Clean up admin CSS
 * TODO: Clean up gallery
-* TODO: Add theme screenshots (?)
 * TODO: Add Headline as the second official theme
 * TODO: Figure out how plugins work (and then the world opens up)
 

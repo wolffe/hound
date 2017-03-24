@@ -134,7 +134,6 @@ if($temppass == $password) {
     </div>
     <?php
     include 'includes/footer.php';
-}
-else {
+} else {
     php_redirect('index.php?err=1');
 }

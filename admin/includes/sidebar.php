@@ -12,7 +12,7 @@
         <li><a href="media.php">Media</a></li>
 
         <li class="sidebar-separator"></li>
-        <li><a href="template-editor.php">File editor</a></li>
+        <li><a href="template-editor.php">Theme editor</a></li>
 
         <li class="sidebar-separator"></li>
         <li><a href="configuration.php">Configuration</a></li>

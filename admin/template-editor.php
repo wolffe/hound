@@ -13,7 +13,9 @@ $temppass = $_SESSION['temppass'];
 $houndAdmin = new hound('', '');
 $param = $houndAdmin->read_param('../site/config.txt');
 
-$template = (string) trim($_GET['template']);
+if (isset($_GET['template'])) {
+    $template = (string) trim($_GET['template']);
+}
 
 if ((string) $temppass === (string) $password) {
     include 'includes/header.php';
@@ -21,7 +23,8 @@ if ((string) $temppass === (string) $password) {
 
     <div class="content">
         <div class="content main">
-            <h2>Edit template file</h2>
+            <h2>Edit theme file</h2>
+            <p>Currently editing <code><?php echo $param['template']; ?></code> (<a href="configuration.php">change active theme</a>).</p>
 
             <?php
             if ((string) $_POST['op'] === 'mod') {

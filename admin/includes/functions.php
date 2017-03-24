@@ -102,15 +102,15 @@ function houndUpdateCheck() {
                     //$dst = '../files/update';
                     $dst = '../';
 
-                    //deleteDir($src . '/files');
-                    //deleteDir($src . '/site');
-
                     // Delete old files
                     deleteDir($dst . 'admin');
                     deleteDir($dst . 'libs');
                     //
 
                     // Delete unneccesary files from the downloaded package
+                    deleteDir($src . '/files');
+                    deleteDir($src . '/site');
+
                     unlink($src . '/.htaccess');
                     unlink($src . '/config.php');
                     //
@@ -153,104 +153,51 @@ function houndUpdateCheck() {
     }
 }
 
-function houndUpdate() {
-    //$version = file_get_contents('domain.com/repository/version.txt');
-    $version = '0.1.7';
-    if (version_compare($version, houndGetParameter('version'))) {
-        copy('https://github.com/wolffe/hound/archive/v' . $version . '.zip', 'tmp/' . $version . '.zip');
-        $zip = new ZipArchive;
-        $res = $zip->open('tmp/' . $version . '.zip');
-        if ($res === true) {
-            $zip->extractTo('tmp');
-            $zip->close(); 
-            echo 'ok';
-        } else {
-            echo 'failed';
-        }
-    }
-}
+/**
+ * Replace a string in a file
+ * 
+ * @since 0.2.4
+ * @author Ciprian Popescu
+ * 
+ * @param string $filename File name
+ * @param string $stringToReplace String to find
+ * @param string $replaceWith String to replace
+ */
+function replaceStringInFile($filename, $stringToReplace, $replaceWith) {
+    $content = file_get_contents($filename);
+    $contentChunks = explode($stringToReplace, $content);
+    $content = implode($replaceWith, $contentChunks);
 
-
-
-
-
-
-
-function replace_in_file($FilePath, $OldText, $NewText)
-{
-    $Result = array('status' => 'error', 'message' => '');
-    if(file_exists($FilePath)===TRUE)
-    {
-        if(is_writeable($FilePath))
-        {
-            try
-            {
-                $FileContent = file_get_contents($FilePath);
-                $FileContent = str_replace($OldText, $NewText, $FileContent);
-                if(file_put_contents($FilePath, $FileContent) > 0)
-                {
-                    $Result["status"] = 'success';
-                }
-                else
-                {
-                   $Result["message"] = 'Error while writing file';
-                }
-            }
-            catch(Exception $e)
-            {
-                $Result["message"] = 'Error : '.$e;
-            }
-        }
-        else
-        {
-            $Result["message"] = 'File '.$FilePath.' is not writable !';
-        }
-    }
-    else
-    {
-        $Result["message"] = 'File '.$FilePath.' does not exist !';
-    }
-    return $Result;
-}
-
-function replace_string_in_file($filename, $string_to_replace, $replace_with){
-    $content=file_get_contents($filename);
-    $content_chunks=explode($string_to_replace, $content);
-    $content=implode($replace_with, $content_chunks);
     file_put_contents($filename, $content);
 }
 
+/**
+ * Format filesize units
+ * 
+ * @since 0.2.4
+ * @author Ciprian Popescu
+ * 
+ * @param string $bytes File size
+ * @return string
+ */
+function formatSizeUnits($bytes) {
+    $bytes = (int) $bytes;
 
+    if ($bytes >= 1073741824) {
+        $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+    } else if ($bytes >= 1048576) {
+        $bytes = number_format($bytes / 1048576, 2) . ' MB';
+    } else if ($bytes >= 1024) {
+        $bytes = number_format($bytes / 1024, 2) . ' KB';
+    } else if ($bytes > 1) {
+        $bytes = $bytes . ' bytes';
+    } else if ($bytes === 1) {
+        $bytes = $bytes . ' byte';
+    } else {
+        $bytes = '0 bytes';
+    }
 
-
-    function formatSizeUnits($bytes)
-    {
-        if ($bytes >= 1073741824)
-        {
-            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
-        }
-        elseif ($bytes >= 1048576)
-        {
-            $bytes = number_format($bytes / 1048576, 2) . ' MB';
-        }
-        elseif ($bytes >= 1024)
-        {
-            $bytes = number_format($bytes / 1024, 2) . ' kB';
-        }
-        elseif ($bytes > 1)
-        {
-            $bytes = $bytes . ' bytes';
-        }
-        elseif ($bytes == 1)
-        {
-            $bytes = $bytes . ' byte';
-        }
-        else
-        {
-            $bytes = '0 bytes';
-        }
-
-        return $bytes;
+    return $bytes;
 }
 
 /**
@@ -323,7 +270,7 @@ function houndGetParameter($name) {
  * @return string
  */
 function houndSanitizeString($string) {
-    $string = trim((string) $string);
+    $string = (string) trim($string);
     $string = filter_var($string, FILTER_SANITIZE_STRING);
 
     return $string;

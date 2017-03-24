@@ -26,8 +26,7 @@ if($temppass == $password) {
                     );
                     $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
                     if(in_array($ext, $supported_file)) {
-                        //replace_in_file($image, $_POST['search_from'], $_POST['search_to']);
-                        replace_string_in_file($image, $_POST['search_from'], $_POST['search_to']);
+                        replaceStringInFile($image, $_POST['search_from'], $_POST['search_to']);
                         ++$counter;
                     } else {
                         continue;
@@ -68,7 +67,6 @@ if($temppass == $password) {
     </div>
     <?php
     include 'includes/footer.php';
-}
-else {
+} else {
     php_redirect('index.php?err=1');
 }
