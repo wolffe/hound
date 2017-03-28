@@ -79,7 +79,7 @@ if($temppass == $password) {
 
                 <p>
                     <b>Title</b><br>
-                    <input onKeyUp="createslug()" id="title" name="title" required type="text" class="thin-ui-input" size="64">
+                    <input onkeyup="houndSlugify('title', 'slug');" id="title" name="title" required type="text" class="thin-ui-input" size="64">
                     <br><small>Title of page</small>
                 </p>
 
@@ -91,7 +91,7 @@ if($temppass == $password) {
 
                 <p>
                     <b>Content</b><br>
-                    <textarea id="txtTextArea1" name="content" style="width:100%" rows="10"></textarea>
+                    <textarea id="txtTextArea1" name="content" style="width:100%" rows="20"></textarea>
                     <br><small>Content of page</small>
                 </p>
 
@@ -134,6 +134,7 @@ if($temppass == $password) {
     </div>
     <?php
     include 'includes/footer.php';
-} else {
+}
+else {
     php_redirect('index.php?err=1');
 }

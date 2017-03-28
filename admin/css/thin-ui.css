@@ -295,8 +295,13 @@ table td {
     background-color: #FFFFFF;
     border-radius: 2px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
-    margin: 0 0 8px 0;
     padding: 24px;
+    width: 50%;
+    margin: 8px;
+
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
 }
 .thin-ui-infobox h3 {
     margin: 0;
@@ -457,4 +462,10 @@ table td {
 .table-media td img {
     width: 100px;
     height: auto;
+}
+
+.thin-ui-flex-grid {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
 }

@@ -3,18 +3,20 @@
 * FIX: Fixed template editor to not append .tpl at the end of saved files
 * FIX: Removed unused styles and compressed stylesheets
 * FIX: Fixed a fatal error with the theme editor
+* FIX: Fixed Tinymce editor
+* FIX: Fixed logout function not working properly
 * UPDATE: Removed Ace editor
 * UPDATE: Allowed removal of all files before applying automatic updates
-
-= 0.2.3 =
-
-* FEATURE: Added CPU load in Dashboard
+* FEATURE: Added "last login" functionality
 * TODO: Document all functions
-* TODO: "Last login" functionality
 * TODO: Clean up all files
 * TODO: Clean up gallery
 * TODO: Add Headline as the second official theme
 * TODO: Figure out how plugins work (and then the world opens up)
+
+= 0.2.3 =
+
+* FEATURE: Added CPU load in Dashboard
 
 = 0.2.2 =
 

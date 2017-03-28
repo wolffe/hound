@@ -275,3 +275,48 @@ function houndSanitizeString($string) {
 
     return $string;
 }
+
+function houndGetIp() {
+    foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
+        if (array_key_exists($key, $_SERVER) === true){
+            foreach (explode(',', $_SERVER[$key]) as $ip){
+                $ip = trim($ip); // just to be safe
+
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                    return $ip;
+                }
+            }
+        }
+    }
+}
+
+function houndLogAccess() {
+    $logFile = '../files/access_log';
+    $fileContent = file_get_contents($logFile);
+
+    $location = file_get_contents('https://ipapi.co/' . trim(houndGetIp()) . '/json/');
+    $location = json_decode($location, true);
+    $location = $location['city'] . ', ' . $location['region'] . ', ' . $location['country'] . '';
+
+    $stringToWrite = time() . '|' . houndGetIp() . '|' . $location;
+
+    file_put_contents($logFile, $stringToWrite . "\n" . $fileContent);
+}
+function houndGetAccess() {
+    $logFile = '../files/access_log';
+
+    if (file_exists($logFile)) {
+        $handle = fopen($logFile, 'r');
+        $data = fread($handle, filesize($logFile));
+
+        $lines = file($logFile);
+        $the_rest = array_splice($lines, 3);
+        $first_three = $lines;
+
+        foreach ($first_three as $item) {
+            $logData = explode('|', $item);
+
+            echo 'Last accessed ' . date('F j, Y, g:i a', (int) $logData[0]) . ' from ' . trim($logData[1]) . ' (' . trim($logData[2]) . ')<br>';
+        }
+    }
+}

@@ -1,51 +1,14 @@
-function createslug(){
-    var valore=document.form1.title.value;
-    valore=replaceAll(valore,"--","-");
-    valore=replaceAll(valore,"- ", "");
-    valore=replaceAll(valore,"/", "");
-    valore=replaceAll(valore,"\\", "");
-    valore=replaceAll(valore,"'", "");
-    valore=replaceAll(valore,",", "");
-    valore=replaceAll(valore,";", "");
-    valore=replaceAll(valore,":", "");
-    valore=replaceAll(valore,".", "-");
-    valore=replaceAll(valore,"?", "");
-    valore=replaceAll(valore,"=", "-");
-    valore=replaceAll(valore,"+", "");
-    valore=replaceAll(valore,"$", "");
-    valore=replaceAll(valore,"&", "");
-    valore=replaceAll(valore,"!", "");
-    valore=replaceAll(valore,">>", "-");
-    valore=replaceAll(valore,">", "-");
-    valore=replaceAll(valore,"<<", "-");
-    valore=replaceAll(valore,"<", "-");
-    valore=replaceAll(valore,"*", "");
-    valore=replaceAll(valore,")", "");
-    valore=replaceAll(valore,"(", "");
-    valore=replaceAll(valore,"[", "");
-    valore=replaceAll(valore,"]", "");
-    valore=replaceAll(valore,"^", "");
-    valore=replaceAll(valore,"%", "");
-    valore=replaceAll(valore,"ª", "-");
-    valore=replaceAll(valore,"|", "");
-    valore=replaceAll(valore,"#", "");
-    valore=replaceAll(valore,"@", "");
-    valore=replaceAll(valore," ", "-");
-    valore=replaceAll(valore,"`", "");
-    valore=replaceAll(valore,"î", "");
-    valore=replaceAll(valore,"ì", "");
-    valore=replaceAll(valore,"\"", "");
-    valore=replaceAll(valore,"_", "-");
-    valore=valore.toLowerCase();
-    document.form1.slug.value=valore;
-}
-function replaceAll( str, from, to ) {
-    var idx = str.indexOf( from );
-    while ( idx > -1 ) {
-        str = str.replace( from, to );
-        idx = str.indexOf( from );
-    }
-    return str;
+function houndSlugify(title, slug) {
+    var titleElement = document.getElementById(title),
+        slugElement = document.getElementById(slug);
+
+    titleElement = titleElement.value.trim() // Remove surrounding whitespace.
+    .toLowerCase() // Lowercase.
+    .replace(/[^a-z0-9]+/g,'-') // Find everything that is not a lowercase letter or number, one or more times, globally, and replace it with a dash.
+    .replace(/^-+/, '') // Remove all dashes from the beginning of the string.
+    .replace(/-+$/, ''); // Remove all dashes from the end of the string.
+
+    slugElement.value = titleElement;
 }
 
 function sortTable(table, order) {
