@@ -8,24 +8,24 @@ include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 
-if($temppass == $password) {
+if ((string) $temppass === (string) $password) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
 
     <div class="content">
         <div class="content main">
             <?php
-            if($_POST['op'] == 'mod') {
+            if ((string) $_POST['op'] === 'mod') {
                 $files = glob('../site/pages/*.txt');
                 $counter = 0;
-                for($i = 1; $i < count($files); $i++) {
+                for ($i = 1; $i < count($files); $i++) {
                     $image = $files[$i];
                     $supported_file = array(
                         'md',
                         'txt',
                     );
                     $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-                    if(in_array($ext, $supported_file)) {
+                    if (in_array($ext, $supported_file)) {
                         replaceStringInFile($image, $_POST['search_from'], $_POST['search_to']);
                         ++$counter;
                     } else {
@@ -33,14 +33,7 @@ if($temppass == $password) {
                     }
                 }
 
-                echo '<div class="panel panel-success">
-                    <div class="panel-heading">
-                      <h3 class="panel-title">Success</h3>
-                    </div>
-                    <div class="panel-body">
-                      Updated '.$counter.'
-                    </div>
-                  </div>';
+                echo '<div class="thin-ui-notification thin-ui-notification-success">' . $counter . ' files updated successfully.</div>';
             }
             ?>
 

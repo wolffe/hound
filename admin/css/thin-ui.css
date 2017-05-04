@@ -145,11 +145,11 @@ table td {
 }
 
 .sidebar:not(.cover) {
-    width: 250px;
+    width: 200px;
 }
 
 .sidebar.cover {
-    width: 250px;
+    width: 200px;
     position: fixed;
     top: 0;
     left: 0;
@@ -164,7 +164,7 @@ table td {
 }
 
 .content {
-    padding-left: 250px;
+    padding-left: 200px;
 
     display: -webkit-box;
     display: -webkit-flex;

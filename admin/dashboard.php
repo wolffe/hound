@@ -1,6 +1,4 @@
 <?php
-declare (strict_types = 1);
-
 session_start();
 
 include '../config.php';
@@ -24,10 +22,11 @@ if ((string) $temppass === (string) $password) {
                 <div class="hound-at-a-glance thin-ui-infobox">
                     <h3>At a Glance</h3>
                     <div class="inside">
-                        <strong><?php echo houndCountContent('page'); ?></strong> pages<br>
-                        <strong><?php echo houndCountContent('menu'); ?></strong> menu items<br>
-                        <strong><?php echo houndCountContent('backup'); ?></strong> backup files<br>
-                        <strong><?php echo houndCountContent('asset'); ?></strong> assets (documents and images)
+                        <strong><?php echo houndCountContent('post'); ?></strong> post(s)<br>
+                        <strong><?php echo houndCountContent('page'); ?></strong> page(s)<br>
+                        <strong><?php echo houndCountContent('menu'); ?></strong> menu item(s)<br>
+                        <strong><?php echo houndCountContent('backup'); ?></strong> backup file(s)<br>
+                        <strong><?php echo houndCountContent('asset'); ?></strong> asset(s) (documents and images)
                     </div>
                 </div>
 

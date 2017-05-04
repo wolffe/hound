@@ -1,9 +1,18 @@
+= 0.3.0 =
+
+* FIX: Fixed site title in default template header
+* FIX: Removed strict types declaration for PHP versions lower than 7
+* FIX: Fixed missing styles for several admin pages
+* FIX: Fixed sidebar width
+* UPDATE: Merged pages.php and posts.php into content.php and used URI arguments
+* UPDATE: Merged new-page.php and new-post.php into new.php and used URI arguments
+
 = 0.2.4 =
 
 * FIX: Fixed template editor to not append .tpl at the end of saved files
 * FIX: Removed unused styles and compressed stylesheets
 * FIX: Fixed a fatal error with the theme editor
-* FIX: Fixed Tinymce editor
+* FIX: Fixed TinyMCE editor
 * FIX: Fixed logout function not working properly
 * UPDATE: Removed Ace editor
 * UPDATE: Allowed removal of all files before applying automatic updates

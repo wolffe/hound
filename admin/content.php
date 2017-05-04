@@ -9,7 +9,7 @@ include '../libs/hound.php';
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
-$page = houndSanitizeString($_GET['page']);
+$which = houndSanitizeString($_GET['which']);
 
 $houndAdmin = new hound('', '');
 
@@ -20,30 +20,39 @@ if ((string) $temppass === (string) $password) {
     <div class="content">
         <div class="content main">
             <?php
-            if ($_GET['op'] === 'del') {
-                $file = '../site/pages/page-' . $page . '.txt';
+			$type = houndSanitizeString($_GET['type']);
+			$acceptedTypes = array('post', 'page');
+
+			if (!in_array($type, $acceptedTypes)) {
+				$type = 'page';
+
+				echo '<div class="thin-ui-notification thin-ui-notification-error">Invalid item type. Switching to page type.</div>';
+			}
+
+            if ((string) $_GET['op'] === 'del') {
+                $file = '../site/pages/' . $type . '-' . $which . '.txt';
 
                 if (unlink($file)) {
-                    echo '<div class="thin-ui-notification thin-ui-notification-success">Page deleted successfully.</div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">' . ucwords($type) . ' deleted successfully.</div>';
                 } else {
-                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting page.</div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting ' . $type . '.</div>';
                 }
             }
 
             if ($_GET['op'] === 'copy') {
-                $file = '../site/pages/page-' . $page . '.txt';
-                $filecopy = '../site/pages/page-' . $page . '-copy.txt';
+                $file = '../site/pages/' . $type . '-' . $which . '.txt';
+                $filecopy = '../site/pages/' . $type . '-' . $which . '-copy.txt';
 
                 if (copy($file, $filecopy)) {
-                    echo '<div class="thin-ui-notification thin-ui-notification-success">Page copied successfully.</div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">' . ucwords($type) . ' copied successfully.</div>';
                 } else {
-                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while copying page.</div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while copying ' . $type . '.</div>';
                 }
             }
             ?>
-            <h2>Pages</h2>
+            <h2>Content</h2>
             <div>
-                <a href="new-page.php" class="thin-ui-button thin-ui-button-primary">New page</a>
+                <a href="new.php?type=page" class="thin-ui-button thin-ui-button-primary">New <?php echo $type; ?></a>
             </div>
             <br>
 
@@ -61,13 +70,13 @@ if ((string) $temppass === (string) $password) {
                     <?php
                     $fileindir = $houndAdmin->get_files('../site/pages/');
                     foreach ($fileindir as $file) {
-                        if (preg_match("/\bpage\b/i", $file)) {
+                        if (preg_match("/\b$type\b/i", $file)) {
                             $parampage = $houndAdmin->read_param($file);
                             $listofpage[$i]['title'] = $parampage['title'];
                             //$listofpage[$i]['url'] = $parampage['url'];
                             $listofpage[$i]['slug'] = $parampage['slug'];
                             $nameofpage = str_replace('../site/pages/', "", $file);
-                            $nameofpage = str_replace('page-', "", $nameofpage);
+                            $nameofpage = str_replace($type . '-', "", $nameofpage);
                             $nameofpage = str_replace('.txt', "", $nameofpage);
                             $i++;
 
@@ -90,12 +99,12 @@ if ((string) $temppass === (string) $password) {
                                 echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . '<br>' . formatSizeUnits($fileinfo['size']) . '</small></td>';
                                 echo '<td>
                                     <a href="../' . $parampage['slug'] . '">View</a> | 
-                                    <a href="edit-page.php?page=' . $nameofpage . '">Edit</a> | ';
+                                    <a href="edit.php?type=' . $type . '&which=' . $nameofpage . '">Edit</a> | ';
                                     if ($parampage['slug'] != 'index') {
-                                        echo '<a href="pages.php?op=copy&page=' . $nameofpage . '"> Copy</a> | ';
+                                        echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $nameofpage . '"> Copy</a> | ';
                                     }
                                     if ($parampage['slug'] != 'index') {
-                                        echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="pages.php?op=del&page=' . $nameofpage . '"> Delete</a>';
+                                        echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="content.php?type=' . $type . '&op=del&which=' . $nameofpage . '"> Delete</a>';
                                     }
                                 echo '</td>';
                             echo '</tr>';

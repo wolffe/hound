@@ -8,7 +8,7 @@ include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 
-if($temppass == $password) {
+if ((string) $temppass === (string) $password) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
 
@@ -34,27 +34,11 @@ if($temppass == $password) {
                     'Item' => $item,
                     'Link' => $link
                 );
-                //print_r($arrayvalue);
-                if(writeParam($arrayvalue,$file))echo "
-                  <div class=\"panel panel-success\">
-                    <div class=\"panel-heading\">
-                      <h3 class=\"panel-title\">Success</h3>
-                    </div>
-                    <div class=\"panel-body\">
-                      Updated
-                    </div>
-                  </div>
-                ";
-                else echo "
-                  <div class=\"panel panel-error\">
-                    <div class=\"panel-heading\">
-                      <h3 class=\"panel-title\">Error</h3>
-                    </div>
-                    <div class=\"panel-body\">
-                      I/o error
-                    </div>
-                  </div>
-                ";
+                if (writeParam($arrayvalue, $file)) {
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
+                } else {
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
+                }
           }
           ?>
 

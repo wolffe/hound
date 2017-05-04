@@ -19,7 +19,7 @@ function get_variable($item) {
         'include' => '',
     );
 
-    if(!function_exists('file_get_contents')) {
+    if (!function_exists('file_get_contents')) {
         $content = $this->url_get_contents('site/config.txt');
     } else {
         $content = file_get_contents('site/config.txt');
@@ -50,6 +50,9 @@ function get_theme_directory($partial) {
 
 function houndCountContent($type) {
     if ($type === 'page' || $type === 'menu') {
+        $dir = '../site/pages/';
+        $list = glob($dir . $type . '-*.txt');
+    } else if ($type === 'post') {
         $dir = '../site/pages/';
         $list = glob($dir . $type . '-*.txt');
     } else if ($type === 'backup') {
@@ -99,6 +102,9 @@ class hound {
             if (preg_match("/\bpage\b/i", $file)) {
                 $listofpage[] = str_replace('site/pages/', '', $file);
             }
+            if (preg_match("/\bpost\b/i", $file)) {
+                $listofpage[] = str_replace('site/pages/', '', $file);
+            }
 
             if (preg_match("/\bmenu\b/i", $file)) {
                 $menuparam = $this->read_param($file);
@@ -112,6 +118,8 @@ class hound {
         // Read file content
         if (in_array('page-' . $curpage . '.txt', $listofpage)) {
             $pageparam = $this->read_param('site/pages/page-' . $curpage . '.txt');
+        } else if (in_array('post-' . $curpage . '.txt', $listofpage)) {
+            $pageparam = $this->read_param('site/pages/post-' . $curpage . '.txt');
         } else {
             $pageparam = $this->read_param('site/pages/page-index.txt');
         }
@@ -302,5 +310,63 @@ class hound {
                 }
             }
         }
+    }
+
+    public static function getBlog() {
+        $i = 0;
+        $arrayOfPosts = array();
+
+        $getPosts = glob('site/pages/post-*.txt');
+        usort($getPosts, create_function('$a,$b', 'return filemtime($b) - filemtime($a);'));
+
+        foreach($getPosts as $file) {
+            $headers = array(
+                'title' => 'Title',
+                'meta.title' => 'Meta.title',
+                'meta.description' => 'Meta.description',
+                'content' => 'Content',
+                'template' => 'Template',
+                'slug' => 'Slug',
+            );
+
+            if (!function_exists('file_get_contents')) {
+                $content = $this->url_get_contents($file);
+            } else {
+                $content = file_get_contents($file);
+            }
+
+            // Add support for custom headers by hooking into the headers array
+            foreach ($headers as $field => $regex) {
+                if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
+                    $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
+                } else {
+                    $headers[$field] = '';
+                }
+            }
+
+            $postParam = $headers;
+
+            $arrayOfPosts[$i]['slug'] = $postParam['slug'];
+            $arrayOfPosts[$i]['title'] = $postParam['title'];
+            $arrayOfPosts[$i]['content'] = $postParam['content'];
+
+            $arrayOfPosts[$i]['date'] = date('F d Y H:i:s', filemtime($file));
+
+            $i++;
+        }
+
+        // Build blog
+        $blogPosts = '';
+        if (!empty($arrayOfPosts) && is_array($arrayOfPosts)) {
+            foreach ($arrayOfPosts as $blogPost) {
+                $blogPosts .= '<div class="post">
+                    <h3><a href="' . $blogPost['slug'] . '">' . $blogPost['title'] . '</a></h3>
+                    <div class"post-meta">' . $blogPost['date'] . '</div>
+                    <div class="post-content">' . $blogPost['content'] . '</div>
+                </div>';
+            }
+        }
+
+        return $blogPosts;
     }
 }

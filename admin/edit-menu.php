@@ -7,108 +7,69 @@ include '../libs/hound.php';
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
-$page = $_GET['page'];
+$page = houndSanitizeString($_GET['page']);
 
 $houndAdmin = new hound('', '');
-$param = $houndAdmin->read_param('../site/config.txt');
 
-if($temppass == $password) {
+if ((string) $temppass === (string) $password) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
 
     <div class="content">
         <div class="content main">
+            <?php
+            if ((string) $_POST['op'] === 'mod') {
+                $order = $_POST['order'];
+                $item = $_POST['item'];
+                $link = $_POST['link'];
+                $slug = trim($item);
 
-          <?php
-
-
-          if($_POST['op']=="mod"){
-
-                $order=$_POST['order'];
-                $item=$_POST['item'];
-                $link=$_POST['link'];
-                $slug=trim($item);
-
-                $file='../site/pages/'."menu-$page.txt";
+                $file = '../site/pages/menu-' . $page . '.txt';
                 $arrayvalue = array(
                     'Order' => $order,
                     'Item' => $item,
-                    'Link' => $link
+                    'Link' => $link,
                 );
-                //print_r($arrayvalue);
-                if(writeParam($arrayvalue,$file))echo "
-                  <div class=\"panel panel-success\">
-                    <div class=\"panel-heading\">
-                      <h3 class=\"panel-title\">Success</h3>
-                    </div>
-                    <div class=\"panel-body\">
-                      Updated
-                    </div>
-                  </div>
-                ";
-                else echo "
-                  <div class=\"panel panel-error\">
-                    <div class=\"panel-heading\">
-                      <h3 class=\"panel-title\">Error</h3>
-                    </div>
-                    <div class=\"panel-body\">
-                      I/o error
-                    </div>
-                  </div>
-                ";
-                rename('../site/pages/'."menu-$page.txt",'../site/pages/'."menu-$slug.txt");
-                $page=$slug;
 
-          }
-            $paramofpage=$houndAdmin->read_param('../site/pages/'."menu-$page.txt");
-          ?>
+                if (writeParam($arrayvalue, $file)) {
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
+                } else {
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
+                }
 
+                rename('../site/pages/menu-' . $page . '.txt', '../site/pages/menu-' . $slug . '.txt');
+                $page = $slug;
+            }
+            $paramofpage = $houndAdmin->read_param('../site/pages/menu-' . $page . '.txt');
+            ?>
 
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-xs-6">
-                <h2>Edit menu</h2>
-            </div>
-          </div>
+            <h2>Edit menu</h2>
 
-          <br>
+            <form role="form" id="commentForm" action="edit-menu.php?page=<?php echo $page; ?>" method="post">
+                <input type="hidden" value="mod" name="op">
 
-          <form role="form" id="commentForm" action="edit-menu.php?page=<?php echo $page;?>" method="post">
-          <input type="hidden" value="mod" name="op">
+                <p>
+                    <b>Menu item</b><br>
+                    <input name="item" value="<?php echo $paramofpage['item'];?>" type="text" class="thin-ui-input" size="64" required>
+                    <br><small>Menu item title</small>
+                </p>
 
+                <p>
+                    <b>Menu item link</b><br>
+                    <input name="item" value="<?php echo $paramofpage['link'];?>" type="url" class="thin-ui-input" size="64" required>
+                    <br><small>Page link (absolute URI)</small>
+                </p>
 
-          <div class="form-group form-group-lg">
-              <b>Order</b>
-              <label class="sr-only" for="inputHelpBlock">Order</label>
-              <span class="help-block">Order of item in menu (from 0 to 100)</span>
-              <input name="order" value="<?php echo $paramofpage['order'];?>" required type="text" class="form-control">
-          </div>
+                <p>
+                    <b>Order</b><br>
+                    <input name="order" value="<?php echo $paramofpage['order'];?>" type="number" min="0" class="thin-ui-input" required>
+                    <br><small>Order of item in menu</small>
+                </p>
 
-
-          <div class="form-group form-group-lg">
-              <b>Item</b>
-              <label class="sr-only" for="inputHelpBlock">Item</label>
-              <span class="help-block">Menu</span>
-              <input name="item" value="<?php echo $paramofpage['item'];?>" required type="text" class="form-control">
-          </div>
-
-          <div class="form-group form-group-lg">
-              <b>Link</b>
-              <label class="sr-only" for="inputHelpBlock">link</label>
-              <span class="help-block">Absolute link of page</span>
-              <input name="link" value="<?php echo $paramofpage['link'];?>" required type="text" class="form-control">
-          </div>
-
-          <br>
-
-          <button type="submit" class="btn btn-lg btn-success">Edit menu</button> or <u><a href="pages.php">Cancel</a></u>
-          </form>
-
-
-      </div> <!-- container-fluid -->
-
-
-  </div>  <!-- page-content-wrapper-->
-
+                <p><button type="submit" class="thin-ui-button thin-ui-button-primary">Save Changes</button></p>
+            </form>
+        </div>
+    </div>
     <?php
     include 'includes/footer.php';
 }

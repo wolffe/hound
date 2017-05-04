@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<title>[@meta.title]</title>
+<title>[@meta.title] - [@site.title]</title>
 <meta name="description" content="[@meta.description]">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,7 +23,7 @@
 
 <header>
     <div class="logo">
-        <h1><a href="[@urlwebsite]">[@title]</a></h1>
+        <h1><a href="[@urlwebsite]">[@site.title]</a></h1>
         <span class="tagline">[@slogan]</span>
     </div>
 </header>
