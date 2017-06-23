@@ -1,3 +1,9 @@
+= 0.4.0-alpha1 =
+* TODO: Simplify or remove rich text editor and use Markdown
+* TODO: Set up rich text editor as a default plugin
+* TODO: Add interface to create galleries
+* TODO: Add latest client changes (Masonry gallery)
+
 = 0.3.0 =
 
 * FIX: Fixed site title in default template header
