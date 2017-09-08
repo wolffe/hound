@@ -66,7 +66,7 @@ if ((string) $temppass === (string) $password) {
 
             <h2>Edit <?php echo $type; ?></h2>
             <div>
-                <a class="thin-ui-button thin-ui-button-primary" target="_blank" href="../<?php echo $which; ?>/"><?php echo ucwords($type); ?> preview </a>
+                <a class="thin-ui-button thin-ui-button-primary" target="_blank" href="../<?php echo $which; ?>"><?php echo ucwords($type); ?> preview </a>
             </div>    
 
             <br>

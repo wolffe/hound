@@ -89,19 +89,18 @@ if ((string) $temppass === (string) $password) {
                                     if (preg_match("/\bcopy\b/i", $file)) {
                                         echo '<i class="fa fa-fw fa-files-o" aria-hidden="true"></i> ';
                                     }
-                                    echo $parampage['title'];
+                                    echo '<a href="edit.php?type=' . $type . '&which=' . $nameofpage . '">' . $parampage['title'] . '</a>';
                                     if (preg_match("/\bcopy\b/i", $file)) {
                                         echo ' (copy)';
                                     }
                                 echo '</td>';
                                 echo '<td>' . $parampage['slug'] . '</td>';
                                 echo '<td><code>' . $parampage['template'] . '</code></td>';
-                                echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . '<br>' . formatSizeUnits($fileinfo['size']) . '</small></td>';
+                                echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . ' <code>' . formatSizeUnits($fileinfo['size']) . '</code></small></td>';
                                 echo '<td>
-                                    <a href="../' . $parampage['slug'] . '">View</a> | 
-                                    <a href="edit.php?type=' . $type . '&which=' . $nameofpage . '">Edit</a> | ';
+                                    <a href="../' . $parampage['slug'] . '">View</a> | ';
                                     if ($parampage['slug'] != 'index') {
-                                        echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $nameofpage . '"> Copy</a> | ';
+                                        echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $nameofpage . '"> Clone</a> | ';
                                     }
                                     if ($parampage['slug'] != 'index') {
                                         echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="content.php?type=' . $type . '&op=del&which=' . $nameofpage . '"> Delete</a>';

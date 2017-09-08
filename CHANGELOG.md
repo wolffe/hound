@@ -1,3 +1,8 @@
+= 0.3.1 =
+
+* FIX: Fixed post/page preview link
+* UPDATE: UI tweaks for content section
+
 = 0.3.0 =
 
 * FIX: Fixed site title in default template header

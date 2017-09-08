@@ -1,4 +1,25 @@
 <?php
+/**
+ * Scan the plugins path, recursively including all PHP extensions
+ *
+ * @param string  $dir
+ *
+ */
+function getExtensions($target) {
+    if (is_dir($target)) {
+        $files = glob($target . '*', GLOB_MARK);
+
+        foreach ($files as $file) {
+            getExtensions($file);
+
+            if (strpos($file, 'ext-') !== false) {
+                include_once $file;
+            }
+        }
+    } 
+}
+getExtensions('../plugins');
+
 function get_variable($item) {
     $headers = array(
         'title' => 'Title',
@@ -19,11 +40,11 @@ function get_variable($item) {
         'include' => '',
     );
 
-    if (!function_exists('file_get_contents')) {
-        $content = $this->url_get_contents('site/config.txt');
-    } else {
-        $content = file_get_contents('site/config.txt');
-    }
+        if (!function_exists('file_get_contents')) {
+            $content = $this->url_get_contents('site/config.txt');
+        } else {
+            $content = file_get_contents('site/config.txt');
+        }
 
     // Add support for custom headers by hooking into the headers array
     foreach ($headers as $field => $regex) {
@@ -145,13 +166,14 @@ class hound {
         $layout->set("featuredimage", $pageparam['featuredimage']);
 
         // Turn this into a function
+        // [gallery "/images/gallery-2014/"]
         $pattern = '/\[gallery(.*?)?\](?:(.+?)?\[\/gallery\])?/';
         preg_match($pattern, $pageparam['content'], $matches, PREG_OFFSET_CAPTURE, 3);
 
-        if(!empty($matches)) {
+        if (!empty($matches)) {
             $files = glob('site/templates/' . $config['template'] . '/' . str_replace('"', '', trim($matches[1][0])) . '*.*');
-            $gstring = '<div class="gallery">';
-                for($i=1; $i<count($files); $i++) {
+            $gstring = '<div class="grid">';
+                for ($i=1; $i<count($files); $i++) {
                     $image = $files[$i];
                     $supportedFile = array(
                         'gif',
@@ -160,9 +182,9 @@ class hound {
                         'png'
                     );
                     $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-                    if(in_array($ext, $supportedFile)) {
-                        //print $image ."<br />";
-                        $gstring .= '<div><img src="' . $image . '" alt=""></div>';
+                    if (in_array($ext, $supportedFile)) {
+                        $gtitle = ucwords(str_replace(array('-', '_'), ' ', pathinfo($image, PATHINFO_FILENAME)));
+                        $gstring .= '<div class="grid-item"><img src="' . $image . '" width="' . $width . '" height="' . $height. '" title="' . $gtitle . '" data-title="' . $gtitle . '" alt=""></div>';
                     } else {
                         continue;
                     }
@@ -171,6 +193,12 @@ class hound {
             $pageparam['content'] = preg_replace($pattern, $gstring, $pageparam['content']);
         }
         //
+
+        $pageparam['content'] = pluginHoundSlider(
+            '/\[slider(.*?)?\](?:(.+?)?\[\/slider\])?/',
+            $pageparam['content'],
+            $config['template']
+        );
 
         $layout->set("content", $pageparam['content']);
         $layout->set("menu", $menuitems);  

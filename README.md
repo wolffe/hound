@@ -1,5 +1,7 @@
 [![Code Climate](https://codeclimate.com/github/wolffe/hound/badges/gpa.svg)](https://codeclimate.com/github/wolffe/hound) [![Issue Count](https://codeclimate.com/github/wolffe/hound/badges/issue_count.svg)](https://codeclimate.com/github/wolffe/hound)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fe7f07c03fd24b36a71c4e60bde90869)](https://www.codacy.com/app/wolffe/hound?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wolffe/hound&amp;utm_campaign=Badge_Grade)
+
 # Hound
 Hound is a light, flat-file, PHP-based content management system.
 
