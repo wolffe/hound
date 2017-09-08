@@ -69,8 +69,36 @@ function deleteDir($path) {
             array_map(__FUNCTION__, glob($path.'/*')) == rmdir($path);
 }
 
+function houndGetContents($url) {
+    if (function_exists('curl_exec')) {
+        $conn = curl_init($url);
+
+        curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($conn, CURLOPT_FRESH_CONNECT, true);
+        curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
+        $urlGetContentsData = (curl_exec($conn));
+        curl_close($conn);
+    } else if (function_exists('file_get_contents')) {
+        $opts = array(
+            'http' => array(
+                'method' => "GET",
+                'header' => "User-Agent: hound",
+            )
+        );
+        $urlGetContentsData = file_get_contents($url, false, $context);
+    } else if (function_exists('fopen') && function_exists('stream_get_contents')) {
+        $handle = fopen ($url, "r");
+        $urlGetContentsData = stream_get_contents($handle);
+    } else {
+        $urlGetContentsData = false;
+    }
+
+    return $urlGetContentsData;
+}
+
 // Version Control
 function houndUpdateCheck() {
+    /**
     $opts = array(
         'http' => array(
             'method' => "GET",
@@ -79,6 +107,8 @@ function houndUpdateCheck() {
     );
     $context = stream_context_create($opts);
     $current_releases = file_get_contents("https://api.github.com/repos/wolffe/hound/releases", false, $context);
+    /**/
+    $current_releases = houndGetContents("https://api.github.com/repos/wolffe/hound/releases");
 
     if ($current_releases !== false) {
         $releases = json_decode($current_releases);
@@ -294,11 +324,7 @@ function houndLogAccess() {
     $logFile = '../files/access_log';
     $fileContent = file_get_contents($logFile);
 
-    $location = file_get_contents('https://ipapi.co/' . trim(houndGetIp()) . '/json/');
-    $location = json_decode($location, true);
-    $location = $location['city'] . ', ' . $location['region'] . ', ' . $location['country'] . '';
-
-    $stringToWrite = time() . '|' . houndGetIp() . '|' . $location;
+    $stringToWrite = time() . '|' . houndGetIp();
 
     file_put_contents($logFile, $stringToWrite . "\n" . $fileContent);
 }
@@ -316,7 +342,7 @@ function houndGetAccess() {
         foreach ($first_three as $item) {
             $logData = explode('|', $item);
 
-            echo 'Last accessed ' . date('F j, Y, g:i a', (int) $logData[0]) . ' from ' . trim($logData[1]) . ' (' . trim($logData[2]) . ')<br>';
+            echo 'Last accessed ' . date('F j, Y, g:i a', (int) $logData[0]) . ' from ' . trim($logData[1]) . '<br>';
         }
     }
 }

@@ -1,3 +1,7 @@
+= 0.4.0 =
+* UPDATE: Removed last accessed location as the API has a small quota
+* UPDATE: Changed the way the update check is performed to allow for more server configurations
+
 = 0.3.1 =
 
 * FIX: Fixed post/page preview link
