@@ -12,7 +12,7 @@ https://getbutterfly.com/demo/hound/
 https://getbutterfly.com/hound/
  
 # Version
-Current version: `0.4.0`
+Current version: `0.4.1`
 
 Note that versions below 1.0 are considered alpha and not production-ready. I am adding breaking features and changing page loading behaviour.
 
