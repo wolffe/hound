@@ -1,3 +1,6 @@
+= 0.4.1 =
+* UPDATE: Added user agent to cURL call for update checking
+
 = 0.4.0 =
 * UPDATE: Removed last accessed location as the API has a small quota
 * UPDATE: Changed the way the update check is performed to allow for more server configurations

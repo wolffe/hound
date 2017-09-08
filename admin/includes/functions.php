@@ -73,6 +73,7 @@ function houndGetContents($url) {
     if (function_exists('curl_exec')) {
         $conn = curl_init($url);
 
+        curl_setopt($conn, CURLOPT_USERAGENT, 'Hound');
         curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($conn, CURLOPT_FRESH_CONNECT, true);
         curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
@@ -82,7 +83,7 @@ function houndGetContents($url) {
         $opts = array(
             'http' => array(
                 'method' => "GET",
-                'header' => "User-Agent: hound",
+                'header' => "User-Agent: Hound",
             )
         );
         $urlGetContentsData = file_get_contents($url, false, $context);
@@ -98,16 +99,6 @@ function houndGetContents($url) {
 
 // Version Control
 function houndUpdateCheck() {
-    /**
-    $opts = array(
-        'http' => array(
-            'method' => "GET",
-            'header' => "User-Agent: hound",
-        )
-    );
-    $context = stream_context_create($opts);
-    $current_releases = file_get_contents("https://api.github.com/repos/wolffe/hound/releases", false, $context);
-    /**/
     $current_releases = houndGetContents("https://api.github.com/repos/wolffe/hound/releases");
 
     if ($current_releases !== false) {
