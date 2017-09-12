@@ -427,6 +427,14 @@ table td {
     background-color: #16A085;
     color: #FFFFFF;
 }
+.thin-ui-button-secondary {
+    background-color: #FFFFFF;
+    color: #333333;
+}
+.thin-ui-button-secondary:hover {
+    background-color: #F1F1F1;
+    color: #333333;
+}
 .thin-ui-button-neutral {
     background-color: #BDC3C7;
     color: #FFFFFF;
