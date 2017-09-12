@@ -1,3 +1,6 @@
+= 0.4.2 =
+* UPDATE: Updated media library code
+
 = 0.4.1 =
 * UPDATE: Added user agent to cURL call for update checking
 
