@@ -18,7 +18,7 @@ if ((string) $temppass === (string) $password) {
     <div class="content">
         <div class="content main">
             <?php
-			$type = houndSanitizeString($_GET['type']);
+            $type = houndSanitizeString($_GET['type']);
 			$acceptedTypes = array('post', 'page');
 
 			if (!in_array($type, $acceptedTypes)) {
@@ -34,14 +34,6 @@ if ((string) $temppass === (string) $password) {
                 $content = str_replace("\n", "", $content);
                 $content = str_replace("\\", "", $content);
 
-                $metatitle = $_POST['metatitle'];
-                $metadescription = $_POST['metadescription'];
-
-                if (strlen($metatitle) <= 0)
-                    $metatitle = "$title";
-                if (strlen($metadescription) <= 0)
-                    $metadescription = strip_tags(substr($content, 0, 160));
-
                 $template = $_POST['template'];
 
                 $file = '../site/pages/' . $type . '-' . $slug . '.txt';
@@ -55,8 +47,6 @@ if ((string) $temppass === (string) $password) {
                     'Slug' => $slug,
                     'Title' => $title,
                     'Content' => $content,
-                    'Meta.title' => $metatitle,
-                    'Meta.description' => $metadescription,
                     'Template'=> $template
                 );
                 if (writeParam($arrayvalue, $file)) {
@@ -97,28 +87,19 @@ if ((string) $temppass === (string) $password) {
                         <select name="template" id="template">
                             <?php
                             $dirtmpl = scandir('../site/templates/' . $param['template'] . '/');
-                            foreach($dirtmpl as $itemtpl) {
-                                if(!is_dir("../site/templates/".$param['template']."/".$itemtpl) && $itemtpl!="." && $itemtpl!=".." && $itemtpl!=".DS_Store") {
-                                    if($itemtpl==$paramofpage['template'])$sel2="selected";
-                                    else $sel2="";
+                            foreach ($dirtmpl as $itemtpl) {
+                                if (!is_dir("../site/templates/".$param['template']."/".$itemtpl) && $itemtpl!="." && $itemtpl!=".." && $itemtpl!=".DS_Store") {
+                                    if ($itemtpl == $paramofpage['template']) {
+                                        $sel2="selected";
+                                    } else {
+                                        $sel2="";
+                                    }
                                     echo"<option $sel2 value=\"$itemtpl\">$itemtpl</option>";
                                 }
                             }
                             ?>
                         </select>
                     </div>
-                </p>
-
-                <p>
-                    <b>Meta Title</b><br>
-                    <input name="metatitle" type="text" class="thin-ui-input" size="64">
-                    <br><small>Search engine Meta Title</small>
-                </p>
-
-                <p>
-                    <b>Meta description</b><br>
-                    <textarea name="metadescription" style="width:100%" rows="3"></textarea>
-                    <br><small>Search engine Meta description</small>
                 </p>
 
                 <p>

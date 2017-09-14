@@ -1,3 +1,12 @@
+= 0.5 =
+* PERFORMANCE: Removed meta title
+* PERFORMANCE: Removed meta description
+* PERFORMANCE: Removed meta keywords
+* PERFORMANCE: Removed featured image
+* SECURITY: Removed unused files from Grey theme
+* UPDATE: Updated media library popup
+* UPDATE: Update TinyMCE to 4.6.6 (from 4.5.4)
+
 = 0.4.2 =
 * UPDATE: Updated media library code
 

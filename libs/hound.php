@@ -23,10 +23,6 @@ getExtensions('../plugins');
 function get_variable($item) {
     $headers = array(
         'title' => 'Title',
-        'description' => 'Description',
-        'meta.title' => 'Meta.title',
-        'meta.description' => 'Meta.description',
-        'meta.keywords' => 'Meta.keywords',
         'content' => 'Content',
         'template' => 'Template',
         'menu' => 'Menu',
@@ -35,7 +31,6 @@ function get_variable($item) {
         'order' => 'Order',
         'link' => 'Link',
         'item' => 'Item',
-        'featuredimage' => 'Featuredimage',
         'slogan' => 'Slogan',
         'include' => '',
     );
@@ -160,10 +155,7 @@ class hound {
 
         //RENDER LAYOUT
         $layout = new Template("site/templates/".$config['template']."/".$pageparam['template']);
-        $layout->set("meta.title", $pageparam['meta.title']." | ".$titleofsite);
-        $layout->set("meta.description", $pageparam['meta.description']);
         $layout->set("title", $pageparam['title']);
-        $layout->set("featuredimage", $pageparam['featuredimage']);
 
         // Turn this into a function
         // [gallery "/images/gallery-2014/"]
@@ -246,10 +238,6 @@ class hound {
 
         $headers = array(
             'title' => 'Title',
-            'description' => 'Description',
-            'meta.title' => 'Meta.title',
-            'meta.description' => 'Meta.description',
-            'meta.keywords' => 'Meta.keywords',
             'content' => 'Content',
             'template' => 'Template',
             'menu' => 'Menu',
@@ -258,7 +246,6 @@ class hound {
             'order' => 'Order',
             'link' => 'Link',
             'item' => 'Item',
-            'featuredimage' => 'Featuredimage',
             'slogan' => 'Slogan',
             'include' => '',
             'version' => 'Version',
@@ -350,8 +337,6 @@ class hound {
         foreach($getPosts as $file) {
             $headers = array(
                 'title' => 'Title',
-                'meta.title' => 'Meta.title',
-                'meta.description' => 'Meta.description',
                 'content' => 'Content',
                 'template' => 'Template',
                 'slug' => 'Slug',

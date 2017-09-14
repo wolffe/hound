@@ -12,13 +12,14 @@
         <script>
         /**
          *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-        /*
-        var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
          */
+
+        var disqus_config = function () {
+            this.page.url = '<?php echo ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];; ?>';
+            this.page.identifier = '[@slug]';
+        };
+
         (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
             s.src = '//hound-1.disqus.com/embed.js';
@@ -30,6 +31,6 @@
     </div>
 </div>
 
-<script id="dsq-count-scr" src="//hound-1.disqus.com/count.js" async></script>
+<script id="dsq-count-scr" src="https://hound-1.disqus.com/count.js" async></script>
 
 <?php include get_theme_directory('footer.php'); ?>

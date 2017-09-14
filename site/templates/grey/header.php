@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<title>[@meta.title] - [@site.title]</title>
-<meta name="description" content="[@meta.description]">
+<title>[@title] - [@site.title]</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="[@urlwebsite]/site/templates/grey/css/normalize.min.css">
