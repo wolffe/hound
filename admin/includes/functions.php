@@ -49,7 +49,7 @@ function recurse_copy($src,$dst) {
     while(false !== ( $file = readdir($dir)) ) { 
         if (( $file != '.' ) && ( $file != '..' )) { 
             if ( is_dir($src . '/' . $file) ) { 
-                echo '<br>copying ' . $src . '/' . $file . ' to ' . $dst . '/' . $file;
+                echo 'Copying ' . $src . '/' . $file . ' to ' . $dst . $file . '<br>';
                 recurse_copy($src . '/' . $file,$dst . '/' . $file); 
             } 
             else { 

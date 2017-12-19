@@ -1,25 +1,4 @@
 <?php
-/**
- * Scan the plugins path, recursively including all PHP extensions
- *
- * @param string  $dir
- *
- */
-function getExtensions($target) {
-    if (is_dir($target)) {
-        $files = glob($target . '*', GLOB_MARK);
-
-        foreach ($files as $file) {
-            getExtensions($file);
-
-            if (strpos($file, 'ext-') !== false) {
-                include_once $file;
-            }
-        }
-    } 
-}
-getExtensions('../plugins');
-
 function get_variable($item) {
     $headers = array(
         'title' => 'Title',
@@ -96,7 +75,6 @@ class hound {
     public function start() {
         // Load plugins
         $this->load_plugins();
-        $this->run_hooks('plugins_loaded');
 
         $listofpage = array();
 
@@ -149,48 +127,14 @@ class hound {
             }
         }
 
-        $this->run_hooks('after_read_param');
-
-        //$this->run_hooks('before_render');
-
         //RENDER LAYOUT
         $layout = new Template("site/templates/".$config['template']."/".$pageparam['template']);
         $layout->set("title", $pageparam['title']);
 
-        // Turn this into a function
-        // [gallery "/images/gallery-2014/"]
-        $pattern = '/\[gallery(.*?)?\](?:(.+?)?\[\/gallery\])?/';
-        preg_match($pattern, $pageparam['content'], $matches, PREG_OFFSET_CAPTURE, 3);
-
-        if (!empty($matches)) {
-            $files = glob('site/templates/' . $config['template'] . '/' . str_replace('"', '', trim($matches[1][0])) . '*.*');
-            $gstring = '<div class="grid">';
-                for ($i=1; $i<count($files); $i++) {
-                    $image = $files[$i];
-                    $supportedFile = array(
-                        'gif',
-                        'jpg',
-                        'jpeg',
-                        'png'
-                    );
-                    $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-                    if (in_array($ext, $supportedFile)) {
-                        $gtitle = ucwords(str_replace(array('-', '_'), ' ', pathinfo($image, PATHINFO_FILENAME)));
-                        $gstring .= '<div class="grid-item"><img src="' . $image . '" width="' . $width . '" height="' . $height. '" title="' . $gtitle . '" data-title="' . $gtitle . '" alt=""></div>';
-                    } else {
-                        continue;
-                    }
-                }
-            $gstring .= '</div>';
-            $pageparam['content'] = preg_replace($pattern, $gstring, $pageparam['content']);
-        }
-        //
-
-        $pageparam['content'] = pluginHoundSlider(
-            '/\[slider(.*?)?\](?:(.+?)?\[\/slider\])?/',
-            $pageparam['content'],
-            $config['template']
-        );
+        /*
+         * Parse content hook(s)
+         */
+        $pageparam['content'] = hook('content', $pageparam['content']);
 
         $layout->set("content", $pageparam['content']);
         $layout->set("menu", $menuitems);  
@@ -200,8 +144,7 @@ class hound {
 
         $layout->set("slug", $pageparam['slug']);
         $layout->set("excerpt", substr(strip_tags(trim($pageparam['content'])), 0, 300));
-            
-        //$this->run_hooks('after_render');
+
         echo $layout->output();
     }
 
@@ -229,7 +172,7 @@ class hound {
         return $arrayItems;
     }
 
-    function read_param($file) {
+    public static function read_param($file) {
         if (!file_exists($file)) {
             include 'admin/templates/install.php';
 
@@ -309,23 +252,6 @@ class hound {
         }
     }
 
-
-    /**
-     * Processes any hooks and runs them
-     *
-     * @param string $hookId the ID of the hook
-     * @param array $args optional arguments
-     */
-    public function run_hooks($hookId, $args = array())
-    {
-        if (!empty($this->plugins)) {
-            foreach ($this->plugins as $plugin) {
-                if (is_callable(array($plugin, $hookId))) {
-                    call_user_func_array(array($plugin, $hookId), $args);
-                }
-            }
-        }
-    }
 
     public static function getBlog() {
         $i = 0;

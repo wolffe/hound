@@ -1,11 +1,6 @@
 <?php
-/**
+/*
  * Simple template engine class (use [@tag] tags in your templates).
- * 
- * @link http://www.broculos.net/ Broculos.net Programming Tutorials
- * @link http://www.broculos.net/2008/03/how-to-make-simple-html-template-engine.html
- * @author Nuno Freitas <nunofreitas@gmail.com>
- * @version 1.0
  */
 class Template {
 	/**
@@ -49,40 +44,49 @@ class Template {
     
     
     
-      public function process_php( $str ) {
-    $php_start = 0;
+    public function process_php($str) {
+        $php_start = 0;
 
-    $tag = '<?php';
-    $endtag = '?>';
+        $tag = '<?php';
+        $endtag = '?>';
 
-    while(is_long($php_start = strpos($str, $tag, $php_start)))
-    {
-        $start_pos = $php_start + strlen($tag);
-        $end_pos = strpos($str, $endtag, $start_pos); //the 3rd param is to start searching from the starting tag - not to mix the ending tag of the 1st block if we want for the 2nd
+        while (is_long($php_start = strpos($str, $tag, $php_start))) {
+            $start_pos = $php_start + strlen($tag);
 
-        if (!$end_pos) { echo "template: php code has no ending tag!", exit; }
-        $php_end = $end_pos + strlen($endtag);
+            /*
+             * The 3rd parameter is to start searching from the starting tag
+             * Not to mix the ending tag of the 1st block if we want for the 2nd
+             */
+            $end_pos = strpos($str, $endtag, $start_pos);
 
-        $php_code = substr($str, $start_pos, $end_pos - $start_pos);
-        if( strtolower(substr($php_code, 0, 3)) == 'php' )
-            $php_code = substr($php_code, 3);
+            if (!$end_pos) {
+                echo "template: php code has no ending tag!";
+                exit();
+            }
+            $php_end = $end_pos + strlen($endtag);
 
-        // before php code
-        $part1 = substr($str, 0, $php_start);
+            $php_code = substr($str, $start_pos, $end_pos - $start_pos);
+            if (strtolower(substr($php_code, 0, 3)) == 'php') {
+                $php_code = substr($php_code, 3);
+            }
 
-        // here set the php output
-        ob_start();
-        eval($php_code);
-        $output = ob_get_contents();
-        ob_end_clean();
+            // before php code
+            $part1 = substr($str, 0, $php_start);
 
-        // after php code
-        $part2 = substr($str, $php_end, strlen($str));
+            // here set the php output
+            ob_start();
+            eval($php_code);
+            $output = ob_get_contents();
+            ob_end_clean();
 
-        $str = $part1 . $output . $part2;
+            // after php code
+            $part2 = substr($str, $php_end, strlen($str));
+
+            $str = $part1 . $output . $part2;
+        }
+
+        return $str;
     }
-    return $str;
-}
 
     
     
@@ -98,14 +102,14 @@ class Template {
     	 * Anything else loads the file contents and loops through the array replacing every key for its value.
     	 */
         if (!file_exists($this->file)) {
-        	return "Error loading template file ($this->file).<br>";
+            return "Error loading template file ($this->file).<br>";
         }
         $output = Template::process_php(file_get_contents($this->file));
 
         foreach ($this->values as $key => $value) {
-        	$tagToReplace = "[@$key]";
+            $tagToReplace = "[@$key]";
 
-        	$output = str_replace($tagToReplace, $value, $output);
+            $output = str_replace($tagToReplace, $value, $output);
         }
 
         return $output;
