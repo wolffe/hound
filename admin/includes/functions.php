@@ -17,14 +17,15 @@ function get_title($title = '') {
 }
 
 function convert($size) {
-    $unit = array('B','KB','MB','GB','TB','PB');
+    $unit = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
 
-    return round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) . $unit[$i];
+    return round($size/pow(1024, ($convert = floor(log($size, 1024)))), 2) . $unit[$convert];
 }
+
 function houndSizeConversion($size) {
     $unit = array('B','KB','MB','GB','TB','PB');
 
-    return round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) . $unit[$i];
+    return round($size/pow(1024, ($convert = floor(log($size, 1024)))), 2) . $unit[$convert];
 }
 
 function php_redirect($url) {
@@ -41,24 +42,24 @@ function php_redirect($url) {
 
 
 
-function recurse_copy($src,$dst) { 
+function recurse_copy($src, $dst) {
     $dir = opendir($src);
-    if ( !is_dir($dst)) {
-        mkdir($dst); 
+    if (!is_dir($dst)) {
+        mkdir($dst);
     }
-    while(false !== ( $file = readdir($dir)) ) { 
-        if (( $file != '.' ) && ( $file != '..' )) { 
-            if ( is_dir($src . '/' . $file) ) { 
+    while (false !== ($file = readdir($dir))) {
+        if (($file != '.') && ($file != '..')) {
+            if (is_dir($src . '/' . $file)) {
                 echo 'Copying ' . $src . '/' . $file . ' to ' . $dst . $file . '<br>';
-                recurse_copy($src . '/' . $file,$dst . '/' . $file); 
-            } 
-            else { 
-                copy($src . '/' . $file,$dst . '/' . $file); 
-            } 
-        } 
-    } 
-    closedir($dir); 
-} 
+                recurse_copy($src . '/' . $file, $dst . '/' . $file);
+            } else {
+                copy($src . '/' . $file, $dst . '/' . $file);
+            }
+        }
+    }
+
+    closedir($dir);
+}
 
 function deleteDir($path) {
     if (empty($path)) { 
