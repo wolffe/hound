@@ -277,7 +277,7 @@ function houndGetMemory($type = 'usage') {
  */
 function houndGetParameter($name) {
     $hound = new hound('', '');
-    $parameter = $hound->read_param('../site/config.txt');
+    $parameter = hound_read_parameter('../site/config.txt');
 
     return (string) $parameter[$name];
 }

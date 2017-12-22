@@ -69,7 +69,7 @@ if ((string) $temppass === (string) $password) {
                     $fileindir = $houndAdmin->get_files('../site/pages/');
                     foreach ($fileindir as $file) {
                         if (preg_match("/\b$type\b/i", $file)) {
-                            $parampage = $houndAdmin->read_param($file);
+                            $parampage = hound_read_parameter($file);
                             $listofpage[$i]['title'] = $parampage['title'];
                             //$listofpage[$i]['url'] = $parampage['url'];
                             $listofpage[$i]['slug'] = $parampage['slug'];

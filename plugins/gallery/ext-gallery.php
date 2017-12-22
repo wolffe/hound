@@ -1,13 +1,39 @@
 <?php
-// https://cdnjs.com/libraries/fotorama
-// http://fotorama.io/
-// https://github.com/artpolikarpov/fotorama
+/*
+Plugin Name: Fotorama
+Plugin URI: https://getbutterfly.com/hound/plugins/fotorama
+Description: Display a gallery carousel with next/previous controls and thumbnail navigation.
+Version: 1.0.0
+Author: Ciprian Popescu
+Author URI: https://getbutterfly.com/
+License: GPL3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-// [gallery "/images/gallery-2014/"]
+Fotorama
+Copyright (C) 2017, 2018 Ciprian Popescu (getbutterfly@gmail.com)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/*
+ *
+ * Usage: [gallery "/path/to/gallery/"]
+ */
 add_listener('content', 'pluginGallery');
 
 function pluginGallery($args) {
-    $config = hound::read_param('site/config.txt');
+    $config = hound_read_parameter('site/config.txt');
 
     $pattern = '/\[gallery(.*?)?\](?:(.+?)?\[\/gallery\])?/';
     $content = $args[0];

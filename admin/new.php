@@ -9,7 +9,7 @@ include 'includes/functions.php';
 $temppass = $_SESSION['temppass'];
 
 $houndAdmin = new hound('', '');
-$param = $houndAdmin->read_param('../site/config.txt');
+$param = hound_read_parameter('../site/config.txt');
 
 if ((string) $temppass === (string) $password) {
     include 'includes/header.php';

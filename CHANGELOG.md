@@ -1,8 +1,11 @@
-= 0.5.2 =
-* TODO: Create new read_param() function
+= 0.X.X =
 * TODO: Remove classes
-* TODO: Add plugin header
 * TODO: Add basic plugins panel with name, version, author and URI
+
+= 0.6.0 =
+* FIX: Removed/combined unused function
+* FIX: Consolidated parameter extraction
+* UPDATE: Added plugin header
 
 = 0.5.1 =
 * FEATURE: Added hook/listener system

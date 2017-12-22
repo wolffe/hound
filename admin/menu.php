@@ -51,7 +51,7 @@ if ((string) $temppass === (string) $password) {
                     $fileindir = $houndAdmin->get_files('../site/pages/');
                     foreach ($fileindir as $file) {
                         if (preg_match("/\menu\b/i", $file)) {
-                            $parampage = $houndAdmin->read_param($file);
+                            $parampage = hound_read_parameter($file);
                             $nameofmenu = str_replace('../site/pages/', '', $file);
                             $nameofmenu = str_replace('menu-', '', $nameofmenu);
                             $nameofmenu = str_replace('.txt', '', $nameofmenu);

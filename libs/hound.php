@@ -1,43 +1,8 @@
 <?php
-function get_variable($item) {
-    $headers = array(
-        'title' => 'Title',
-        'content' => 'Content',
-        'template' => 'Template',
-        'menu' => 'Menu',
-        'url' => 'Url',
-        'slug' => 'Slug',
-        'order' => 'Order',
-        'link' => 'Link',
-        'item' => 'Item',
-        'slogan' => 'Slogan',
-        'include' => '',
-    );
-
-        if (!function_exists('file_get_contents')) {
-            $content = $this->url_get_contents('site/config.txt');
-        } else {
-            $content = file_get_contents('site/config.txt');
-        }
-
-    // Add support for custom headers by hooking into the headers array
-    foreach ($headers as $field => $regex) {
-        if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
-            $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
-        } else {
-            $headers[$field] = '';
-        }
-    }
-
-    $item = $headers[$item];
-
-    return $item;
-}
-
 function get_theme_directory($partial) {
     $websiteurl = getcwd();
 
-    $template = get_variable('template');
+    $template = houndGetParameter('template');
     $templatePath = $websiteurl . '/site/templates/' . $template . '/' . $partial;
 
     return $templatePath;
@@ -61,6 +26,65 @@ function houndCountContent($type) {
     return (int) count($list);
 }
 
+function hound_get_contents($url) {
+    if (function_exists('curl_exec')) {
+        $conn = curl_init($url);
+
+        curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($conn, CURLOPT_FRESH_CONNECT,  true);
+        curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
+        $urlGetContentsData = (curl_exec($conn));
+        curl_close($conn);
+    } else if (function_exists('file_get_contents')) {
+        $urlGetContentsData = file_get_contents($url);
+    } else if (function_exists('fopen') && function_exists('stream_get_contents')) {
+        $handle = fopen ($url, "r");
+        $urlGetContentsData = stream_get_contents($handle);
+    } else {
+        $urlGetContentsData = false;
+    }
+
+    return $urlGetContentsData;
+}
+
+function hound_read_parameter($file) {
+    if (!file_exists($file)) {
+        include 'admin/templates/install.php';
+
+        return;
+    }
+
+    $headers = array(
+        'title' => 'Title',
+        'content' => 'Content',
+        'template' => 'Template',
+        'menu' => 'Menu',
+        'url' => 'Url',
+        'slug' => 'Slug',
+        'order' => 'Order',
+        'link' => 'Link',
+        'item' => 'Item',
+        'slogan' => 'Slogan',
+        'include' => '',
+        'version' => 'Version',
+    );
+
+    $content = hound_get_contents($file);
+
+    // Add support for custom headers by hooking into the headers array
+    foreach ($headers as $field => $regex) {
+        if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
+            $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
+        } else {
+            $headers[$field] = '';
+        }
+    }
+
+    return $headers;
+}
+
+
+
 class hound {
     var $config;
     var $path;
@@ -79,7 +103,7 @@ class hound {
         $listofpage = array();
 
         // Read template
-        $config = $this->read_param('site/config.txt');
+        $config = hound_read_parameter('site/config.txt');
         $titleofsite = $config['title'];
 
         // Retrieve a page
@@ -101,7 +125,7 @@ class hound {
             }
 
             if (preg_match("/\bmenu\b/i", $file)) {
-                $menuparam = $this->read_param($file);
+                $menuparam = hound_read_parameter($file);
                 $arrayofmenu[$i]['order'] = $menuparam['order'];
                 $arrayofmenu[$i]['link'] = $menuparam['link'];
                 $arrayofmenu[$i]['item'] = $menuparam['item'];
@@ -111,11 +135,11 @@ class hound {
 
         // Read file content
         if (in_array('page-' . $curpage . '.txt', $listofpage)) {
-            $pageparam = $this->read_param('site/pages/page-' . $curpage . '.txt');
+            $pageparam = hound_read_parameter('site/pages/page-' . $curpage . '.txt');
         } else if (in_array('post-' . $curpage . '.txt', $listofpage)) {
-            $pageparam = $this->read_param('site/pages/post-' . $curpage . '.txt');
+            $pageparam = hound_read_parameter('site/pages/post-' . $curpage . '.txt');
         } else {
-            $pageparam = $this->read_param('site/pages/page-index.txt');
+            $pageparam = hound_read_parameter('site/pages/page-index.txt');
         }
 
         // Build menu
@@ -172,67 +196,6 @@ class hound {
         return $arrayItems;
     }
 
-    public static function read_param($file) {
-        if (!file_exists($file)) {
-            include 'admin/templates/install.php';
-
-            return;
-        }
-
-        $headers = array(
-            'title' => 'Title',
-            'content' => 'Content',
-            'template' => 'Template',
-            'menu' => 'Menu',
-            'url' => 'Url',
-            'slug' => 'Slug',
-            'order' => 'Order',
-            'link' => 'Link',
-            'item' => 'Item',
-            'slogan' => 'Slogan',
-            'include' => '',
-            'version' => 'Version',
-        );
-
-        if (!function_exists('file_get_contents')) {
-            $content = $this->url_get_contents($file);
-        } else {
-            $content = file_get_contents($file);
-        }
-
-        // Add support for custom headers by hooking into the headers array
-        foreach ($headers as $field => $regex) {
-            if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
-                $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
-            } else {
-                $headers[$field] = '';
-            }
-        }
-
-
-        return $headers;
-    }
-
-    public function url_get_contents($url) {
-        if (function_exists('curl_exec')){ 
-                $conn = curl_init($url);
-                curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, true);
-                curl_setopt($conn, CURLOPT_FRESH_CONNECT,  true);
-                curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
-                $urlGetContentsData = (curl_exec($conn));
-                curl_close($conn);
-            }elseif(function_exists('file_get_contents')){
-                $urlGetContentsData = file_get_contents($url);
-            }elseif(function_exists('fopen') && function_exists('stream_get_contents')){
-                $handle = fopen ($url, "r");
-                $urlGetContentsData = stream_get_contents($handle);
-            }else{
-                $urlGetContentsData = false;
-            }
-        return $urlGetContentsData;
-    }
-
-
      /**
      * Load any plugins
      */
@@ -269,7 +232,7 @@ class hound {
             );
 
             if (!function_exists('file_get_contents')) {
-                $content = $this->url_get_contents($file);
+                $content = $this->hound_get_contents($file);
             } else {
                 $content = file_get_contents($file);
             }

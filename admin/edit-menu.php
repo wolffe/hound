@@ -40,7 +40,7 @@ if ((string) $temppass === (string) $password) {
                 rename('../site/pages/menu-' . $page . '.txt', '../site/pages/menu-' . $slug . '.txt');
                 $page = $slug;
             }
-            $paramofpage = $houndAdmin->read_param('../site/pages/menu-' . $page . '.txt');
+            $paramofpage = hound_read_parameter('../site/pages/menu-' . $page . '.txt');
             ?>
 
             <h2>Edit menu</h2>

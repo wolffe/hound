@@ -10,7 +10,7 @@ $temppass = $_SESSION['temppass'];
 $which = houndSanitizeString($_GET['which']);
 
 $houndAdmin = new hound('', '');
-$param = $houndAdmin->read_param('../site/config.txt');
+$param = hound_read_parameter('../site/config.txt');
 
 if ((string) $temppass === (string) $password) {
     include 'includes/header.php';
@@ -54,7 +54,7 @@ if ((string) $temppass === (string) $password) {
                 rename('../site/pages/' . $type . '-' . $which . '.txt', '../site/pages/' . $type . '-' . $slug . '.txt');
                 $which = $slug;
             }
-            $paramofpage=$houndAdmin->read_param('../site/pages/' . $type . '-' . $which . '.txt');
+            $paramofpage=hound_read_parameter('../site/pages/' . $type . '-' . $which . '.txt');
             $paramofpage['content'] = str_replace("\\", "", $paramofpage['content']);
             ?>
 
