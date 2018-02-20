@@ -1,4 +1,6 @@
 <?php
+include_once '../libs/hound.php';
+
 function writeParam($arrayvalue, $file) {
     $current = '';
     foreach ($arrayvalue as $value => $key) {
@@ -107,9 +109,9 @@ function houndUpdateCheck() {
         $latest_release = $releases[0]->tag_name;
         $latest_release = str_replace('v', '', $latest_release);
 
-        if (version_compare($latest_release, houndGetParameter('version')) >= 1) {
+        if (version_compare($latest_release, HOUND_VERSION) >= 1) {
             if (isset($_GET['update'])) {
-                if ( !is_dir('../tmp')) {
+                if (!is_dir('../tmp')) {
                     mkdir('../tmp'); 
                 }
 
@@ -168,7 +170,7 @@ function houndUpdateCheck() {
                 or <a href="?update" class="thin-ui-button thin-ui-button-primary">Update automatically</a>
             </p>';
         } else {
-            echo '<p><strong>You have the latest version of Hound.</strong></p>';
+            echo '<p>You have the latest version of Hound.</p>';
         }
     } else {
         echo '<p><strong>An error occured while checking for the latest version of Hound.</strong></p>';
@@ -264,22 +266,6 @@ function houndGetMemory($type = 'usage') {
     }
 
     return houndSizeConversion($size);
-}
-
-/**
- * Get configuration parameter
- * 
- * @since 0.1.4
- * @author Ciprian Popescu
- * 
- * @param string $name Name of parameter from configuration file
- * @return string
- */
-function houndGetParameter($name) {
-    $hound = new hound('', '');
-    $parameter = hound_read_parameter('../site/config.txt');
-
-    return (string) $parameter[$name];
 }
 
 /**

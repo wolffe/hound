@@ -1,4 +1,6 @@
 <?php
+define ('HOUND_VERSION', '0.6.1');
+
 function get_theme_directory($partial) {
     $websiteurl = getcwd();
 
@@ -26,19 +28,29 @@ function houndCountContent($type) {
     return (int) count($list);
 }
 
-function hound_get_contents($url) {
-    if (function_exists('curl_exec')) {
-        $conn = curl_init($url);
+/**
+ * Get configuration parameter
+ * 
+ * @since 0.1.4
+ * @author Ciprian Popescu
+ * 
+ * @param string $name Name of parameter from configuration file
+ * @return string
+ */
+function houndGetParameter($name) {
+    $websiteurl = getcwd();
+    $websiteurl = str_replace('/admin', '', $websiteurl);
 
-        curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($conn, CURLOPT_FRESH_CONNECT,  true);
-        curl_setopt($conn, CURLOPT_RETURNTRANSFER, 1);
-        $urlGetContentsData = (curl_exec($conn));
-        curl_close($conn);
-    } else if (function_exists('file_get_contents')) {
+    $parameter = hound_read_parameter($websiteurl . '/site/config.txt');
+
+    return (string) $parameter[$name];
+}
+
+function hound_get_contents($url) {
+    if (function_exists('file_get_contents')) {
         $urlGetContentsData = file_get_contents($url);
     } else if (function_exists('fopen') && function_exists('stream_get_contents')) {
-        $handle = fopen ($url, "r");
+        $handle = fopen($url, "r");
         $urlGetContentsData = stream_get_contents($handle);
     } else {
         $urlGetContentsData = false;
@@ -49,7 +61,9 @@ function hound_get_contents($url) {
 
 function hound_read_parameter($file) {
     if (!file_exists($file)) {
-        include 'admin/templates/install.php';
+        $websiteurl = getcwd();
+
+        include $websiteurl . '/templates/install.php';
 
         return;
     }
@@ -66,7 +80,6 @@ function hound_read_parameter($file) {
         'item' => 'Item',
         'slogan' => 'Slogan',
         'include' => '',
-        'version' => 'Version',
     );
 
     $content = hound_get_contents($file);

@@ -16,7 +16,11 @@ if ((string) $temppass === (string) $password) {
         <div class="content main">
             <h2>Dashboard</h2>
 
-            <?php houndUpdateCheck(); ?>
+            <div class="thin-ui-flex-grid">
+                <div class="thin-ui-infobox">
+                    <?php houndUpdateCheck(); ?>
+                </div>
+            </div>
 
             <div class="thin-ui-flex-grid">
                 <div class="hound-at-a-glance thin-ui-infobox">
@@ -36,7 +40,7 @@ if ((string) $temppass === (string) $password) {
                         <?php houndGetAccess(); ?>
 
                         <p>
-                            <small>You are using Hound <strong><?php echo houndGetParameter('version'); ?></strong> on PHP <?php echo PHP_VERSION; ?></small>
+                            <small>You are using Hound <strong><?php echo HOUND_VERSION; ?></strong> on PHP <?php echo PHP_VERSION; ?></small>
                             <br><small>Current memory usage is <?php echo houndGetMemory('usage'); ?> (<?php echo houndGetMemory('peak'); ?>) out of <?php echo houndGetMemory('available'); ?> allocated</small>
                             <?php if (function_exists('sys_getloadavg')) {
                                 $load = sys_getloadavg();
@@ -84,12 +88,6 @@ if ((string) $temppass === (string) $password) {
                         echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> Current theme folder is <code>/' . houndGetParameter('template') . '/</code></div>';
                         ?>
                     </div>
-                </div>
-            </div>
-
-            <div class="thin-ui-flex-grid">
-                <div class="thin-ui-infobox">
-                    <p>Thank you for using <a href="https://getbutterfly.com/hound/" rel="external">Hound</a>!</p>
                 </div>
             </div>
         </div>

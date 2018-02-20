@@ -2,6 +2,10 @@
 * TODO: Remove classes
 * TODO: Add basic plugins panel with name, version, author and URI
 
+= 0.6.1 =
+* UPDATE: Moved Hound version to a constant
+* UPDATE: Code quality changes
+
 = 0.6.0 =
 * FIX: Removed/combined unused function
 * FIX: Consolidated parameter extraction
