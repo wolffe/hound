@@ -23,7 +23,7 @@ if ((string) $temppass === (string) $password) {
             <?php
             $folder = '../files/images/';
 
-            if ($_POST['op'] == 'insx') {
+            if (isset($_POST['op']) && (string) $_POST['op'] === 'insx') {
                 $filename = basename($_FILES['foto1']['name']);
                 $uploadfile = $folder . $ante . $_FILES['foto1']['name'];
 
@@ -35,7 +35,7 @@ if ((string) $temppass === (string) $password) {
                 }
             }
 
-            if ($_GET['op'] == 'del') {
+            if (isset($_GET['op']) && (string) $_GET['op'] === 'del') {
                 $file = $_GET['file'];
                 $delfile = makeSafe($file);
                 if(file_exists('../' . $delfile)) {
@@ -160,5 +160,5 @@ else{
 }
 
 function makeSafe( $file ) {
-        return str_replace( '..', '', urldecode( $file ) );
+    return str_replace( '..', '', urldecode( $file ) );
 }

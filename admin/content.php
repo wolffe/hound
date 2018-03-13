@@ -7,7 +7,11 @@ include '../libs/hound.php';
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
-$which = houndSanitizeString($_GET['which']);
+
+$which = '';
+if (isset($_GET['which'])) {
+    $which = houndSanitizeString($_GET['which']);
+}
 
 $houndAdmin = new hound('', '');
 
@@ -27,7 +31,7 @@ if ((string) $temppass === (string) $password) {
 				echo '<div class="thin-ui-notification thin-ui-notification-error">Invalid item type. Switching to page type.</div>';
 			}
 
-            if ((string) $_GET['op'] === 'del') {
+            if (isset($_GET['op']) && (string) $_GET['op'] === 'del') {
                 $file = '../site/pages/' . $type . '-' . $which . '.txt';
 
                 if (unlink($file)) {
@@ -35,9 +39,7 @@ if ((string) $temppass === (string) $password) {
                 } else {
                     echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting ' . $type . '.</div>';
                 }
-            }
-
-            if ($_GET['op'] === 'copy') {
+            } else if (isset($_GET['op']) && (string) $_GET['op'] === 'copy') {
                 $file = '../site/pages/' . $type . '-' . $which . '.txt';
                 $filecopy = '../site/pages/' . $type . '-' . $which . '-copy.txt';
 
@@ -50,7 +52,7 @@ if ((string) $temppass === (string) $password) {
             ?>
             <h2>Content</h2>
             <div>
-                <a href="new.php?type=page" class="thin-ui-button thin-ui-button-primary">New <?php echo $type; ?></a>
+                <a href="new.php?type=<?php echo $type; ?>" class="thin-ui-button thin-ui-button-primary">New <?php echo $type; ?></a>
             </div>
             <br>
 
@@ -70,13 +72,13 @@ if ((string) $temppass === (string) $password) {
                     foreach ($fileindir as $file) {
                         if (preg_match("/\b$type\b/i", $file)) {
                             $parampage = hound_read_parameter($file);
-                            $listofpage[$i]['title'] = $parampage['title'];
+                            //$listofpage[$i]['title'] = $parampage['title'];
                             //$listofpage[$i]['url'] = $parampage['url'];
-                            $listofpage[$i]['slug'] = $parampage['slug'];
+                            //$listofpage[$i]['slug'] = $parampage['slug'];
                             $nameofpage = str_replace('../site/pages/', "", $file);
                             $nameofpage = str_replace($type . '-', "", $nameofpage);
                             $nameofpage = str_replace('.txt', "", $nameofpage);
-                            $i++;
+                            //$i++;
 
                             $fileinfo = stat($file);
                             echo '<tr>

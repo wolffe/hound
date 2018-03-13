@@ -13,9 +13,6 @@
         <li><a href="media.php">Media</a></li>
 
         <li class="sidebar-separator"></li>
-        <li><a href="template-editor.php">Theme editor</a></li>
-
-        <li class="sidebar-separator"></li>
         <li><a href="configuration.php">Configuration</a></li>
         <li><a href="search-replace.php">Search &amp; Replace</a></li>
         <li><a href="backup.php">Backup</a></li>

@@ -15,7 +15,7 @@ if ((string) $temppass === (string) $password) {
     <div class="content">
         <div class="content main">
             <?php
-            if ((string) $_POST['op'] === 'mod') {
+            if (isset($_POST['op']) && (string) $_POST['op'] === 'mod') {
                 $files = glob('../site/pages/*.txt');
                 $counter = 0;
                 for ($i = 1; $i < count($files); $i++) {

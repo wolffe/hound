@@ -17,7 +17,7 @@ if ((string) $temppass === (string) $password) {
             <h2>Configuration</h2>
 
             <?php
-            if ($_POST['op'] === 'mod') {
+            if (isset($_POST['op']) && (string) $_POST['op'] === 'mod') {
                 $sitename = $_POST['sitename'];
                 $templatename = $_POST['templatename'];
                 $slogan = $_POST['slogan'];
@@ -27,7 +27,7 @@ if ((string) $temppass === (string) $password) {
                     'Title' => $sitename,
                     'Template' => $templatename,
                     'Slogan' => $slogan,
-                    'Version' => houndGetParameter('version'),
+                    'Version' => HOUND_VERSION,
                 );
 
                 if (writeParam($arrayvalue, $file)) {

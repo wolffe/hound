@@ -9,7 +9,11 @@ include '../libs/hound.php';
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
-$page = houndSanitizeString($_GET['page']);
+
+$page = '';
+if (isset($_GET['page'])) {
+    $page = houndSanitizeString($_GET['page']);
+}
 
 $houndAdmin = new hound('', '');
 
@@ -20,7 +24,7 @@ if ((string) $temppass === (string) $password) {
     <div class="content">
         <div class="content main">
             <?php
-            if ($_GET['op'] === "del") {
+            if (isset($_GET['op']) && (string) $_GET['op'] === "del") {
                 $file = '../site/pages/menu-' . $page . '.txt';
 
                 if (unlink($file)) {
@@ -55,7 +59,7 @@ if ((string) $temppass === (string) $password) {
                             $nameofmenu = str_replace('../site/pages/', '', $file);
                             $nameofmenu = str_replace('menu-', '', $nameofmenu);
                             $nameofmenu = str_replace('.txt', '', $nameofmenu);
-                            $i++;
+                            //$i++;
 
                             echo '<tr>
                                 <td>' . $parampage['order'] . '</td>

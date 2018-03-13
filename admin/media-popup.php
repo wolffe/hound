@@ -7,149 +7,149 @@ include '../libs/hound.php';
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
+$page = $_GET['page'];
+$nome = $_GET['nome'];
 
 if ((string) $temppass === (string) $password) {
     include 'includes/header.php'; ?>
 
-    <div class="content" style="padding-left: 0;">
-        <div class="content main">
-            <h2>Media</h2>
-            <div>
-                <a class="thin-ui-button thin-ui-button-secondary" href="media.php"><i class="fa fa-refresh" aria-hidden="true"></i></a>
-            </div>
+    <div class="container">
+    <?php
+    $folder = '../files/images/';
+
+    if ((string) $_POST['op'] === 'insx') {
+        $filename = basename($_FILES['foto1']['name']);
+        $ext = substr($filename, strrpos($filename, '.') + 1);
+        if (($ext == "jpeg") || ($ext == "jpg") || ($ext == "JPG") || ($ext == "gif") || ($ext == "GIF") || ($ext == "png") || ($ext == "PNG")) {
+            $uploadfile = $folder . $_FILES['foto1']['name'];
+
+            if (move_uploaded_file($_FILES['foto1']['tmp_name'], $uploadfile)) {
+                print "Image uploaded<br>";
+            } else {
+                print "Image not uploaded<br>";
+            }
+        } else {
+            echo"<script>alert('you can upload only images');</script>";
+        }
+    }
+
+    if ($_GET['op']=="del"){
+        $file=$_GET['file'];
+        $delfile = makeSafe($file);
+        if (file_exists("../". $delfile )) {
+            echo"<script>alert('$delfile deleted!');</script>";
+            unlink("../".$delfile );
+        }
+    }
+
+    $primavolta=$_GET['pv'];   //fix bugs
+
+    $perpagina=32;              //numero immagini per pagina
+
+    //fix bugs
+    $s=$_GET['s'];   //fix bugs
+    $e=$_GET['e'];   //fix bugs
+    if(strlen($s)<=0 && strlen($e)<=0){
+        echo"<script>location.href='$PHP_SELF?s=0&e=$perpagina&pv=1&nome=$nome';</script>";
+    }
+
+    //apre la directory della variabile $folder
+    //e mette tutti i file letti in un array
+    $i=0;
+    $handle=opendir($folder);
+    while ($file = readdir ($handle)){
+        if ($file != "." && $file != ".."  && $file != ".DS_Store")     {
+            if(strlen($nome)>0){
+                if(trovaStringa($file,$nome)){
+                    $files[$i] = $file;
+                    $i++;
+                }     
+            }else{
+                $files[$i] = $file;
+                $i++;
+            }
+        }
+    }
+    closedir($handle);
+
+    //setta le variabili
+    $so = count($files);
+    $ss = $s + 1;
+    $st = $so -1;
+    $so -= $s;
+    ?>
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+
+    <div class="wrapper">
+        <form action="media-popup.php" method="get" class="pure-form">
+            <input type="text" name="nome" value="<?php echo $nome; ?>" placeholder="Search image...">
+            <input class="pure-button pure-button-primary" type="submit" value="search">
+        </form>
+    </div>
+
+    <?php
+    // show pictures
+    $sn = $s;        // next button start
+    $en = $e;        // next button end
+    $sp = $s;        // prev button start
+    $ep = $e;        //prev button end
+
+    echo '<div class="pure-g">';
+    while ($s != $e && $so !=0 ){
+        echo '<div class="pure-u-1-5">
+            <img src="' . $folder . $files[$s] . '" width="100" height="100">
+            <br><small>' . substr($files[$s], 0, 25) . '</small>
             <br>
+            <a href="javascript:void(0);" onclick="top.tinymce.activeEditor.insertContent(\'<img src=' . $folder . $files[$s] . '>\');">Insert image</a> | 
+            <a onclick="return confirm(\'are you sure?\');" href="media-popup.php?op=del&file=' . $folder . $files[$s] . '">Remove</a>
+        </div>';
 
-            <?php
-            $folder = '../files/images/';
+        $s++;
+        $so--;
+    }
+    echo '</div>';
 
-            if ($_POST['op'] == 'insx') {
-                $filename = basename($_FILES['foto1']['name']);
-                $uploadfile = $folder . $ante . $_FILES['foto1']['name'];
+    if (strlen($primavolta) > 0) {
+        // next & prev buttons
+        $sn += $perpagina;
+        $en += $perpagina;
+        $sp -= $perpagina;
+        $ep -= $perpagina;
+    } else {
+        // next & prev buttons
+        $sn += 0;
+        $en += $perpagina;
+        $sp -= $perpagina;
+        $ep -= $perpagina;
+    }
 
-                if (move_uploaded_file($_FILES['foto1']['tmp_name'], $uploadfile)) {
-                    // success
-                } else {
-                    // error
-                    echo  "Error<br>";
-                }
-            }
+    if ($sp < 0) {
+        $prev = '';
+    } else {
+        $prev = '<a class="pure-button" href="' . $PHP_SELF . '?s=' . $sp . '&e=' . $ep . '&nome=' . $nome . '">Previous</a>';
+    }
 
-            if ($_GET['op'] == 'del') {
-                $file = $_GET['file'];
-                $delfile = makeSafe($file);
-                if(file_exists('../' . $delfile)) {
-                    echo "<script>alert('$delfile deleted!');</script>";
-                    unlink("../".$delfile );
-                }
-            }
+    if ($sn > $st) {
+        $next = '';
+    } else {
+        $next = '<a class="pure-button" href="' . $PHP_SELF . '?s=' . $sn . '&e=' . $en . '&pv=1&nome=' . $nome . '">Next</a>';
+    }
 
-            $primavolta = $_GET['pv'];
-            $perpagina = 12;
+    echo '<div class="pure-button-group" role="group">' . $prev . $next . '</div>';
+    ?>
 
-            $s = $_GET['s'];
-            $e = $_GET['e'];
-            if (strlen($s) <= 0 && strlen($e) <= 0) {
-                echo '<script>location.href="' . $_REQUEST['PHP_SELF'] . '?s=0&e=' . $perpagina . '&pv=1";</script>';
-            }
+    <div class="wrapper">
+        <h4>Upload new image</h4>
 
-            $files = glob($folder . '*');
-            //sort($files);
-
-            $so = count($files);
-            $totale = $so;
-            $ss = $s + 1;
-            $st = $so -1;
-            $so -= $s;
-            $ee = $e;
-
-            if ($e > $totale) {
-                $ee = $totale;
-            };
-
-            echo '<p>' . $totale . ' images found.</p>';
-
-            // show pictures
-            $sn = $s;        // next button start
-            $en = $e;        // next button end
-            $sp = $s;        // prev button start
-            $ep = $e;        //prev button end
-            ?>
-            <table data-table-theme="default zebra hd-sortable">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Media</th>
-                        <th>Media Details</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    while ($s!=$e && $so!=0) {
-                        $ext = pathinfo($files[$s], PATHINFO_EXTENSION);
-                        $fileinfo = stat($files[$s]);
-
-                        echo '<tr>';
-                            if ((string) $ext === 'jpg' || (string) $ext === 'jpeg' || (string) $ext === 'png' || (string) $ext === 'gif') {
-                                echo '<td><img src="' . $files[$s] . '" alt="" height="40"></td>';
-                            } else {
-                                echo '<td></td>';
-                            }
-                            echo '<td>
-                                ' . str_replace('../files/images/', '', $files[$s]) . '
-                                <br><code>' . $files[$s] . '</code>
-                            </td>
-                            <td><small>' . date('F d Y H:i:s', filemtime($files[$s])) . ' <code>' . formatSizeUnits($fileinfo['size']) . '</code></small></td>
-                            <td>
-                                <a href="' . $files[$s] . '" target="_blank">View</a> | 
-                                <a style="color: red;" onclick="return confirm(\'are you sure?\');" href="media.php?op=del&file=' . $files[$s] . '">Delete</a>
-                            </td>
-                        </tr>';
-
-                        $s++;
-                        $so--;
-                    }
-                    ?>
-                </tbody>
-            </table>
-
-            <?php
-            if (strlen($primavolta) > 0) {
-                // next & prev buttons
-                $sn += $perpagina;
-                $en += $perpagina;
-                $sp -= $perpagina;
-                $ep -= $perpagina;
-            } else {
-                // next & prev buttons
-                $sn += 0;
-                $en += $perpagina;
-                $sp -= $perpagina;
-                $ep -= $perpagina;
-            }
-
-            if ($sp < 0 ) {
-                $prev = "&nbsp;";
-            } else {
-                $prev = "<a class=\"btn btn-default\" href=".$PHP_SELF."?s=".$sp."&e=".$ep."> previous page</a>";
-            }
-
-            if ($sn > $st ) {
-                $next = "&nbsp;";
-            } else {
-                $next = "<a class=\"btn btn-default\" href=".$PHP_SELF."?s=".$sn."&e=".$en."&pv=1> next page </a>";
-            }
-
-            echo '<p>' . $prev . ' | ' . $next . '</p>';
-            ?>
-
-            <h4>Upload new image</h4>
-            <form action="media.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
+        <form action="media-popup.php" method="post" enctype="multipart/form-data" class="pure-form">
+            <fieldset>
                 <input type="hidden" name="op" value="insx"> 
-                <input type="file" name="foto1">  <br><input type="submit" class="btn btn-info" value="Upload">
-            </form>
-        </div>
+                <input type="file" name="foto1"> 
+                <input type="submit" class="pure-button pure-button-primary" value="Upload">
+            </fieldset>
+        </form>
+    </div>
     </div>
     <?php
     include 'includes/footer.php';
@@ -157,6 +157,27 @@ if ((string) $temppass === (string) $password) {
 else{
   php_redirect('index.php?err=1');
 }
+
+
+
+function trovaStringa($text,$wordToSearch)  
+{  
+    $offset=0;  
+    $pos=0;  
+    while (is_integer($pos)){  
+        $pos = strpos($text,$wordToSearch,$offset);     
+        if (is_integer($pos)) {  
+            $arrPos[] = $pos;  
+            $offset = $pos+strlen($wordToSearch);  
+        }  
+    }  
+    if (isset($arrPos)) {  
+        return 1;  
+    }  
+    else {  
+        return 0;  
+    }   
+}  
 
 function makeSafe( $file ) {
         return str_replace( '..', '', urldecode( $file ) );
