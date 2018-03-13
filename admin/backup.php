@@ -70,7 +70,7 @@ if($temppass == $password) {
                 <tbody>
                     <?php
                     $files = glob('../backup/*.zip');
-                    usort($files, create_function('$a,$b', 'return filemtime($b) - filemtime($a);'));
+                    usort($files, 'cmp');
 
                     for($i=0; $i<count($files); $i++) {
                         $backup = $files[$i];

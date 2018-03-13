@@ -18,8 +18,14 @@ if ((string) $temppass === (string) $password) {
     <div class="content">
         <div class="content main">
             <?php
-            $type = houndSanitizeString($_GET['type']);
-			$acceptedTypes = array('post', 'page');
+            $type = 'page';
+            if (isset($_GET['type'])) {
+                $type = houndSanitizeString($_GET['type']);
+            } else if (isset($_POST['type'])) {
+                $type = houndSanitizeString($_POST['type']);
+            }
+
+            $acceptedTypes = array('post', 'page');
 
 			if (!in_array($type, $acceptedTypes)) {
 				$type = 'page';
@@ -27,7 +33,7 @@ if ((string) $temppass === (string) $password) {
 				echo '<div class="thin-ui-notification thin-ui-notification-error">Invalid item type. Switching to page type.</div>';
 			}
 
-            if ((string) $_POST['op'] === 'mod') {
+            if (isset($_POST['op']) && (string) $_POST['op'] === 'mod') {
                 $slug = $_POST['slug'];
                 $title = $_POST['title'];
                 $content = $_POST['content'];
@@ -61,6 +67,7 @@ if ((string) $temppass === (string) $password) {
 
             <form role="form" name="form1" id="form1" action="new.php" method="post">
                 <input type="hidden" value="mod" name="op">
+                <input type="hidden" value="<?php echo $type; ?>" name="type">
 
                 <p>
                     <b>Title</b><br>

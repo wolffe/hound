@@ -6,7 +6,7 @@
 
         [@content]
 
-        <?php echo hound::getBlog(); ?>
+        <?php render_blog(); ?>
     </div>
 </div>
 

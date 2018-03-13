@@ -1,6 +1,18 @@
 = 0.X.X =
 * TODO: Remove classes
 * TODO: Add basic plugins panel with name, version, author and URI
+* TODO: Add unique content directory
+* TODO: Group all core files
+* TODO: Better upgrader
+* TODO: Responsive default theme
+* TODO: AJAX
+* TODO: PureCSS
+
+= 0.7.0 =
+* FIX: Fixed PHP 7.2 compatibility
+* FIX: Fixed lots of issues with undeclared variables
+* UPDATE: Removed template editor
+* UPDATE: Removed installation prompt/template
 
 = 0.6.1 =
 * UPDATE: Moved Hound version to a constant

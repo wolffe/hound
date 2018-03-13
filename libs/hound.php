@@ -1,5 +1,5 @@
 <?php
-define ('HOUND_VERSION', '0.6.1');
+define ('HOUND_VERSION', '0.7.0');
 
 function get_theme_directory($partial) {
     $websiteurl = getcwd();
@@ -95,6 +95,73 @@ function hound_read_parameter($file) {
 
     return $headers;
 }
+
+
+
+function cmp($a, $b) {
+    return filemtime($b) - filemtime($a);
+}
+
+function render_blog($echo = true) {
+    $i = 0;
+    $arrayOfPosts = array();
+
+    $getPosts = glob('site/pages/post-*.txt');
+    usort($getPosts, 'cmp');
+
+    foreach($getPosts as $file) {
+        $headers = array(
+            'title' => 'Title',
+            'content' => 'Content',
+            'template' => 'Template',
+            'slug' => 'Slug',
+        );
+
+        if (!function_exists('file_get_contents')) {
+            $content = hound_get_contents($file);
+        } else {
+            $content = file_get_contents($file);
+        }
+
+        // Add support for custom headers by hooking into the headers array
+        foreach ($headers as $field => $regex) {
+            if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
+                $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
+            } else {
+                $headers[$field] = '';
+            }
+        }
+
+        $postParam = $headers;
+
+        $arrayOfPosts[$i]['slug'] = $postParam['slug'];
+        $arrayOfPosts[$i]['title'] = $postParam['title'];
+        $arrayOfPosts[$i]['content'] = $postParam['content'];
+
+        $arrayOfPosts[$i]['date'] = date('F d Y H:i:s', filemtime($file));
+
+        $i++;
+    }
+
+    // Build blog
+    $blogPosts = '';
+    if (!empty($arrayOfPosts) && is_array($arrayOfPosts)) {
+        foreach ($arrayOfPosts as $blogPost) {
+            $blogPosts .= '<div class="post">
+                <h3><a href="' . $blogPost['slug'] . '">' . $blogPost['title'] . '</a></h3>
+                <div class"post-meta">' . $blogPost['date'] . '</div>
+                <div class="post-content">' . $blogPost['content'] . '</div>
+            </div>';
+        }
+    }
+
+    if ($echo === true) {
+        echo $blogPosts;
+    } else {
+        return $blogPosts;
+    }
+}
+
 
 
 
@@ -226,62 +293,5 @@ class hound {
                 }
             }
         }
-    }
-
-
-    public static function getBlog() {
-        $i = 0;
-        $arrayOfPosts = array();
-
-        $getPosts = glob('site/pages/post-*.txt');
-        usort($getPosts, create_function('$a,$b', 'return filemtime($b) - filemtime($a);'));
-
-        foreach($getPosts as $file) {
-            $headers = array(
-                'title' => 'Title',
-                'content' => 'Content',
-                'template' => 'Template',
-                'slug' => 'Slug',
-            );
-
-            if (!function_exists('file_get_contents')) {
-                $content = $this->hound_get_contents($file);
-            } else {
-                $content = file_get_contents($file);
-            }
-
-            // Add support for custom headers by hooking into the headers array
-            foreach ($headers as $field => $regex) {
-                if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
-                    $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
-                } else {
-                    $headers[$field] = '';
-                }
-            }
-
-            $postParam = $headers;
-
-            $arrayOfPosts[$i]['slug'] = $postParam['slug'];
-            $arrayOfPosts[$i]['title'] = $postParam['title'];
-            $arrayOfPosts[$i]['content'] = $postParam['content'];
-
-            $arrayOfPosts[$i]['date'] = date('F d Y H:i:s', filemtime($file));
-
-            $i++;
-        }
-
-        // Build blog
-        $blogPosts = '';
-        if (!empty($arrayOfPosts) && is_array($arrayOfPosts)) {
-            foreach ($arrayOfPosts as $blogPost) {
-                $blogPosts .= '<div class="post">
-                    <h3><a href="' . $blogPost['slug'] . '">' . $blogPost['title'] . '</a></h3>
-                    <div class"post-meta">' . $blogPost['date'] . '</div>
-                    <div class="post-content">' . $blogPost['content'] . '</div>
-                </div>';
-            }
-        }
-
-        return $blogPosts;
     }
 }

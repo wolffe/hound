@@ -26,7 +26,7 @@ if ((string) $temppass === (string) $password) {
 				echo '<div class="thin-ui-notification thin-ui-notification-error">Invalid item type.</div>';
 			}
 
-            if ((string) $_POST['op'] === 'mod' && (string) $_POST['title'] !== 'admin') {
+            if (isset($_POST['op']) && (string) $_POST['op'] === 'mod' && (string) $_POST['title'] !== 'admin') {
                 $slug = $_POST['slug'];
                 $title = $_POST['title'];
                 $content = $_POST['content'];
