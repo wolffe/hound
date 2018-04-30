@@ -26,11 +26,11 @@ if ((string) $temppass === (string) $password) {
                 <div class="hound-at-a-glance thin-ui-infobox">
                     <h3>At a Glance</h3>
                     <div class="inside">
-                        <strong><?php echo houndCountContent('post'); ?></strong> post(s)<br>
-                        <strong><?php echo houndCountContent('page'); ?></strong> page(s)<br>
-                        <strong><?php echo houndCountContent('menu'); ?></strong> menu item(s)<br>
-                        <strong><?php echo houndCountContent('backup'); ?></strong> backup file(s)<br>
-                        <strong><?php echo houndCountContent('asset'); ?></strong> asset(s) (documents and images)
+                        <strong><?php echo hound_count_content('post'); ?></strong> post(s)<br>
+                        <strong><?php echo hound_count_content('page'); ?></strong> page(s)<br>
+                        <strong><?php echo hound_count_content('menu'); ?></strong> menu item(s)<br>
+                        <strong><?php echo hound_count_content('backup'); ?></strong> backup file(s)<br>
+                        <strong><?php echo hound_count_content('asset'); ?></strong> asset(s) (documents and images)
                     </div>
                 </div>
 
@@ -85,7 +85,7 @@ if ((string) $temppass === (string) $password) {
                         <?php
                         echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> cURL is ', function_exists('curl_version') ? 'enabled (' . curl_version()['version'] . '/' . curl_version()['host'] . '/' . curl_version()['ssl_version'] . ')</div>' : 'disabled</div>';
                         echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> <code>file_get_contents()</code> is ', file_get_contents(__FILE__) ? 'enabled</div>' : 'disabled</div>';
-                        echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> Current theme folder is <code>/' . houndGetParameter('template') . '/</code></div>';
+                        echo '<div><i class="fa fa-fw fa-info" aria-hidden="true"></i> Current theme folder is <code>/' . hound_get_parameter('template') . '/</code></div>';
                         ?>
                     </div>
                 </div>

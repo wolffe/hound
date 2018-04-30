@@ -4,13 +4,13 @@ define ('HOUND_VERSION', '0.7.0');
 function get_theme_directory($partial) {
     $websiteurl = getcwd();
 
-    $template = houndGetParameter('template');
+    $template = hound_get_parameter('template');
     $templatePath = $websiteurl . '/site/templates/' . $template . '/' . $partial;
 
     return $templatePath;
 }
 
-function houndCountContent($type) {
+function hound_count_content($type) {
     if ($type === 'page' || $type === 'menu') {
         $dir = '../site/pages/';
         $list = glob($dir . $type . '-*.txt');
@@ -37,7 +37,7 @@ function houndCountContent($type) {
  * @param string $name Name of parameter from configuration file
  * @return string
  */
-function houndGetParameter($name) {
+function hound_get_parameter($name) {
     $websiteurl = getcwd();
     $websiteurl = str_replace('/admin', '', $websiteurl);
 
@@ -60,14 +60,6 @@ function hound_get_contents($url) {
 }
 
 function hound_read_parameter($file) {
-    if (!file_exists($file)) {
-        $websiteurl = getcwd();
-
-        include $websiteurl . '/templates/install.php';
-
-        return;
-    }
-
     $headers = array(
         'title' => 'Title',
         'content' => 'Content',
@@ -98,16 +90,16 @@ function hound_read_parameter($file) {
 
 
 
-function cmp($a, $b) {
+function hound_compare($a, $b) {
     return filemtime($b) - filemtime($a);
 }
 
-function render_blog($echo = true) {
+function hound_render_blog($echo = true) {
     $i = 0;
     $arrayOfPosts = array();
 
     $getPosts = glob('site/pages/post-*.txt');
-    usort($getPosts, 'cmp');
+    usort($getPosts, 'hound_compare');
 
     foreach($getPosts as $file) {
         $headers = array(

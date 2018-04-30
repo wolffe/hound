@@ -7,7 +7,7 @@ include '../libs/hound.php';
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
-$page = $_GET['page'];
+$page = isset($_GET['page']) ? $_GET['page'] : '';
 $nome = $_GET['nome'];
 
 if ((string) $temppass === (string) $password) {
@@ -17,7 +17,7 @@ if ((string) $temppass === (string) $password) {
     <?php
     $folder = '../files/images/';
 
-    if ((string) $_POST['op'] === 'insx') {
+    if (isset($_POST['op']) && (string) $_POST['op'] === 'insx') {
         $filename = basename($_FILES['foto1']['name']);
         $ext = substr($filename, strrpos($filename, '.') + 1);
         if (($ext == "jpeg") || ($ext == "jpg") || ($ext == "JPG") || ($ext == "gif") || ($ext == "GIF") || ($ext == "png") || ($ext == "PNG")) {
@@ -33,7 +33,7 @@ if ((string) $temppass === (string) $password) {
         }
     }
 
-    if ($_GET['op']=="del"){
+    if (isset($_GET['op']) && (string) $_GET['op'] === 'del') {
         $file=$_GET['file'];
         $delfile = makeSafe($file);
         if (file_exists("../". $delfile )) {

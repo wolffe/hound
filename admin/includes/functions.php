@@ -324,3 +324,28 @@ function houndGetAccess() {
         }
     }
 }
+
+/**
+ * Login check
+ *
+ * Checks if user is logged in.
+ * 
+ * @since 0.7.0
+ * @author Ciprian Popescu
+ * 
+ * @return bool
+ */
+function houndCheckLogin() {
+    global $password;
+
+    $temppass = $_SESSION['temppass'];
+
+    if ((string) $temppass !== (string) $password) {
+        php_redirect('index.php?err=1');
+        die('No access.');
+    }
+}
+
+function makeSafe( $file ) {
+    return str_replace( '..', '', urldecode( $file ) );
+}

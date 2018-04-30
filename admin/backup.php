@@ -70,7 +70,7 @@ if($temppass == $password) {
                 <tbody>
                     <?php
                     $files = glob('../backup/*.zip');
-                    usort($files, 'cmp');
+                    usort($files, 'hound_compare');
 
                     for($i=0; $i<count($files); $i++) {
                         $backup = $files[$i];

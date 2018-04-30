@@ -43,13 +43,13 @@ if ((string) $temppass === (string) $password) {
 
                 <p>
                     <b>Site Title</b><br>
-                    <input name="sitename" value="<?php echo houndGetParameter('title');?>" required type="text" id="sitename" class="thin-ui-input" size="64">
+                    <input name="sitename" value="<?php echo hound_get_parameter('title');?>" required type="text" id="sitename" class="thin-ui-input" size="64">
                     <br><small>The title of your website.</small>
                 </p>
 
                 <p>
                     <b>Tagline</b><br>
-                    <input name="slogan" value="<?php echo houndGetParameter('slogan');?>" type="text" id="slogan" class="thin-ui-input" size="64">
+                    <input name="slogan" value="<?php echo hound_get_parameter('slogan');?>" type="text" id="slogan" class="thin-ui-input" size="64">
                     <br><small>In a few words, explain what this site is about.</small>
                 </p>
 
@@ -62,7 +62,7 @@ if ((string) $temppass === (string) $password) {
                             $dirtmpl = scandir('../site/templates');
                             foreach ($dirtmpl as $itemtpl) {
                                 if (is_dir('../site/templates/' . $itemtpl) && ($itemtpl != '.') && ($itemtpl != '..')) {
-                                    if ($itemtpl === houndGetParameter('template')) {
+                                    if ($itemtpl === hound_get_parameter('template')) {
                                         $sel2 = 'selected';
                                     } else {
                                         $sel2 = '';

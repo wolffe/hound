@@ -1,8 +1,5 @@
 <?php
-include 'config.php';
-include 'libs/plugins.php';
-include 'libs/hound.php';
-include 'libs/template.class.php';
+include 'core/config.php';
 
-$hound = new hound($path, $urlwebsite);
+$hound = new hound($path, HOUND_URL);
 $hound->start();
