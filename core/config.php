@@ -9,7 +9,6 @@ define('HOUND_URL', 'https://example.com'); // no trailing slash
 define('HOUND_PATH', '/');
 define('HOUND_PASS', '123456');
 
-$password = '123456';
 $path = '/';
 
 // Stop editing! Have fun!

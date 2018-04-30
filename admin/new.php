@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-include '../config.php';
-include '../libs/hound.php';
+include '../core/config.php';
 
 include 'includes/functions.php';
 
@@ -11,7 +10,7 @@ $temppass = $_SESSION['temppass'];
 $houndAdmin = new hound('', '');
 $param = hound_read_parameter('../site/config.txt');
 
-if ((string) $temppass === (string) $password) {
+if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
 

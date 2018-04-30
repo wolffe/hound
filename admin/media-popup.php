@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-include '../config.php';
-include '../libs/hound.php';
+include '../core/config.php';
 
 include 'includes/functions.php';
 
@@ -10,7 +9,7 @@ $temppass = $_SESSION['temppass'];
 $page = isset($_GET['page']) ? $_GET['page'] : '';
 $nome = $_GET['nome'];
 
-if ((string) $temppass === (string) $password) {
+if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php'; ?>
 
     <div class="container">

@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-include '../config.php';
-include '../libs/hound.php';
+include '../core/config.php';
 
 include 'includes/functions.php';
 

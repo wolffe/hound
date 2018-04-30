@@ -1,5 +1,5 @@
 <?php
-include_once '../libs/hound.php';
+include_once '../core/hound.php';
 
 function writeParam($arrayvalue, $file) {
     $current = '';
@@ -336,11 +336,9 @@ function houndGetAccess() {
  * @return bool
  */
 function houndCheckLogin() {
-    global $password;
-
     $temppass = $_SESSION['temppass'];
 
-    if ((string) $temppass !== (string) $password) {
+    if ((string) $temppass !== HOUND_PASS) {
         php_redirect('index.php?err=1');
         die('No access.');
     }

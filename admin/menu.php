@@ -3,8 +3,7 @@ declare (strict_types = 1);
 
 session_start();
 
-include '../config.php';
-include '../libs/hound.php';
+include '../core/config.php';
 
 include 'includes/functions.php';
 
@@ -17,7 +16,7 @@ if (isset($_GET['page'])) {
 
 $houndAdmin = new hound('', '');
 
-if ((string) $temppass === (string) $password) {
+if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
 
