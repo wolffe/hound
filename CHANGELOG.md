@@ -22,6 +22,7 @@
 
 = 0.8.0 =
 * UPDATE: Refactored authentication check (in progress...)
+* UPDATE: Refactored core/content files (in progress...)
 
 = 0.7.0 =
 * FIX: Fixed PHP 7.2 compatibility
