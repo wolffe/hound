@@ -2,10 +2,12 @@
 * TODO: Add basic plugins panel with name, version, author and URI
 * TODO: Responsive default theme
 * TODO: AJAX
-* TODO: PureCSS
 * TODO: Better check_login function
-* TODO: Add more constants
 * TODO: Update FontAwesome
+
+= 0.8.4 =
+* UPDATE: Changed path detection for performance
+* UPDATE: Added more constants to config file
 
 = 0.8.3 =
 * FIX: Path fixes

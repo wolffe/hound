@@ -1,13 +1,9 @@
 <?php
-define ('HOUND_VERSION', '0.8.3');
-
 function get_theme_directory($partial) {
-    $websiteurl = getcwd();
+    $themeSlug = hound_get_parameter('template');
+    $themeDirectory = HOUND_DIR . '/content/site/templates/' . $themeSlug . '/' . $partial;
 
-    $template = hound_get_parameter('template');
-    $templatePath = $websiteurl . '/content/site/templates/' . $template . '/' . $partial;
-
-    return $templatePath;
+    return $themeDirectory;
 }
 
 function hound_count_content($type) {
@@ -38,10 +34,7 @@ function hound_count_content($type) {
  * @return string
  */
 function hound_get_parameter($name) {
-    $websiteUri = getcwd();
-    $websiteUri = str_replace('/core/admin', '', $websiteUri);
-
-    $parameter = hound_read_parameter($websiteUri . '/content/site/config.txt');
+    $parameter = hound_read_parameter(HOUND_DIR . '/content/site/config.txt');
 
     return (string) $parameter[$name];
 }

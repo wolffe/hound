@@ -13,7 +13,7 @@ https://getbutterfly.com/demo/hound/
 https://getbutterfly.com/hound/
  
 # Version
-Current version: `0.8.3`
+Current version: `0.8.4`
 
 Note that versions below `1.0.0` are considered beta and not production-ready. Use at your own risk.
 
