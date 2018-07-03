@@ -1,5 +1,5 @@
 <?php
-define ('HOUND_VERSION', '0.8.0');
+define ('HOUND_VERSION', '0.7.0');
 
 function get_theme_directory($partial) {
     $websiteurl = getcwd();
@@ -12,16 +12,16 @@ function get_theme_directory($partial) {
 
 function hound_count_content($type) {
     if ($type === 'page' || $type === 'menu') {
-        $dir = '../content/site/pages/';
+        $dir = '../../content/site/pages/';
         $list = glob($dir . $type . '-*.txt');
     } else if ($type === 'post') {
-        $dir = '../content/site/pages/';
+        $dir = '../../content/site/pages/';
         $list = glob($dir . $type . '-*.txt');
     } else if ($type === 'backup') {
-        $dir = '../content/backup/';
+        $dir = '../../content/backup/';
         $list = glob($dir . $type . '-*.zip');
     } else if ($type === 'asset') {
-        $dir = '../content/files/images/';
+        $dir = '../../content/files/images/';
         $list = glob($dir . '*.*');
     }
 
