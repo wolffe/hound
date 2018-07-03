@@ -1,5 +1,5 @@
 <?php
-include_once '../core/hound.php';
+include_once '../hound.php';
 
 function writeParam($arrayvalue, $file) {
     $current = '';

@@ -97,7 +97,7 @@ if ((string) $temppass === HOUND_PASS) {
                                 echo '<td><code>' . str_replace('.php', '', $parampage['template']) . '</code></td>';
                                 echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . ' <code>' . formatSizeUnits($fileinfo['size']) . '</code></small></td>';
                                 echo '<td>
-                                    <a href="../' . $parampage['slug'] . '">View</a> | ';
+                                    <a href="../../' . $parampage['slug'] . '">View</a> | ';
                                     if ($parampage['slug'] != 'index') {
                                         echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $nameofpage . '"> Clone</a> | ';
                                     }
