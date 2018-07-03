@@ -7,7 +7,7 @@
 * TODO: Add more constants
 * TODO: Update FontAwesome
 
-= 0.8.1 =
+= 0.8.2 =
 * UPDATE: Refactored authentication check (in progress...)
 * UPDATE: Refactored core/content files (in progress...)
 * UPDATE: Refactored core using a functional approach

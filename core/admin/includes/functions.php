@@ -55,7 +55,7 @@ function recurse_copy($src, $dst) {
                 //echo 'Copying ' . $src . '/' . $file . ' to ' . $dst . $file . '<br>';
                 recurse_copy($src . '/' . $file, $dst . '/' . $file);
             } else {
-                //copy($src . '/' . $file, $dst . '/' . $file);
+                copy($src . '/' . $file, $dst . '/' . $file);
             }
         }
     }
