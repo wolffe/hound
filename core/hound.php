@@ -5,23 +5,23 @@ function get_theme_directory($partial) {
     $websiteurl = getcwd();
 
     $template = hound_get_parameter('template');
-    $templatePath = $websiteurl . '/site/templates/' . $template . '/' . $partial;
+    $templatePath = $websiteurl . '/content/site/templates/' . $template . '/' . $partial;
 
     return $templatePath;
 }
 
 function hound_count_content($type) {
     if ($type === 'page' || $type === 'menu') {
-        $dir = '../site/pages/';
+        $dir = '../content/site/pages/';
         $list = glob($dir . $type . '-*.txt');
     } else if ($type === 'post') {
-        $dir = '../site/pages/';
+        $dir = '../content/site/pages/';
         $list = glob($dir . $type . '-*.txt');
     } else if ($type === 'backup') {
-        $dir = '../backup/';
+        $dir = '../content/backup/';
         $list = glob($dir . $type . '-*.zip');
     } else if ($type === 'asset') {
-        $dir = '../files/images/';
+        $dir = '../content/files/images/';
         $list = glob($dir . '*.*');
     }
 
@@ -38,10 +38,10 @@ function hound_count_content($type) {
  * @return string
  */
 function hound_get_parameter($name) {
-    $websiteurl = getcwd();
-    $websiteurl = str_replace('/admin', '', $websiteurl);
+    $websiteUri = getcwd();
+    $websiteUri = str_replace('/core/admin', '', $websiteUri);
 
-    $parameter = hound_read_parameter($websiteurl . '/site/config.txt');
+    $parameter = hound_read_parameter($websiteUri . '/content/site/config.txt');
 
     return (string) $parameter[$name];
 }
@@ -97,7 +97,7 @@ function hound_render_blog($echo = true) {
     $i = 0;
     $arrayOfPosts = array();
 
-    $getPosts = glob('site/pages/post-*.txt');
+    $getPosts = glob('content/site/pages/post-*.txt');
     usort($getPosts, 'hound_compare');
 
     foreach($getPosts as $file) {
@@ -174,25 +174,21 @@ class hound {
         $listofpage = array();
 
         // Read template
-        $config = hound_read_parameter('site/config.txt');
+        $config = hound_read_parameter('content/site/config.txt');
         $titleofsite = $config['title'];
 
         // Retrieve a page
-        $currentUrl = explode('?', $_SERVER['REQUEST_URI']);
-        $curpath = str_replace($this->path, '', $currentUrl[0]);
-
-        $listofword = explode('/', $curpath);
-        $curpage = $listofword[count($listofword) - 1];
+        $curpage = strtok(basename(urlencode($_SERVER['REQUEST_URI'])), '?');
 
         // Load files in /pages/
         $i = 0;
-        $fileindir = $this->get_files('site/pages/');
+        $fileindir = $this->get_files('content/site/pages/');
         foreach ($fileindir as $file) {
             if (preg_match("/\bpage\b/i", $file)) {
-                $listofpage[] = str_replace('site/pages/', '', $file);
+                $listofpage[] = str_replace('content/site/pages/', '', $file);
             }
             if (preg_match("/\bpost\b/i", $file)) {
-                $listofpage[] = str_replace('site/pages/', '', $file);
+                $listofpage[] = str_replace('content/site/pages/', '', $file);
             }
 
             if (preg_match("/\bmenu\b/i", $file)) {
@@ -206,11 +202,11 @@ class hound {
 
         // Read file content
         if (in_array('page-' . $curpage . '.txt', $listofpage)) {
-            $pageparam = hound_read_parameter('site/pages/page-' . $curpage . '.txt');
+            $pageparam = hound_read_parameter('content/site/pages/page-' . $curpage . '.txt');
         } else if (in_array('post-' . $curpage . '.txt', $listofpage)) {
-            $pageparam = hound_read_parameter('site/pages/post-' . $curpage . '.txt');
+            $pageparam = hound_read_parameter('content/site/pages/post-' . $curpage . '.txt');
         } else {
-            $pageparam = hound_read_parameter('site/pages/page-index.txt');
+            $pageparam = hound_read_parameter('content/site/pages/page-index.txt');
         }
 
         // Build menu
@@ -223,7 +219,7 @@ class hound {
         }
 
         //RENDER LAYOUT
-        $layout = new Template("site/templates/".$config['template']."/".$pageparam['template']);
+        $layout = new Template("content/site/templates/".$config['template']."/".$pageparam['template']);
         $layout->set("title", $pageparam['title']);
 
         /*
@@ -272,7 +268,7 @@ class hound {
     public function load_plugins()
     {
         $this->plugins = array();
-        $plugins = $this->get_files("plugins", '.php');
+        $plugins = $this->get_files("content/plugins", '.php');
         if (!empty($plugins)) {
             foreach ($plugins as $plugin) {
                 include_once($plugin);

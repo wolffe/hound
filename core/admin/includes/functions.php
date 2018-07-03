@@ -297,33 +297,6 @@ function houndGetIp() {
     }
 }
 
-function houndLogAccess() {
-    $logFile = '../files/access_log';
-    $fileContent = file_get_contents($logFile);
-
-    $stringToWrite = time() . '|' . houndGetIp();
-
-    file_put_contents($logFile, $stringToWrite . "\n" . $fileContent);
-}
-function houndGetAccess() {
-    $logFile = '../files/access_log';
-
-    if (file_exists($logFile)) {
-        $handle = fopen($logFile, 'r');
-        $data = fread($handle, filesize($logFile));
-
-        $lines = file($logFile);
-        $the_rest = array_splice($lines, 3);
-        $first_three = $lines;
-
-        foreach ($first_three as $item) {
-            $logData = explode('|', $item);
-
-            echo 'Last accessed ' . date('F j, Y, g:i a', (int) $logData[0]) . ' from ' . trim($logData[1]) . '<br>';
-        }
-    }
-}
-
 /**
  * Login check
  *

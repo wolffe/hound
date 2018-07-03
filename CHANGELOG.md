@@ -13,8 +13,9 @@
 * UPDATE: Refactored authentication check (in progress...)
 * UPDATE: Refactored core/content files (in progress...)
 * UPDATE: Removed tagline/slogan
+* UPDATE: Removed access log
+* UPDATE: Removed .php from template on post/page screen
 * Add more constants
-* Remove .php from template on post/page screen
 * Update FontAwesome
 
 = 0.7.0 =

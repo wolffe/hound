@@ -36,8 +36,6 @@ if ((string) $temppass === HOUND_PASS) {
                 <div class="thin-ui-infobox">
                     <h3>Activity</h3>
                     <div class="inside">
-                        <?php //houndGetAccess(); ?>
-
                         <p>
                             <small>You are using Hound <strong><?php echo HOUND_VERSION; ?></strong> on PHP <?php echo PHP_VERSION; ?></small>
                             <br><small>Current memory usage is <?php echo houndGetMemory('usage'); ?> (<?php echo houndGetMemory('peak'); ?>) out of <?php echo houndGetMemory('available'); ?> allocated</small>

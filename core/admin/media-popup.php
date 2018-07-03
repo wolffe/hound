@@ -177,7 +177,3 @@ function trovaStringa($text,$wordToSearch)
         return 0;  
     }   
 }  
-
-function makeSafe( $file ) {
-        return str_replace( '..', '', urldecode( $file ) );
-}
