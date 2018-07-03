@@ -2,13 +2,15 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>Dashboard - Hound CMS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.6/tinymce.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.13/tinymce.min.js"></script>
 <script src="tinymceplugin/plugin.min.js"></script>
 <script src="js/jquery-functions.js"></script>
 <script>
@@ -24,15 +26,14 @@ tinymce.init({
     media_live_embeds: true,
 
     relative_urls: false,
+    menubar: 'edit insert format table',
 
     plugins: [
         "advlist autolink lists link image imagetools hr preview",
-        "searchreplace wordcount code fullscreen",
-        "media table contextmenu paste mediamanager textcolor colorpicker textpattern",
-        "nonbreaking save paste template",
-        "codesample"
+        "searchreplace code save paste codesample",
+        "media table contextmenu mediamanager textcolor colorpicker textpattern"
     ],
-    toolbar1: "mediamanager image media | undo redo | bold italic | alignleft aligncenter alignright | bullist numlist | shortcodes forecolor backcolor | link | codesample | code preview",
+    toolbar1: "mediamanager image | undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | shortcodes forecolor backcolor | link | codesample | code preview",
 
     setup : function(ed) {
         ed.addButton('shortcodes', {

@@ -147,9 +147,9 @@ include 'includes/sidebar.php';
 
         <h4>Upload new image</h4>
         <form action="media.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
             <input type="hidden" name="op" value="insx"> 
-            <input type="file" name="foto1">  <br><input type="submit" class="btn btn-info" value="Upload">
+            <input type="file" name="foto1">
+            <br><input type="submit" class="thin-ui-button thin-ui-button-secondary" value="Upload">
         </form>
     </div>
 </div>

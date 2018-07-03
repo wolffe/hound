@@ -7,6 +7,11 @@
 * TODO: Add more constants
 * TODO: Update FontAwesome
 
+= 0.8.3 =
+* FIX: Path fixes
+* FIX: Media modal fixes
+* FIX: Permission check fixes
+
 = 0.8.2 =
 * UPDATE: Refactored authentication check (in progress...)
 * UPDATE: Refactored core/content files (in progress...)

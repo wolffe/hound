@@ -53,6 +53,12 @@ if ((string) $temppass === HOUND_PASS) {
                     <h3>Compatibility</h3>
                     <div class="inside">
                         <?php
+                        if (houndCheckWritePermissions('../../')) {
+                            echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Root folder is writable.</div>';
+                        } else {
+                            echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Root folder is not writable.</div>';
+                        }
+
                         if (houndCheckWritePermissions('../../content/site')) {
                             echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Content (templates and pages) folder is writable.</div>';
                         } else {
@@ -63,12 +69,6 @@ if ((string) $temppass === HOUND_PASS) {
                             echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Uploads folder is writable.</div>';
                         } else {
                             echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Uploads folder is not writable.</div>';
-                        }
-
-                        if (houndCheckWritePermissions('../../content/files/update')) {
-                            echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update folder is writable.</div>';
-                        } else {
-                            echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Update folder is not writable.</div>';
                         }
 
                         if (class_exists('ZipArchive') || extension_loaded('zip')) {

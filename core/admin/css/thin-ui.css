@@ -183,6 +183,10 @@ table td {
     padding: 24px;
 }
 
+.content-media-modal {
+    padding: 24px;
+}
+
 .row {
     display: -webkit-box;
     display: -webkit-flex;

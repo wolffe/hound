@@ -12,54 +12,57 @@ $nome = $_GET['nome'];
 if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php'; ?>
 
-    <div class="container">
-    <?php
-    $folder = '../content/files/images/';
+    <div class="content-media-modal">
+        <?php
+        $mediaFolder = '../../content/files/images/';
 
-    if (isset($_POST['op']) && (string) $_POST['op'] === 'insx') {
-        $filename = basename($_FILES['foto1']['name']);
-        $ext = substr($filename, strrpos($filename, '.') + 1);
-        if (($ext == "jpeg") || ($ext == "jpg") || ($ext == "JPG") || ($ext == "gif") || ($ext == "GIF") || ($ext == "png") || ($ext == "PNG")) {
-            $uploadfile = $folder . $_FILES['foto1']['name'];
+        if (isset($_POST['op']) && (string) $_POST['op'] === 'insx') {
+            $filename = basename($_FILES['foto1']['name']);
+            $ext = substr($filename, strrpos($filename, '.') + 1);
 
-            if (move_uploaded_file($_FILES['foto1']['tmp_name'], $uploadfile)) {
-                print "Image uploaded<br>";
+            // @todo: refactor extension check // mimetype check
+            if (in_array($ext, array('jpg', 'jpeg', 'JPG', 'JPEG', 'gif', 'GIF', 'png', 'PNG'))) {
+                $uploadfile = $mediaFolder . $_FILES['foto1']['name'];
+
+                if (move_uploaded_file($_FILES['foto1']['tmp_name'], $uploadfile)) {
+                    print "Image uploaded<br>";
+                } else {
+                    print "Image not uploaded<br>";
+                }
             } else {
-                print "Image not uploaded<br>";
+                echo"<script>alert('you can upload only images');</script>";
             }
-        } else {
-            echo"<script>alert('you can upload only images');</script>";
         }
-    }
 
-    if (isset($_GET['op']) && (string) $_GET['op'] === 'del') {
-        $file=$_GET['file'];
-        $delfile = makeSafe($file);
+        if (isset($_GET['op']) && (string) $_GET['op'] === 'del') {
+            $file = $_GET['file'];
+            $delfile = makeSafe($file);
         if (file_exists("../". $delfile )) {
             echo"<script>alert('$delfile deleted!');</script>";
             unlink("../".$delfile );
         }
     }
 
-    $primavolta=$_GET['pv'];   //fix bugs
+    $primavolta = isset($_GET['pv']) ? (int) $_GET['pv'] : 0;
 
-    $perpagina=32;              //numero immagini per pagina
+    $perpagina = 32;
 
-    //fix bugs
-    $s=$_GET['s'];   //fix bugs
-    $e=$_GET['e'];   //fix bugs
-    if(strlen($s)<=0 && strlen($e)<=0){
+    $s = $_GET['s'];
+    $e = $_GET['e'];
+
+    if (strlen($s) <= 0 && strlen($e) <= 0) {
         echo"<script>location.href='$PHP_SELF?s=0&e=$perpagina&pv=1&nome=$nome';</script>";
     }
 
-    //apre la directory della variabile $folder
+    //apre la directory della variabile $mediaFolder
     //e mette tutti i file letti in un array
     $i=0;
-    $handle=opendir($folder);
+    $handle=opendir($mediaFolder);
+    $files = array();
     while ($file = readdir ($handle)){
-        if ($file != "." && $file != ".."  && $file != ".DS_Store")     {
+        if ($file != "." && $file != ".." && $file != ".DS_Store")     {
             if(strlen($nome)>0){
-                if(trovaStringa($file,$nome)){
+                if(findString($file,$nome)){
                     $files[$i] = $file;
                     $i++;
                 }     
@@ -97,11 +100,11 @@ if ((string) $temppass === HOUND_PASS) {
     echo '<div class="pure-g">';
     while ($s != $e && $so !=0 ){
         echo '<div class="pure-u-1-5">
-            <img src="' . $folder . $files[$s] . '" width="100" height="100">
+            <img src="' . $mediaFolder . $files[$s] . '" width="100" height="100">
             <br><small>' . substr($files[$s], 0, 25) . '</small>
             <br>
-            <a href="javascript:void(0);" onclick="top.tinymce.activeEditor.insertContent(\'<img src=' . $folder . $files[$s] . '>\');">Insert image</a> | 
-            <a onclick="return confirm(\'are you sure?\');" href="media-popup.php?op=del&file=' . $folder . $files[$s] . '">Remove</a>
+            <a href="javascript:void(0);" onclick="top.tinymce.activeEditor.insertContent(\'<img src=' . $mediaFolder . $files[$s] . '>\');">Insert image</a> | 
+            <a onclick="return confirm(\'are you sure?\');" href="media-popup.php?op=del&file=' . $mediaFolder . $files[$s] . '">Remove</a>
         </div>';
 
         $s++;
@@ -153,27 +156,28 @@ if ((string) $temppass === HOUND_PASS) {
     <?php
     include 'includes/footer.php';
 }
-else{
+else {
   php_redirect('index.php?err=1');
 }
 
 
 
-function trovaStringa($text,$wordToSearch)  
-{  
-    $offset=0;  
-    $pos=0;  
-    while (is_integer($pos)){  
-        $pos = strpos($text,$wordToSearch,$offset);     
-        if (is_integer($pos)) {  
-            $arrPos[] = $pos;  
-            $offset = $pos+strlen($wordToSearch);  
-        }  
-    }  
-    if (isset($arrPos)) {  
-        return 1;  
-    }  
-    else {  
-        return 0;  
-    }   
-}  
+function findString($text, $wordToSearch) {
+    $offset = 0;
+    $pos = 0;
+
+    while (is_integer($pos)) {
+        $pos = strpos($text, $wordToSearch, $offset);
+
+        if (is_integer($pos)) {
+            $arrPos[] = $pos;
+            $offset = $pos + strlen($wordToSearch);
+        }
+    }
+
+    if (isset($arrPos)) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
