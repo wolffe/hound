@@ -8,8 +8,6 @@ include 'includes/functions.php';
 $temppass = $_SESSION['temppass'];
 $page = houndSanitizeString($_GET['page']);
 
-$houndAdmin = new hound('', '');
-
 if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>

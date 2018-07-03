@@ -7,7 +7,6 @@ include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 
-$houndAdmin = new hound('', '');
 $param = hound_read_parameter('../../content/site/config.txt');
 
 if ((string) $temppass === HOUND_PASS) {

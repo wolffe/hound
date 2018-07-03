@@ -193,6 +193,35 @@ function hound_init_plugins() {
 function hound_init() {
     hound_init_plugins();
 
+    $listofpage = array();
+
+    // Read template
+    $config = hound_read_parameter('content/site/config.txt');
+    $titleofsite = $config['title'];
+
+    // Retrieve a page
+    $curpage = strtok(basename($_SERVER['REQUEST_URI']), '?');
+
+    // Load files in /pages/
+    $i = 0;
+    $fileindir = hound_get_files('content/site/pages/');
+    foreach ($fileindir as $file) {
+        if (preg_match("/\bpage\b/i", $file)) {
+            $listofpage[] = str_replace('content/site/pages/', '', $file);
+        }
+        if (preg_match("/\bpost\b/i", $file)) {
+            $listofpage[] = str_replace('content/site/pages/', '', $file);
+        }
+
+        if (preg_match("/\bmenu\b/i", $file)) {
+            $menuparam = hound_read_parameter($file);
+            $arrayofmenu[$i]['order'] = $menuparam['order'];
+            $arrayofmenu[$i]['link'] = $menuparam['link'];
+            $arrayofmenu[$i]['item'] = $menuparam['item'];
+            $i++;
+        }
+    }
+
     // Read file content
     if (in_array('page-' . $curpage . '.txt', $listofpage)) {
         $pageparam = hound_read_parameter('content/site/pages/page-' . $curpage . '.txt');
@@ -222,137 +251,11 @@ function hound_init() {
 
     $layout->set("content", $pageparam['content']);
     $layout->set("menu", $menuitems);  
-    $layout->set("urlwebsite", $this->websiteurl); 
+    $layout->set("urlwebsite", HOUND_URL); 
     $layout->set("site.title", $config['title']);
 
     $layout->set("slug", $pageparam['slug']);
     $layout->set("excerpt", substr(strip_tags(trim($pageparam['content'])), 0, 300));
 
     echo $layout->output();
-}
-
-class hound {
-    var $config;
-    var $path;
-    var $websiteurl;
-    var $plugins;
-
-    public function __construct($path, $websiteurl) {
-        $this->path = $path;
-        $this->websiteurl = $websiteurl;
-    }
-
-    public function start() {
-        // Load plugins
-        $this->load_plugins();
-
-        $listofpage = array();
-
-        // Read template
-        $config = hound_read_parameter('content/site/config.txt');
-        $titleofsite = $config['title'];
-
-        // Retrieve a page
-        $curpage = strtok(basename($_SERVER['REQUEST_URI']), '?');
-
-        // Load files in /pages/
-        $i = 0;
-        $fileindir = $this->get_files('content/site/pages/');
-        foreach ($fileindir as $file) {
-            if (preg_match("/\bpage\b/i", $file)) {
-                $listofpage[] = str_replace('content/site/pages/', '', $file);
-            }
-            if (preg_match("/\bpost\b/i", $file)) {
-                $listofpage[] = str_replace('content/site/pages/', '', $file);
-            }
-
-            if (preg_match("/\bmenu\b/i", $file)) {
-                $menuparam = hound_read_parameter($file);
-                $arrayofmenu[$i]['order'] = $menuparam['order'];
-                $arrayofmenu[$i]['link'] = $menuparam['link'];
-                $arrayofmenu[$i]['item'] = $menuparam['item'];
-                $i++;
-            }
-        }
-
-        // Read file content
-        if (in_array('page-' . $curpage . '.txt', $listofpage)) {
-            $pageparam = hound_read_parameter('content/site/pages/page-' . $curpage . '.txt');
-        } else if (in_array('post-' . $curpage . '.txt', $listofpage)) {
-            $pageparam = hound_read_parameter('content/site/pages/post-' . $curpage . '.txt');
-        } else {
-            $pageparam = hound_read_parameter('content/site/pages/page-index.txt');
-        }
-
-        // Build menu
-        $menuitems = '';
-        if (!empty($arrayofmenu) && is_array($arrayofmenu)) {
-            array_multisort($arrayofmenu);
-            foreach ($arrayofmenu as $itemmenu) {
-                $menuitems .= '<li><a href="' . $itemmenu['link'] . '">' . $itemmenu['item'] . '</a></li>';
-            }
-        }
-
-        //RENDER LAYOUT
-        $layout = new Template("content/site/templates/".$config['template']."/".$pageparam['template']);
-        $layout->set("title", $pageparam['title']);
-
-        /*
-         * Parse content hook(s)
-         */
-        $pageparam['content'] = hook('content', $pageparam['content']);
-
-        $layout->set("content", $pageparam['content']);
-        $layout->set("menu", $menuitems);  
-        $layout->set("urlwebsite", $this->websiteurl); 
-        $layout->set("site.title", $config['title']);
-
-        $layout->set("slug", $pageparam['slug']);
-        $layout->set("excerpt", substr(strip_tags(trim($pageparam['content'])), 0, 300));
-
-        echo $layout->output();
-    }
-
-    function get_files($directory, $ext = ''){
-
-        $arrayItems = array();
-        if ($files = scandir($directory)) {
-            foreach ($files as $file) {
-                if (in_array(substr($file, -1), array('~', '#'))) {
-                    continue;
-                }
-                if (preg_match("/^(^\.)/", $file) === 0) {
-                    if (is_dir($directory . "/" . $file)) {
-                        $arrayItems = array_merge($arrayItems, $this->get_files($directory . "/" . $file, $ext));
-                    } else {
-                        $file = $directory . "/" . $file;
-                        if (!$ext || strstr($file, $ext)) {
-                            $arrayItems[] = preg_replace("/\/\//si", "/", $file);
-                        }
-                    }
-                }
-            }
-        }
-
-        return $arrayItems;
-    }
-
-     /**
-     * Load any plugins
-     */
-    public function load_plugins()
-    {
-        $this->plugins = array();
-        $plugins = $this->get_files("content/plugins", '.php');
-        if (!empty($plugins)) {
-            foreach ($plugins as $plugin) {
-                include_once($plugin);
-                $pluginName = preg_replace("/\\.[^.\\s]{3}$/", '', basename($plugin));
-                if (class_exists($pluginName)) {
-                    $obj = new $pluginName;
-                    $this->plugins[] = $obj;
-                }
-            }
-        }
-    }
 }

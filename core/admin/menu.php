@@ -12,8 +12,6 @@ if (isset($_GET['page'])) {
     $page = houndSanitizeString($_GET['page']);
 }
 
-$houndAdmin = new hound('', '');
-
 if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
@@ -49,7 +47,7 @@ if ((string) $temppass === HOUND_PASS) {
                 </thead>
                 <tbody>
                     <?php
-                    $fileindir = $houndAdmin->get_files('../../content/site/pages/');
+                    $fileindir = hound_get_files('../../content/site/pages/');
                     foreach ($fileindir as $file) {
                         if (preg_match("/\menu\b/i", $file)) {
                             $parampage = hound_read_parameter($file);

@@ -9,7 +9,6 @@ houndCheckLogin();
 
 $which = houndSanitizeString($_GET['which']);
 
-$houndAdmin = new hound('', '');
 $param = hound_read_parameter('../../content/site/config.txt');
 
 include 'includes/header.php';
