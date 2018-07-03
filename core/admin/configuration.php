@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -19,13 +19,11 @@ if ((string) $temppass === HOUND_PASS) {
             if (isset($_POST['op']) && (string) $_POST['op'] === 'mod') {
                 $sitename = $_POST['sitename'];
                 $templatename = $_POST['templatename'];
-                $slogan = $_POST['slogan'];
 
-                $file = '../site/config.txt';
+                $file = '../../content/site/config.txt';
                 $arrayvalue = array(
                     'Title' => $sitename,
                     'Template' => $templatename,
-                    'Slogan' => $slogan,
                     'Version' => HOUND_VERSION,
                 );
 
@@ -47,20 +45,14 @@ if ((string) $temppass === HOUND_PASS) {
                 </p>
 
                 <p>
-                    <b>Tagline</b><br>
-                    <input name="slogan" value="<?php echo hound_get_parameter('slogan');?>" type="text" id="slogan" class="thin-ui-input" size="64">
-                    <br><small>In a few words, explain what this site is about.</small>
-                </p>
-
-                <p>
                     <b>Site Template</b>
                     <br><small>Name of your template folder.</small>
                     <div class="thin-ui-select-wrapper">
                         <select name="templatename" id="templatename">
                             <?php
-                            $dirtmpl = scandir('../site/templates');
+                            $dirtmpl = scandir('../../content/site/templates');
                             foreach ($dirtmpl as $itemtpl) {
-                                if (is_dir('../site/templates/' . $itemtpl) && ($itemtpl != '.') && ($itemtpl != '..')) {
+                                if (is_dir('../../content/site/templates/' . $itemtpl) && ($itemtpl != '.') && ($itemtpl != '..')) {
                                     if ($itemtpl === hound_get_parameter('template')) {
                                         $sel2 = 'selected';
                                     } else {

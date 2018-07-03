@@ -1,5 +1,5 @@
 <?php
-define ('HOUND_VERSION', '0.7.0');
+define ('HOUND_VERSION', '0.8.0');
 
 function get_theme_directory($partial) {
     $websiteurl = getcwd();
@@ -70,7 +70,6 @@ function hound_read_parameter($file) {
         'order' => 'Order',
         'link' => 'Link',
         'item' => 'Item',
-        'slogan' => 'Slogan',
         'include' => '',
     );
 
@@ -236,7 +235,6 @@ class hound {
         $layout->set("menu", $menuitems);  
         $layout->set("urlwebsite", $this->websiteurl); 
         $layout->set("site.title", $config['title']);
-        $layout->set("slogan", $config['slogan']);
 
         $layout->set("slug", $pageparam['slug']);
         $layout->set("excerpt", substr(strip_tags(trim($pageparam['content'])), 0, 300));

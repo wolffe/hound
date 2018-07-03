@@ -1,9 +1,7 @@
 <?php
-declare (strict_types = 1);
-
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -24,7 +22,7 @@ if ((string) $temppass === HOUND_PASS) {
         <div class="content main">
             <?php
             if (isset($_GET['op']) && (string) $_GET['op'] === "del") {
-                $file = '../site/pages/menu-' . $page . '.txt';
+                $file = '../../content/site/pages/menu-' . $page . '.txt';
 
                 if (unlink($file)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Menu item deleted successfully.</div>';
@@ -51,11 +49,11 @@ if ((string) $temppass === HOUND_PASS) {
                 </thead>
                 <tbody>
                     <?php
-                    $fileindir = $houndAdmin->get_files('../site/pages/');
+                    $fileindir = $houndAdmin->get_files('../../content/site/pages/');
                     foreach ($fileindir as $file) {
                         if (preg_match("/\menu\b/i", $file)) {
                             $parampage = hound_read_parameter($file);
-                            $nameofmenu = str_replace('../site/pages/', '', $file);
+                            $nameofmenu = str_replace('../../content/site/pages/', '', $file);
                             $nameofmenu = str_replace('menu-', '', $nameofmenu);
                             $nameofmenu = str_replace('.txt', '', $nameofmenu);
                             //$i++;

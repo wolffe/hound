@@ -9,20 +9,13 @@
 * TODO: PureCSS
 * TODO: Better check_login function
 
-* core/admin
-* core/config.php
-* core/hound.php
-* core/plugins.php
-* core/template.class.php
-* content/plugins
-* content/site
-* content/files
-* content/backup
-* vendor/*
-
 = 0.8.0 =
 * UPDATE: Refactored authentication check (in progress...)
 * UPDATE: Refactored core/content files (in progress...)
+* UPDATE: Removed tagline/slogan
+* Add more constants
+* Remove .php from template on post/page screen
+* Update FontAwesome
 
 = 0.7.0 =
 * FIX: Fixed PHP 7.2 compatibility

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -15,7 +15,7 @@ if ((string) $temppass === HOUND_PASS) {
         <div class="content main">
             <?php
             if (isset($_POST['op']) && (string) $_POST['op'] === 'mod') {
-                $files = glob('../site/pages/*.txt');
+                $files = glob('../content/site/pages/*.txt');
                 $counter = 0;
                 for ($i = 1; $i < count($files); $i++) {
                     $image = $files[$i];

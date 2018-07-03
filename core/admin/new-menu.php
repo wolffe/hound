@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -22,7 +22,7 @@ if ((string) $temppass === HOUND_PASS) {
                 $link=$_POST['link'];
                 $slug=trim($item);
 
-                $file="../site/pages/menu-$slug.txt";
+                $file="../../content/site/pages/menu-$slug.txt";
 
                 //create file
                 $myfile = fopen($file, "a") or die("Unable to open file!");

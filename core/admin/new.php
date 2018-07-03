@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 
 $houndAdmin = new hound('', '');
-$param = hound_read_parameter('../site/config.txt');
+$param = hound_read_parameter('../../content/site/config.txt');
 
 if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php';
@@ -41,7 +41,7 @@ if ((string) $temppass === HOUND_PASS) {
 
                 $template = $_POST['template'];
 
-                $file = '../site/pages/' . $type . '-' . $slug . '.txt';
+                $file = '../../content/site/pages/' . $type . '-' . $slug . '.txt';
                 echo '<div class="thin-ui-notification thin-ui-notification-success">Created <code>' . $file . '</code>.</div>';
 
                 //create file
@@ -92,9 +92,9 @@ if ((string) $temppass === HOUND_PASS) {
                     <div class="thin-ui-select-wrapper">
                         <select name="template" id="template">
                             <?php
-                            $dirtmpl = scandir('../site/templates/' . $param['template'] . '/');
+                            $dirtmpl = scandir('../../content/site/templates/' . $param['template'] . '/');
                             foreach ($dirtmpl as $itemtpl) {
-                                if (!is_dir("../site/templates/".$param['template']."/".$itemtpl) && $itemtpl!="." && $itemtpl!=".." && $itemtpl!=".DS_Store") {
+                                if (!is_dir("../../content/site/templates/".$param['template']."/".$itemtpl) && $itemtpl!="." && $itemtpl!=".." && $itemtpl!=".DS_Store") {
                                     if ($itemtpl == $paramofpage['template']) {
                                         $sel2="selected";
                                     } else {

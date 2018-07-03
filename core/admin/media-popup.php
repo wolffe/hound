@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -14,7 +14,7 @@ if ((string) $temppass === HOUND_PASS) {
 
     <div class="container">
     <?php
-    $folder = '../files/images/';
+    $folder = '../content/files/images/';
 
     if (isset($_POST['op']) && (string) $_POST['op'] === 'insx') {
         $filename = basename($_FILES['foto1']['name']);

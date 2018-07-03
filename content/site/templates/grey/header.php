@@ -5,11 +5,11 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 
 <title>[@title] - [@site.title]</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="stylesheet" href="[@urlwebsite]/site/templates/grey/css/normalize.min.css">
+<link rel="stylesheet" href="[@urlwebsite]/content/site/templates/grey/css/normalize.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700">
-<link rel="stylesheet" href="[@urlwebsite]/site/templates/grey/style.css">
+<link rel="stylesheet" href="[@urlwebsite]/content/site/templates/grey/style.css">
 
 </head>
 <body>
@@ -23,6 +23,5 @@
 <header>
     <div class="logo">
         <h1><a href="[@urlwebsite]">[@site.title]</a></h1>
-        <span class="tagline">[@slogan]</span>
     </div>
 </header>

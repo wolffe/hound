@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -46,10 +46,10 @@ if ((string) $temppass === HOUND_PASS) {
                 $backupSite = 'backup-site-' . date('Y-m-d-') . substr(md5(microtime()), rand(0, 26), 5) . '.zip';
                 $backupFiles = 'backup-files-' . date('Y-m-d-') . substr(md5(microtime()), rand(0, 26), 5) . '.zip';
 
-                if (zipData('../site/', '../backup/' . $backupSite) !== false) {
+                if (zipData('../../content/site/', '../../content/backup/' . $backupSite) !== false) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Site backup completed successfully.</div>';
                 }
-                if (zipData('../files/', '../backup/' . $backupFiles) !== false) {
+                if (zipData('../../content/files/', '../../content/backup/' . $backupFiles) !== false) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Files backup completed successfully.</div>';
                 }
             }
@@ -68,7 +68,7 @@ if ((string) $temppass === HOUND_PASS) {
                 </thead>
                 <tbody>
                     <?php
-                    $files = glob('../backup/*.zip');
+                    $files = glob('../../content/backup/*.zip');
                     usort($files, 'hound_compare');
 
                     for($i=0; $i<count($files); $i++) {

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -23,7 +23,7 @@ if ((string) $temppass === HOUND_PASS) {
                 $link = $_POST['link'];
                 $slug = trim($item);
 
-                $file = '../site/pages/menu-' . $page . '.txt';
+                $file = '../../content/site/pages/menu-' . $page . '.txt';
                 $arrayvalue = array(
                     'Order' => $order,
                     'Item' => $item,
@@ -36,10 +36,10 @@ if ((string) $temppass === HOUND_PASS) {
                     echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
                 }
 
-                rename('../site/pages/menu-' . $page . '.txt', '../site/pages/menu-' . $slug . '.txt');
+                rename('../../content/site/pages/menu-' . $page . '.txt', '../../content/site/pages/menu-' . $slug . '.txt');
                 $page = $slug;
             }
-            $paramofpage = hound_read_parameter('../site/pages/menu-' . $page . '.txt');
+            $paramofpage = hound_read_parameter('../../content/site/pages/menu-' . $page . '.txt');
             ?>
 
             <h2>Edit menu</h2>

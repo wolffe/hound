@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -36,7 +36,7 @@ if ((string) $temppass === HOUND_PASS) {
                 <div class="thin-ui-infobox">
                     <h3>Activity</h3>
                     <div class="inside">
-                        <?php houndGetAccess(); ?>
+                        <?php //houndGetAccess(); ?>
 
                         <p>
                             <small>You are using Hound <strong><?php echo HOUND_VERSION; ?></strong> on PHP <?php echo PHP_VERSION; ?></small>
@@ -55,19 +55,19 @@ if ((string) $temppass === HOUND_PASS) {
                     <h3>Compatibility</h3>
                     <div class="inside">
                         <?php
-                        if (houndCheckWritePermissions('../site')) {
+                        if (houndCheckWritePermissions('../../content/site')) {
                             echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Content (templates and pages) folder is writable.</div>';
                         } else {
                             echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Content (templates and pages) folder is not writable.</div>';
                         }
 
-                        if (houndCheckWritePermissions('../files')) {
+                        if (houndCheckWritePermissions('../../content/files')) {
                             echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Uploads folder is writable.</div>';
                         } else {
                             echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Uploads folder is not writable.</div>';
                         }
 
-                        if (houndCheckWritePermissions('../files/update')) {
+                        if (houndCheckWritePermissions('../../content/files/update')) {
                             echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update folder is writable.</div>';
                         } else {
                             echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Update folder is not writable.</div>';

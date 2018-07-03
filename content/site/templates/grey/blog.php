@@ -6,7 +6,7 @@
 
         [@content]
 
-        <?php hound_render_blog(); ?>
+        <?php echo hound_render_blog(); ?>
     </div>
 </div>
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
-include '../core/config.php';
+
+include '../config.php';
 include 'includes/functions.php';
 
 $ps = filter_var(trim($_POST['ps']), FILTER_SANITIZE_STRING);
@@ -8,7 +9,7 @@ $ps = filter_var(trim($_POST['ps']), FILTER_SANITIZE_STRING);
 if ((string) $ps === HOUND_PASS) {
     $_SESSION['temppass'] = $ps;
 
-    houndLogAccess();
+    //houndLogAccess();
 
     php_redirect('dashboard.php');
 } else {

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -20,7 +20,7 @@ include 'includes/sidebar.php';
         <br>
 
         <?php
-        $folder = '../files/images/';
+        $folder = '../../content/files/images/';
 
         if (isset($_POST['op']) && (string) $_POST['op'] === 'insx') {
             $filename = basename($_FILES['foto1']['name']);
@@ -87,7 +87,7 @@ include 'includes/sidebar.php';
                 while ($s!=$e && $so!=0) {
                     $ext = pathinfo($files[$s], PATHINFO_EXTENSION);
                     $fileinfo = stat($files[$s]);
-                    $fileName = str_replace('../files/images/', '', $files[$s]);
+                    $fileName = str_replace('../content/files/images/', '', $files[$s]);
 
                     if ($fileName !== 'index.php') {
                         echo '<tr>';

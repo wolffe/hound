@@ -1,7 +1,7 @@
 <div class="sidebar">
     <h2>Hound</h2>
     <ul>
-        <li><a href="../" target="_blank">Site preview <i class="fa fa-fw fa-external-link-square" aria-hidden="true"></i></a></li>
+        <li><a href="../../" target="_blank">Site preview <i class="fa fa-fw fa-external-link-square" aria-hidden="true"></i></a></li>
 
         <li class="sidebar-separator"></li>
         <li><a href="dashboard.php">Dashboard</a></li>

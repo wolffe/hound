@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 add_listener('content', 'pluginGallery');
 
 function pluginGallery($args) {
-    $config = hound_read_parameter('site/config.txt');
+    $config = hound_read_parameter('content/site/config.txt');
 
     $pattern = '/\[gallery(.*?)?\](?:(.+?)?\[\/gallery\])?/';
     $content = $args[0];
@@ -44,9 +44,9 @@ function pluginGallery($args) {
     if (!empty($matches)) {
         $files = glob('site/templates/' . $template . '/' . str_replace('"', '', trim($matches[1][0])) . '*.*');
         $gstring = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="plugins/gallery/fotorama/fotorama.js"></script>
-<link href="plugins/gallery/fotorama/fotorama.css" rel="stylesheet">
-<link href="plugins/gallery/fotorama/fotorama-config.css" rel="stylesheet">
+<script src="content/plugins/gallery/fotorama/fotorama.js"></script>
+<link href="content/plugins/gallery/fotorama/fotorama.css" rel="stylesheet">
+<link href="content/plugins/gallery/fotorama/fotorama-config.css" rel="stylesheet">
 
         <div class="fotorama" data-nav="thumbs" data-width="800" data-height="600" data-allowfullscreen="true" data-hash="true" data-loop="true">';
 

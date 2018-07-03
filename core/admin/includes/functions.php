@@ -146,7 +146,6 @@ function houndUpdateCheck() {
                     $arrayvalue = array(
                         'Title' => houndGetParameter('title'),
                         'Template' => houndGetParameter('template'),
-                        'Slogan' => houndGetParameter('slogan'),
                         'Version' => $latest_release,
                     );
 

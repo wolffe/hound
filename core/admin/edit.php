@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../core/config.php';
+include '../config.php';
 
 include 'includes/functions.php';
 
@@ -10,7 +10,7 @@ houndCheckLogin();
 $which = houndSanitizeString($_GET['which']);
 
 $houndAdmin = new hound('', '');
-$param = hound_read_parameter('../site/config.txt');
+$param = hound_read_parameter('../../content/site/config.txt');
 
 include 'includes/header.php';
 include 'includes/sidebar.php';
@@ -37,7 +37,7 @@ include 'includes/sidebar.php';
 
             $template = $_POST['template'];
 
-            $file = '../site/pages/' . $type . '-' . $which . '.txt';
+            $file = '../../content/site/pages/' . $type . '-' . $which . '.txt';
             $arrayvalue = array(
                 'Slug' => $slug,
                 'Title' => $title,
@@ -51,10 +51,10 @@ include 'includes/sidebar.php';
                 echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
             }
 
-            rename('../site/pages/' . $type . '-' . $which . '.txt', '../site/pages/' . $type . '-' . $slug . '.txt');
+            rename('../../content/site/pages/' . $type . '-' . $which . '.txt', '../../content/site/pages/' . $type . '-' . $slug . '.txt');
             $which = $slug;
         }
-        $paramofpage=hound_read_parameter('../site/pages/' . $type . '-' . $which . '.txt');
+        $paramofpage=hound_read_parameter('../../content/site/pages/' . $type . '-' . $which . '.txt');
         $paramofpage['content'] = str_replace("\\", "", $paramofpage['content']);
         ?>
 
@@ -87,9 +87,9 @@ include 'includes/sidebar.php';
                 <div class="thin-ui-select-wrapper">
                     <select name="template" id="template">
                         <?php
-                        $dirtmpl = scandir('../site/templates/' . $param['template'] . '/');
+                        $dirtmpl = scandir('../../content/site/templates/' . $param['template'] . '/');
                         foreach ($dirtmpl as $itemtpl) {
-                            if (!is_dir('../site/templates/' . $param['template'] . '/' . $itemtpl) && $itemtpl != '.' && $itemtpl != '..' && $itemtpl != '.DS_Store') {
+                            if (!is_dir('../../content/site/templates/' . $param['template'] . '/' . $itemtpl) && $itemtpl != '.' && $itemtpl != '..' && $itemtpl != '.DS_Store') {
                                 if ($itemtpl == $paramofpage['template'])
                                     $sel2 = 'selected';
                                 else

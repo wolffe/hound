@@ -1,0 +1,2 @@
+Title: Hound Content Management System
+Template: grey
