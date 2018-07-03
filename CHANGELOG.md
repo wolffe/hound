@@ -1,22 +1,20 @@
 = 0.X.X =
-* TODO: Remove classes
 * TODO: Add basic plugins panel with name, version, author and URI
-* TODO: Add unique content directory
-* TODO: Group all core files
-* TODO: Better upgrader
 * TODO: Responsive default theme
 * TODO: AJAX
 * TODO: PureCSS
 * TODO: Better check_login function
+* TODO: Add more constants
+* TODO: Update FontAwesome
 
-= 0.8.0 =
+= 0.8.1 =
 * UPDATE: Refactored authentication check (in progress...)
 * UPDATE: Refactored core/content files (in progress...)
+* UPDATE: Refactored core using a functional approach
 * UPDATE: Removed tagline/slogan
 * UPDATE: Removed access log
 * UPDATE: Removed .php from template on post/page screen
-* Add more constants
-* Update FontAwesome
+* UPDATE: Fixed upgrade routine
 
 = 0.7.0 =
 * FIX: Fixed PHP 7.2 compatibility
