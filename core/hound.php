@@ -1,5 +1,5 @@
 <?php
-define ('HOUND_VERSION', '0.7.0');
+define ('HOUND_VERSION', '0.8.0');
 
 function get_theme_directory($partial) {
     $websiteurl = getcwd();

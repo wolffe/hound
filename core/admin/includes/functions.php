@@ -52,10 +52,10 @@ function recurse_copy($src, $dst) {
     while (false !== ($file = readdir($dir))) {
         if (($file != '.') && ($file != '..')) {
             if (is_dir($src . '/' . $file)) {
-                echo 'Copying ' . $src . '/' . $file . ' to ' . $dst . $file . '<br>';
+                //echo 'Copying ' . $src . '/' . $file . ' to ' . $dst . $file . '<br>';
                 recurse_copy($src . '/' . $file, $dst . '/' . $file);
             } else {
-                copy($src . '/' . $file, $dst . '/' . $file);
+                //copy($src . '/' . $file, $dst . '/' . $file);
             }
         }
     }
@@ -111,35 +111,27 @@ function houndUpdateCheck() {
 
         if (version_compare($latest_release, HOUND_VERSION) >= 1) {
             if (isset($_GET['update'])) {
-                if (!is_dir('../tmp')) {
-                    mkdir('../tmp'); 
+                if (!is_dir('../../tmp')) {
+                    mkdir('../../tmp');
                 }
 
-                copy('https://github.com/wolffe/hound/archive/v' . $latest_release . '.zip', '../tmp/' . $latest_release . '.zip');
+                copy('https://github.com/wolffe/hound/archive/v' . $latest_release . '.zip', '../../tmp/' . $latest_release . '.zip');
                 $zip = new ZipArchive;
-                $res = $zip->open('../tmp/' . $latest_release . '.zip');
+                $res = $zip->open('../../tmp/' . $latest_release . '.zip');
                 if ($res === true) {
-                    $zip->extractTo('../tmp');
+                    $zip->extractTo('../../tmp');
                     $zip->close();
 
-                    $src = '../tmp/hound-' . $latest_release;
-                    //$dst = '../files/update';
-                    $dst = '../../';
+                    deleteDir('../../core/');
 
-                    // Delete old files
-                    deleteDir($dst . 'core');
-                    //
+                    copy('../../tmp/hound-' . $latest_release . '/index.php', '../../index.php');
 
-                    // Delete unneccesary files from the downloaded package
-                    deleteDir($src . '/files');
-                    deleteDir($src . '/site');
+                    recurse_copy('../../tmp/hound-' . $latest_release . '/core', '../../core/');
+                    recurse_copy('../../tmp/hound-' . $latest_release . '/content/plugins', '../../content/plugins/');
+                    recurse_copy('../../tmp/hound-' . $latest_release . '/content/site/templates/grey', '../../content/site/templates/grey/');
 
-                    unlink($src . '/.htaccess');
-                    unlink($src . '/config.php');
-                    //
-
-                    recurse_copy($src, $dst);
-                    deleteDir('../tmp');
+                    unlink('../../tmp/hound-' . $latest_release . '/.htaccess');
+                    deleteDir('../../tmp');
 
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Hound sucessfully updated.</div>';
                 } else {
