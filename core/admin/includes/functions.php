@@ -124,11 +124,10 @@ function houndUpdateCheck() {
 
                     $src = '../tmp/hound-' . $latest_release;
                     //$dst = '../files/update';
-                    $dst = '../';
+                    $dst = '../../';
 
                     // Delete old files
-                    deleteDir($dst . 'admin');
-                    deleteDir($dst . 'libs');
+                    deleteDir($dst . 'core');
                     //
 
                     // Delete unneccesary files from the downloaded package
@@ -142,18 +141,7 @@ function houndUpdateCheck() {
                     recurse_copy($src, $dst);
                     deleteDir('../tmp');
 
-                    $file = '../site/config.txt';
-                    $arrayvalue = array(
-                        'Title' => houndGetParameter('title'),
-                        'Template' => houndGetParameter('template'),
-                        'Version' => $latest_release,
-                    );
-
-                    if (writeParam($arrayvalue, $file)) {
-                        echo '<div class="thin-ui-notification thin-ui-notification-success">Hound sucessfully updated.</div>';
-                    } else {
-                        echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while updating Hound.</div>';
-                    }
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Hound sucessfully updated.</div>';
                 } else {
                     echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while updating Hound.</div>';
                 }

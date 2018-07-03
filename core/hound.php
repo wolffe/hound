@@ -195,14 +195,20 @@ function hound_init() {
 
     $listofpage = array();
 
-    // Read template
+    /**
+     * Read template
+     */
     $config = hound_read_parameter('content/site/config.txt');
     $titleofsite = $config['title'];
 
-    // Retrieve a page
-    $curpage = strtok(basename($_SERVER['REQUEST_URI']), '?');
+    /**
+     * Get current page
+     */
+    $currentPageSlug = strtok(basename($_SERVER['REQUEST_URI']), '?');
 
-    // Load files in /pages/
+    /**
+     * Load files in /content/pages/
+     */
     $i = 0;
     $fileindir = hound_get_files('content/site/pages/');
     foreach ($fileindir as $file) {
@@ -222,16 +228,20 @@ function hound_init() {
         }
     }
 
-    // Read file content
-    if (in_array('page-' . $curpage . '.txt', $listofpage)) {
-        $pageparam = hound_read_parameter('content/site/pages/page-' . $curpage . '.txt');
-    } else if (in_array('post-' . $curpage . '.txt', $listofpage)) {
-        $pageparam = hound_read_parameter('content/site/pages/post-' . $curpage . '.txt');
+    /**
+     * Read file content
+     */
+    if (in_array('page-' . $currentPageSlug . '.txt', $listofpage)) {
+        $pageparam = hound_read_parameter('content/site/pages/page-' . $currentPageSlug . '.txt');
+    } else if (in_array('post-' . $currentPageSlug . '.txt', $listofpage)) {
+        $pageparam = hound_read_parameter('content/site/pages/post-' . $currentPageSlug . '.txt');
     } else {
         $pageparam = hound_read_parameter('content/site/pages/page-index.txt');
     }
 
-    // Build menu
+    /**
+     * Build menu
+     */
     $menuitems = '';
     if (!empty($arrayofmenu) && is_array($arrayofmenu)) {
         array_multisort($arrayofmenu);
@@ -240,22 +250,24 @@ function hound_init() {
         }
     }
 
-    //RENDER LAYOUT
-    $layout = new Template("content/site/templates/".$config['template']."/".$pageparam['template']);
-    $layout->set("title", $pageparam['title']);
+    /**
+     * Render layout
+     */
+    $layout = new Template('content/site/templates/' . $config['template'] . '/' . $pageparam['template']);
+    $layout->set('title', $pageparam['title']);
 
-    /*
+    /**
      * Parse content hook(s)
      */
     $pageparam['content'] = hook('content', $pageparam['content']);
 
-    $layout->set("content", $pageparam['content']);
-    $layout->set("menu", $menuitems);  
-    $layout->set("urlwebsite", HOUND_URL); 
-    $layout->set("site.title", $config['title']);
+    $layout->set('content', $pageparam['content']);
+    $layout->set('menu', $menuitems);  
+    $layout->set('urlwebsite', HOUND_URL); 
+    $layout->set('site.title', $config['title']);
 
-    $layout->set("slug", $pageparam['slug']);
-    $layout->set("excerpt", substr(strip_tags(trim($pageparam['content'])), 0, 300));
+    $layout->set('slug', $pageparam['slug']);
+    $layout->set('excerpt', substr(strip_tags(trim($pageparam['content'])), 0, 300));
 
     echo $layout->output();
 }
