@@ -3,6 +3,9 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fe7f07c03fd24b36a71c4e60bde90869)](https://www.codacy.com/app/wolffe/hound?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wolffe/hound&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/wolffe/hound/badge)](https://www.codefactor.io/repository/github/wolffe/hound)
 
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/wolffe/hound.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wolffe/hound/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/wolffe/hound.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wolffe/hound/context:javascript)
+
 # Hound
 Hound is a light, flat-file, PHP-based content management system.
 
