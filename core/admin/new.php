@@ -23,7 +23,7 @@ if ((string) $temppass === HOUND_PASS) {
                 $type = houndSanitizeString($_POST['type']);
             }
 
-            $acceptedTypes = array('post', 'page');
+            $acceptedTypes = ['post', 'page'];
 
 			if (!in_array($type, $acceptedTypes)) {
 				$type = 'page';
@@ -43,16 +43,29 @@ if ((string) $temppass === HOUND_PASS) {
                 $file = '../../content/site/pages/' . $type . '-' . $slug . '.txt';
                 echo '<div class="thin-ui-notification thin-ui-notification-success">Created <code>' . $file . '</code>.</div>';
 
+                // SQLite
+                hound_insert_post(
+                    [
+                        'type' => $type,
+                        'slug' => $_POST['slug'],
+                        'title' => $_POST['title'],
+                        'content' => $_POST['content'],
+                        'template' => $_POST['template'],
+                        'author' => 'John Doe',
+                    ]
+                );
+                //
+
                 //create file
                 $myfile = fopen($file, "a") or die("Unable to open file!");
                 fclose($myfile);
 
-                $arrayvalue = array(
+                $arrayvalue = [
                     'Slug' => $slug,
                     'Title' => $title,
                     'Content' => $content,
                     'Template'=> $template
-                );
+                ];
                 if (writeParam($arrayvalue, $file)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
                 } else {

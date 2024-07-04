@@ -15,7 +15,6 @@
         <li class="sidebar-separator"></li>
         <li><a href="configuration.php">Configuration</a></li>
         <li><a href="search-replace.php">Search &amp; Replace</a></li>
-        <li><a href="backup.php">Backup</a></li>
 
         <li class="sidebar-separator"></li>
         <li><a href="logout.php">Logout</a></li>

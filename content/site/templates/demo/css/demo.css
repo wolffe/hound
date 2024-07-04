@@ -1,0 +1,70 @@
+:root {
+    --content-width: 1170px;
+    --whiskey-accent: #0057ff;
+    --whiskey-accent-switch: #02B2BD;
+    --whiskey-accent-highlight: #ff5959;
+    --whiskey-color: rgb(49, 52, 87);
+    --whiskey-color-dark: #17191f;
+    --whiskey-color-secondary: #313457;
+    --whiskey-background: #ffffff;
+    --whiskey-nav-background: #ffffff;
+    --whiskey-panel-background: #f7f7f8;
+    --whiskey-radius: 2px;
+    --whiskey-pastel-green: #4bdbb7;
+    --whiskey-sponsors: #FC427B;
+    accent-color: var(--whiskey-accent);
+
+    --font-family: "Alliance1", -apple-system, BlinkMacSystemFont, "Segoe UI", "Segoe UI Symbol", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-heading: "Alliance1";
+    --font-native: -apple-system, BlinkMacSystemFont, "Segoe UI", "Segoe UI Symbol", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-monospace: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+@font-face {
+    font-family: 'Alliance1';
+    src: url('https://getbutterfly.com/wp-content/themes/wp-whiskey-air/fonts/alliance/alliance-1.woff2') format('woff2 supports variations'),
+         url('https://getbutterfly.com/wp-content/themes/wp-whiskey-air/fonts/alliance/alliance-1.woff2') format('woff2-variations');
+    font-weight: 200 900;
+    font-stretch: 75% 125%;
+    font-display: swap;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 48px;
+
+    background-color: var(--whiskey-background);
+    color: var(--whiskey-color);
+    font-family: var(--font-family);
+    font-feature-settings: "ss02" on, "ss01" on;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-variant-ligatures: discretionary-ligatures;
+}
+
+input,
+textarea,
+select,
+button {
+    padding: 8px;
+    font-size: inherit;
+    font-family: inherit;
+    font-feature-settings: "ss02" off, "ss01" off;
+}
+select {
+    width: fit-content;
+}
+
+header,
+footer,
+main.gb-main {
+    max-width: var(--content-width);
+    margin: 0 auto;
+}

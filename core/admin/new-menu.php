@@ -28,11 +28,11 @@ if ((string) $temppass === HOUND_PASS) {
                 $myfile = fopen($file, "a") or die("Unable to open file!");
                 fclose($myfile);
 
-                $arrayvalue = array(
+                $arrayvalue = [
                     'Order' => $order,
                     'Item' => $item,
                     'Link' => $link
-                );
+                ];
                 if (writeParam($arrayvalue, $file)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
                 } else {

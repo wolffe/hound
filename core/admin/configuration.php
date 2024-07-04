@@ -21,11 +21,11 @@ if ((string) $temppass === HOUND_PASS) {
                 $templatename = $_POST['templatename'];
 
                 $file = '../../content/site/config.txt';
-                $arrayvalue = array(
+                $arrayvalue = [
                     'Title' => $sitename,
                     'Template' => $templatename,
                     'Version' => HOUND_VERSION,
-                );
+                ];
 
                 if (writeParam($arrayvalue, $file)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved.</div>';

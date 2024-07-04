@@ -20,7 +20,7 @@ if ((string) $temppass === HOUND_PASS) {
         <div class="content main">
             <?php
 			$type = houndSanitizeString($_GET['type']);
-			$acceptedTypes = array('post', 'page');
+			$acceptedTypes = ['post', 'page'];
 
 			if (!in_array($type, $acceptedTypes)) {
 				$type = 'page';
@@ -56,6 +56,7 @@ if ((string) $temppass === HOUND_PASS) {
             <table data-table-theme="default zebra hd-sortable">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Title</th>
                         <th>Slug</th>
                         <th>Template</th>
@@ -65,6 +66,39 @@ if ((string) $temppass === HOUND_PASS) {
                 </thead>
                 <tbody>
                     <?php
+                    $posts = hound_get_posts($type);
+
+                    foreach ($posts as $post) {
+                        echo '<tr>
+                            <td>' . $post['post_id'] . '</td>
+                            <td>';
+                                if ((string) $post['post_slug'] === 'index') {
+                                    echo '<i class="fa fa-fw fa-home" aria-hidden="true"></i> ';
+                                }
+                                //if (preg_match("/\bcopy\b/i", $file)) {
+                                //    echo '<i class="fa fa-fw fa-files-o" aria-hidden="true"></i> ';
+                                //}
+                                echo '<a href="edit.php?type=' . $type . '&which=' . $post['post_slug'] . '">' . $post['post_title'] . '</a>';
+                                //if (preg_match("/\bcopy\b/i", $file)) {
+                                //    echo ' (copy)';
+                                //}
+                            echo '</td>';
+                            echo '<td>' . $post['post_slug'] . '</td>';
+                            echo '<td><code>' . str_replace('.php', '', $post['post_template']) . '</code></td>';
+                            echo '<td><small>' . date('F d Y H:i:s', strtotime($post['post_date'])) . '</small></td>';
+                            //echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . ' <code>' . formatSizeUnits($fileinfo['size']) . '</code></small></td>';
+                            echo '<td>
+                                <a href="../../' . $post['post_slug'] . '">View</a> | ';
+                                if ($post['post_slug'] != 'index') {
+                                    echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $post['post_slug'] . '"> Clone</a> | ';
+                                }
+                                if ($post['post_slug'] != 'index') {
+                                    echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="content.php?type=' . $type . '&op=del&which=' . $post['post_slug'] . '"> Delete</a>';
+                                }
+                            echo '</td>';
+                        echo '</tr>';
+                    }
+
                     $fileindir = hound_get_files('../../content/site/pages/');
                     foreach ($fileindir as $file) {
                         if (preg_match("/\b$type\b/i", $file)) {
@@ -79,6 +113,7 @@ if ((string) $temppass === HOUND_PASS) {
 
                             $fileinfo = stat($file);
                             echo '<tr>
+                                <td></td>
                                 <td>';
                                     if ($parampage['slug'] == "index") {
                                         echo '<i class="fa fa-fw fa-home" aria-hidden="true"></i> ';

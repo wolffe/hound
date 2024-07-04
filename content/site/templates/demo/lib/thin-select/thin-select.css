@@ -1,0 +1,44 @@
+.thin-select {
+    position: relative;
+}
+.thin-select select {
+    display: none;
+}
+.thin-select--selected {
+    background-color: DodgerBlue;
+    display: flex;
+    align-items: center;
+}
+.thin-select--selected:after {
+    position: absolute;
+    content: "";
+    right: 12px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+}
+.thin-select--selected.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+}
+.thin-select--items div,.thin-select--selected {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+}
+.thin-select--items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+.select-hide {
+    display: none;
+}
+.thin-select--items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+}

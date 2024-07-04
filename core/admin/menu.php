@@ -49,7 +49,7 @@ if ((string) $temppass === HOUND_PASS) {
                     <?php
                     $fileindir = hound_get_files('../../content/site/pages/');
                     foreach ($fileindir as $file) {
-                        if (preg_match("/\menu\b/i", $file)) {
+                        if (preg_match("/\\bmenu\\b/i", $file)) {
                             $parampage = hound_read_parameter($file);
                             $nameofmenu = str_replace('../../content/site/pages/', '', $file);
                             $nameofmenu = str_replace('menu-', '', $nameofmenu);

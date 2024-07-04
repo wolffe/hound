@@ -1,0 +1,726 @@
+/**
+ * Thin UI CSS Framework
+ *
+ * @version 2.0.1
+ */
+:root {
+    --thin-ui-primary: #323CB9;
+    --thin-ui-secondary: #A3A9F5;
+    --thin-ui-neutral: #E4E9EF;
+
+    --thin-ui-action: #4FAE33;
+    --thin-ui-warning: #FF7F00;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.thin-ui-grid {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.thin-ui-grid-start {
+    justify-content: flex-start;
+}
+.thin-ui-grid-center {
+    justify-content: center;
+}
+.thin-ui-grid-end {
+    justify-content: flex-end;
+}
+.thin-ui-grid-around {
+    justify-content: space-around;
+}
+.thin-ui-grid-between {
+    justify-content: space-between;
+}
+.thin-ui-grid-push {
+    margin-bottom: 16px;
+}
+
+.thin-ui-col {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0;
+}
+.thin-ui-col-align-top {
+    align-self: flex-start;
+}
+.thin-ui-col-align-bottom {
+    align-self: flex-end;
+}
+.thin-ui-col-align-middle {
+    align-self: center;
+}
+.thin-ui-col-top {
+    justify-content: flex-start;
+    flex-direction: column;
+    display: flex;
+}
+.thin-ui-col-bottom {
+    justify-content: flex-end;
+    flex-direction: column;
+    display: flex;
+}
+.thin-ui-col-middle {
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.thin-ui-col-first {
+    order: -1;
+}
+.thin-ui-col-last {
+    order: 1;
+}
+.thin-ui-col-fixed {
+    flex: initial;
+}
+
+.thin-ui-col-grow-2 {
+    flex-grow: 2;
+}
+.thin-ui-col-grow-3 {
+    flex-grow: 3;
+}
+.thin-ui-col-grow-4 {
+    flex-grow: 4;
+}
+.thin-ui-col-grow-5 {
+    flex-grow: 5;
+}
+.thin-ui-col-grow-6 {
+    flex-grow: 6;
+}
+.thin-ui-col-grow-7 {
+    flex-grow: 7;
+}
+.thin-ui-col-grow-8 {
+    flex-grow: 8;
+}
+.thin-ui-col-grow-9 {
+    flex-grow: 9;
+}
+.thin-ui-col-grow-10 {
+    flex-grow: 10;
+}
+.thin-ui-col-grow-11 {
+    flex-grow: 11;
+}
+.thin-ui-col-1 {
+    flex-basis: 8.33333%;
+    max-width: 8.33333%;
+}
+.thin-ui-col-2 {
+    flex-basis: 16.66667%;
+    max-width: 16.66667%;
+}
+.thin-ui-col-3 {
+    flex-basis: 25%;
+    max-width: 25%;
+}
+.thin-ui-col-4 {
+    flex-basis: 33.33333%;
+    max-width: 33.33333%;
+}
+.thin-ui-col-5 {
+    flex-basis: 41.66667%;
+    max-width: 41.66667%;
+}
+.thin-ui-col-6 {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+.thin-ui-col-7 {
+    flex-basis: 58.33333%;
+    max-width: 58.33333%;
+}
+.thin-ui-col-8 {
+    flex-basis: 66.66667%;
+    max-width: 66.66667%;
+}
+.thin-ui-col-9 {
+    flex-basis: 75%;
+    max-width: 75%;
+}
+.thin-ui-col-10 {
+    flex-basis: 83.33333%;
+    max-width: 83.33333%;
+}
+.thin-ui-col-11 {
+    flex-basis: 91.66667%;
+    max-width: 91.66667%;
+}
+.thin-ui-col-12 {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+    .thin-ui-col-1,
+    .thin-ui-col-2,
+    .thin-ui-col-3,
+    .thin-ui-col-4,
+    .thin-ui-col-5,
+    .thin-ui-col-6,
+    .thin-ui-col-7,
+    .thin-ui-col-8,
+    .thin-ui-col-9,
+    .thin-ui-col-10,
+    .thin-ui-col-11,
+    .thin-ui-col-12 {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+
+.thin-ui-svg {
+    display: inline-block;
+    font-size: inherit;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -.125em;
+}
+
+
+
+/**
+ * Form elements reset
+ */
+.thin-ui-form input[type="text"],
+.thin-ui-form input[type="url"],
+.thin-ui-form input[type="email"],
+.thin-ui-form input[type="tel"],
+.thin-ui-form input[type="search"],
+.thin-ui-form input[type="number"],
+.thin-ui-form input[type="file"],
+.thin-ui-form input[type="password"],
+.thin-ui-form input[type="submit"],
+.thin-ui-form input[type="button"],
+.thin-ui-form input[type="reset"],
+.thin-ui-form input[type="date"],
+.thin-ui-form input[type="month"],
+.thin-ui-form input[type="week"],
+.thin-ui-form input[type="time"],
+.thin-ui-form input[type="datetime"],
+.thin-ui-form input[type="datetime-local"],
+.thin-ui-form input[type="color"],
+.thin-ui-form button,
+.thin-ui-form select,
+.thin-ui-form textarea,
+.thin-ui-color-well {
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 10px 12px;
+    margin: 2px;
+    color: #000000;
+    border: 1px solid var(--thin-ui-neutral);
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    outline-color: var(--thin-ui-secondary);
+    transition: 100ms all ease-in-out;
+}
+
+.thin-ui-form input[type="submit"],
+.thin-ui-form input[type="button"],
+.thin-ui-form input[type="reset"],
+.thin-ui-form input[type="file"],
+.thin-ui-form button {
+    color: #000000;
+    background-color: var(--thin-ui-neutral);
+    border: 0 none;
+    cursor: pointer;
+}
+
+.thin-ui-form input::placeholder,
+.thin-ui-form textarea::placeholder {
+    color: var(--thin-ui-neutral);
+}
+
+.thin-ui-form input:hover,
+.thin-ui-form button:hover,
+.thin-ui-form select:hover,
+.thin-ui-form textarea:hover {
+    border-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.075);
+}
+
+
+
+/*
+ * Buttons
+ *
+ * Button types: Primary, secondary, neutral
+ * Button sizes: Hero, large, regular, small
+ * Button roles: File download, (external) link, (internal) action
+ */
+.thin-ui-button {
+    font-family: inherit;
+    font-weight: 400;
+    display: inline-block;
+    width: fit-content;
+    position: relative;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: 0 none;
+    border-radius: 2px;
+}
+.thin-ui-button:hover {
+    box-shadow: inset 0 99px 0 rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+}
+.thin-ui-button-primary {
+    color: #ffffff;
+    background-color: var(--thin-ui-primary);
+}
+.thin-ui-button-secondary {
+    color: #000000;
+    background-color: var(--thin-ui-secondary);
+}
+.thin-ui-button-neutral {
+    color: #000000;
+    background-color: var(--thin-ui-neutral);
+}
+.thin-ui-button-action {
+    color: #ffffff;
+    background-color: var(--thin-ui-action);
+}
+.thin-ui-button-mini {
+    padding: 4px 12px;
+    font-size: 12px;
+}
+.thin-ui-button-small {
+    padding: 6px 18px;
+    font-size: 13px;
+}
+.thin-ui-button-regular {
+    padding: 8px 24px;
+    font-size: 14px;
+}
+.thin-ui-button-large {
+    padding: 12px 32px;
+    font-size: 16px;
+}
+.thin-ui-button-giant {
+    padding: 16px 36px;
+    font-size: 20px;
+}
+.thin-ui-button-hero {
+    padding: 16px 48px;
+    font-size: 18px;
+    border-radius: 38px;
+}
+
+.thin-ui-button-rounded {
+    border-radius: 64px;
+}
+
+
+
+.thin-ui-warning {
+    color: var(--thin-ui-warning);
+}
+
+
+
+/**
+ * Thin UI Checkblock
+ * Thin UI Group Switch
+ */
+.thin-ui-checkblock,
+.thin-ui-group-switch input {
+    display: none;
+}
+.thin-ui-group-switch {
+    white-space: nowrap;
+    background-color: var(--thin-ui-neutral);
+    display: inline-flex;
+    border-radius: 2px;
+    padding: 4px;
+}
+.thin-ui-checkblock + label,
+.thin-ui-group-switch label {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: var(--thin-ui-neutral);
+    border-radius: 2px;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    user-select: none;
+}
+.thin-ui-checkblock + label:hover,
+.thin-ui-group-switch label:hover {
+    cursor: pointer;
+    background-color: var(--thin-ui-secondary);
+}
+.thin-ui-checkblock:checked + label,
+.thin-ui-group-switch input:checked + label {
+    background-color: var(--thin-ui-primary);
+    color: #ffffff;
+}
+
+
+
+/**
+ * Thin UI Switch
+ */
+.thin-ui-switch-container {
+    display: block;
+    position: relative;
+}
+.thin-ui-switch-container .thin-ui-switch {
+    display: inline-block;
+    position: relative;
+    width: 24px;
+    height: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+.thin-ui-switch-container .thin-ui-switch input[type="checkbox"] {
+    display: none;
+}
+.thin-ui-switch-container .thin-ui-switch .thin-ui-switch-track {
+    background-color: var(--thin-ui-secondary);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 7px;
+    transition: background-color 0.1s ease;
+}
+.thin-ui-switch .thin-ui-switch-button {
+    background: #ffffff;
+    position: absolute;
+    top: 2px;
+    right: 12px;
+    bottom: 2px;
+    left: 2px;
+    border-radius: 100%;
+    transition: left 0.1s ease-in-out, right 0.1s ease-in-out;
+}
+.thin-ui-switch input[type="checkbox"]:checked ~ .thin-ui-switch-track {
+    background-color: var(--thin-ui-primary);
+}
+.thin-ui-switch input[type="checkbox"]:checked ~ .thin-ui-switch-button {
+    right: 2px;
+    left: 12px;
+}
+
+
+
+
+.col--inner {
+    background-color: #ffffff;
+    margin: 4px;
+    padding: 16px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025),
+                0 2px 4px rgba(0, 0, 0, 0.025),
+                0 4px 8px rgba(0, 0, 0, 0.025),
+                0 8px 16px rgba(0, 0, 0, 0.025);
+}
+.col--inner-blank {
+    box-shadow: none;
+}
+.col--inner-highlight {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+                0 2px 4px rgba(0, 0, 0, 0.05),
+                0 4px 8px rgba(0, 0, 0, 0.05),
+                0 8px 16px rgba(0, 0, 0, 0.05),
+                0 16px 32px rgba(0, 0, 0, 0.05),
+                0 32px 64px rgba(0, 0, 0, 0.05);
+}
+.col--inner-title {
+    margin-top: 0;
+    padding-top: 0;
+}
+.col-item--value {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+
+
+
+
+/**
+ * Thin UI Pills
+ */
+.thin-ui-pills {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    margin: 8px 0;
+    padding: 0;
+}
+.thin-ui-pill {
+    white-space: nowrap;
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 1px 2px;
+    line-height: 1.2;
+    max-width: 100%;
+    margin: 0px 10px 10px 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(189, 180, 199);
+    border-image: initial;
+    border-radius: 2px;
+}
+.thin-ui-pill-name {
+    font-weight: 400;
+    min-width: 0px;
+    white-space: nowrap;
+    padding: 4px 8px;
+}
+.thin-ui-pill-value {
+    min-width: 0px;
+    white-space: nowrap;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    max-width: 100%;
+    padding: 4px 8px;
+    background: rgb(251, 251, 252);
+    border-left: 1px solid rgb(189, 180, 199);
+    border-radius: 0 2px 2px 0;
+}
+.thin-ui-pill-value > a {
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+
+
+.thin-ui-badge {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    line-height: 1;
+    background-color: var(--thin-ui-warning);
+    color: #ffffff;
+    padding: 4px;
+    border-radius: 2px;
+}
+
+
+
+.thin-ui-notification-bar {
+    position: fixed;
+    z-index: 999;
+    padding: 16px 8px;
+    background-color: rgb(121, 198, 152);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    width: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    transition: all 0.5s ease-out;
+    transform: translateY(-72px);
+}
+
+
+
+/**
+ * Thin UI Popovers
+ */
+label.thin-ui-popover {
+    position: relative;
+}
+label.thin-ui-popover button[name="popover"] {
+    font-family: inherit;
+    font-size: inherit;
+    background: none;
+    border: 0 none;
+    display: inline;
+    outline: none;
+    color: inherit;
+    padding: unset;
+    cursor: pointer;
+}
+
+label.thin-ui-popover .thin-ui-popover-body {
+    display: none;
+
+    font-size: 13px;
+    border-radius: 2px;
+    padding: 16px 36px 16px 16px;
+    background-color: #ffffff;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+    position: absolute;
+    z-index: 128;
+    top: 32px;
+    left: 0;
+    min-width: 320px;
+    max-width: 480px;
+}
+
+label.thin-ui-popover button:focus + .thin-ui-popover-body {
+    display: block;
+}
+
+
+
+/**
+ * Thin UI Spacers
+ */
+.thin-ui-spacer-v {
+    margin: 24px 0;
+}
+
+
+
+/**
+ * Thin UI Tabs
+ */
+.thin-ui-tabstrip {
+    display: flex;
+    flex-wrap: wrap;
+}
+.thin-ui-tabstrip label {
+	order: 1;
+	display: block;
+	margin-right: 2px;
+
+    background-color: var(--thin-ui-neutral);
+    color: #000000;
+
+    cursor: pointer;
+    white-space: nowrap;
+    color: #000000;
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: 2px 2px 0 0;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+    transition: background-color 0.05s ease-out;
+}
+.thin-ui-tabstrip label:hover {
+    background-color: var(--thin-ui-secondary);
+    color: #ffffff;
+}
+
+.thin-ui-tabstrip .thin-ui-tab {
+    order: 99;
+    flex-grow: 1;
+    width: 100%;
+    display: none;
+    padding: 1em;
+
+    border-radius: 0 0 2px 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025), 0 2px 4px rgba(0, 0, 0, 0.025), 0 4px 8px rgba(0, 0, 0, 0.025), 0 8px 16px rgba(0, 0, 0, 0.025);
+}
+.thin-ui-tabstrip input[type="radio"] {
+	display: none;
+}
+.thin-ui-tabstrip input[type="radio"]:checked + label {
+    background-color: var(--thin-ui-primary);
+    color: #ffffff;
+}
+.thin-ui-tabstrip input[type="radio"]:checked + label + .thin-ui-tab {
+	display: block;
+}
+
+@media (max-width: 768px) {
+    .thin-ui-tabstrip .thin-ui-tab,
+    .thin-ui-tabstrip label {
+        order: initial;
+    }
+    .thin-ui-tabstrip label {
+        width: 100%;
+        margin-right: 0;
+        margin-top: 0.2rem;
+    }
+}
+
+
+
+/**
+ * Thin UI Modal Dialog
+ */
+.thin-ui-modal-dialog * {
+    box-sizing: border-box;
+}
+
+.thin-ui-modal-dialog {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thin-ui-modal-window {
+    background-color: #fff;
+    min-width: 480px;
+    border: 4px solid black;
+    border-top-width: 0;
+    box-shadow: 0 0 0 4px rgb(0 0 0 / 15%), 0 0 16px rgb(0 0 0 / 25%);
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.thin-ui-modal-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    background-color: #000000;
+    width: 100%;
+    color: #fff;
+    padding: 4px 16px;
+}
+
+.thin-ui-modal-close {
+    margin-left: auto;
+    background: none;
+    border: 0 none;
+    font-size: 26px;
+    font-weight: inherit;
+    font-family: inherit;
+    color: #fff;
+    cursor: pointer;
+}
+
+.thin-ui-modal-text {
+    margin: 48px 0;
+    padding: 0 16px;
+}
+
+.thin-ui-modal-button-group {
+    margin: auto 0 16px 0;
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.thin-ui-modal-button-group button {
+    font-weight: inherit;
+    font-family: inherit;
+}

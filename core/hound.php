@@ -6,6 +6,13 @@ function get_theme_directory($partial) {
     return $themeDirectory;
 }
 
+function get_theme_url($partial) {
+    $themeSlug = hound_get_parameter('template');
+    $themeDirectory = HOUND_URL . '/content/site/templates/' . $themeSlug . '/' . $partial;
+
+    return $themeDirectory;
+}
+
 function hound_count_content($type) {
     if ($type === 'page' || $type === 'menu') {
         $dir = '../../content/site/pages/';
@@ -13,9 +20,6 @@ function hound_count_content($type) {
     } else if ($type === 'post') {
         $dir = '../../content/site/pages/';
         $list = glob($dir . $type . '-*.txt');
-    } else if ($type === 'backup') {
-        $dir = '../../content/backup/';
-        $list = glob($dir . $type . '-*.zip');
     } else if ($type === 'asset') {
         $dir = '../../content/files/images/';
         $list = glob($dir . '*.*');
@@ -198,6 +202,7 @@ function hound_init() {
      * Get current page
      */
     $currentPageSlug = strtok(basename($_SERVER['REQUEST_URI']), '?');
+    $currentPageSlug = str_replace(HOUND_DIR_SINGLE, '', $currentPageSlug);
 
     /**
      * Load files in /content/pages/
@@ -244,15 +249,46 @@ function hound_init() {
     }
 
     /**
+     * Render layout (SQLite)
+     */
+    if ($currentPageSlug === '') {
+        //echo '<p>Slug is empty. ' . $currentPageSlug . '</p>';
+        $post = hound_get_post(0, '', $currentPageSlug, 'home');
+    } else {
+        $post = hound_get_post(0, '', $currentPageSlug);
+    }
+
+    if ($post) {
+        // Display the post details
+        $db_slug = $post['post_slug'];
+        $db_title = $post['post_title'];
+        $db_type = $post['post_type'];
+        $db_content = $post['post_content'];
+        $db_template = $post['post_template'];
+        $db_date = $post['post_date'];
+        $db_author = $post['post_author'];
+    } else {
+        echo 'Post not found.';
+    }
+    //
+
+
+
+
+
+    /**
      * Render layout
      */
-    $layout = new Template('content/site/templates/' . $config['template'] . '/' . $pageparam['template']);
-    $layout->set('title', $pageparam['title']);
+    //$layout = new Template('content/site/templates/' . $config['template'] . '/' . $pageparam['template']);
+    $layout = new Template('content/site/templates/' . $config['template'] . '/' . $db_template);
+    //$layout->set('title', $pageparam['title']);
+    $layout->set('title', $db_title);
 
     /**
      * Parse content hook(s)
      */
-    $pageparam['content'] = hook('content', $pageparam['content']);
+    //$pageparam['content'] = hook('content', $pageparam['content']);
+    $pageparam['content'] = hook('content', $db_content);
 
     $layout->set('content', $pageparam['content']);
     $layout->set('menu', $menuitems);  
@@ -260,6 +296,7 @@ function hound_init() {
     $layout->set('site.title', $config['title']);
 
     $layout->set('slug', $pageparam['slug']);
+    $layout->set('slug', $db_slug);
     $layout->set('excerpt', substr(strip_tags(trim($pageparam['content'])), 0, 300));
 
     echo $layout->output();

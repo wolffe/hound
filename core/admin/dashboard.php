@@ -28,7 +28,6 @@ if ((string) $temppass === HOUND_PASS) {
                         <strong><?php echo hound_count_content('post'); ?></strong> post(s)<br>
                         <strong><?php echo hound_count_content('page'); ?></strong> page(s)<br>
                         <strong><?php echo hound_count_content('menu'); ?></strong> menu item(s)<br>
-                        <strong><?php echo hound_count_content('backup'); ?></strong> backup file(s)<br>
                         <strong><?php echo hound_count_content('asset'); ?></strong> asset(s) (documents and images)
                     </div>
                 </div>
@@ -69,12 +68,6 @@ if ((string) $temppass === HOUND_PASS) {
                             echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Uploads folder is writable.</div>';
                         } else {
                             echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Uploads folder is not writable.</div>';
-                        }
-
-                        if (class_exists('ZipArchive') || extension_loaded('zip')) {
-                            echo '<div><i class="fa fa-fw fa-check" aria-hidden="true"></i> Zip functionality is available.</div>';
-                        } else {
-                            echo '<div><i class="fa fa-fw fa-times" aria-hidden="true"></i> Zip functionality is not available. Backups and automatic updates will not work.</div>';
                         }
                         ?>
 

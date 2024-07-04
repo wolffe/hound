@@ -35,16 +35,21 @@ include 'includes/sidebar.php';
             $slug = trim($slug);
 
             $template = $_POST['template'];
+            // @todo
+            $author = 1;
 
             $file = '../../content/site/pages/' . $type . '-' . $which . '.txt';
             $arrayvalue = array(
-                'Slug' => $slug,
-                'Title' => $title,
-                'Content' => $content,
-                'Template'=> $template,
+                'type' => $type,
+                'slug' => $slug,
+                'title' => $title,
+                'content' => $content,
+                'template'=> $template,
+                'author'=> $author,
             );
 
-            if (writeParam($arrayvalue, $file)) {
+            if (hound_update_post($arrayvalue)) {
+            //if (writeParam($arrayvalue, $file)) {
                 echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
             } else {
                 echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
@@ -53,7 +58,26 @@ include 'includes/sidebar.php';
             rename('../../content/site/pages/' . $type . '-' . $which . '.txt', '../../content/site/pages/' . $type . '-' . $slug . '.txt');
             $which = $slug;
         }
-        $paramofpage=hound_read_parameter('../../content/site/pages/' . $type . '-' . $which . '.txt');
+
+        //
+        $post = hound_get_post(0, $type, $which);
+        $paramofpage = [];
+
+        if ($post) {
+            // Display the post details
+            $paramofpage['slug'] = $post['post_slug'];
+            $paramofpage['title'] = $post['post_title'];
+            $paramofpage['type'] = $post['post_type'];
+            $paramofpage['content'] = $post['post_content'];
+            $paramofpage['template'] = $post['post_template'];
+            $paramofpage['date'] = $post['post_date'];
+            $paramofpage['author'] = $post['post_author'];
+        } else {
+            echo 'Post not found.';
+        }
+        //
+
+        //$paramofpage=hound_read_parameter('../../content/site/pages/' . $type . '-' . $which . '.txt');
         $paramofpage['content'] = str_replace("\\", "", $paramofpage['content']);
         ?>
 

@@ -1,2 +1,3 @@
 Title: Hound Content Management System
-Template: grey
+Template: demo
+Version: 0.8.4

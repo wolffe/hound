@@ -1,7 +1,12 @@
 = 0.X.X =
+* TODO: Remove classes
 * TODO: Add basic plugins panel with name, version, author and URI
+* TODO: Add unique content directory
+* TODO: Group all core files
+* TODO: Better upgrader
 * TODO: Responsive default theme
 * TODO: AJAX
+* TODO: PureCSS
 * TODO: Better check_login function
 * TODO: Update FontAwesome
 
@@ -15,6 +20,18 @@
 * FIX: Permission check fixes
 
 = 0.8.2 =
+* core/admin
+* core/config.php
+* core/hound.php
+* core/plugins.php
+* core/template.class.php
+* content/plugins
+* content/site
+* content/files
+* content/backup
+* vendor/*
+
+= 0.8.0 =
 * UPDATE: Refactored authentication check (in progress...)
 * UPDATE: Refactored core/content files (in progress...)
 * UPDATE: Refactored core using a functional approach
