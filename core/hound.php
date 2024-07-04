@@ -254,6 +254,7 @@ function hound_init() {
     if ($currentPageSlug === '') {
         //echo '<p>Slug is empty. ' . $currentPageSlug . '</p>';
         $post = hound_get_post(0, '', $currentPageSlug, 'home');
+        $post = hound_get_post(0, '', 'index');
     } else {
         $post = hound_get_post(0, '', $currentPageSlug);
     }

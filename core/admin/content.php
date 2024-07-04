@@ -19,31 +19,30 @@ if ((string) $temppass === HOUND_PASS) {
     <div class="content">
         <div class="content main">
             <?php
-			$type = houndSanitizeString($_GET['type']);
-			$acceptedTypes = ['post', 'page'];
+            $type = houndSanitizeString($_GET['type']);
+            $acceptedTypes = ['post', 'page'];
 
-			if (!in_array($type, $acceptedTypes)) {
-				$type = 'page';
+            if (!in_array($type, $acceptedTypes)) {
+                $type = 'page';
 
-				echo '<div class="thin-ui-notification thin-ui-notification-error">Invalid item type. Switching to page type.</div>';
-			}
+                echo '<div class="thin-ui-notification thin-ui-notification-error">Invalid item type. Switching to page type.</div>';
+            }
 
             if (isset($_GET['op']) && (string) $_GET['op'] === 'del') {
-                $file = '../../content/site/pages/' . $type . '-' . $which . '.txt';
+                $post_id_to_delete = (int) $_GET['which'];
 
-                if (unlink($file)) {
-                    echo '<div class="thin-ui-notification thin-ui-notification-success">' . ucwords($type) . ' deleted successfully.</div>';
+                if (hound_delete_post($post_id_to_delete)) {
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Post deleted successfully.</div>';
                 } else {
-                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting ' . $type . '.</div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting the post.</div>';
                 }
-            } else if (isset($_GET['op']) && (string) $_GET['op'] === 'copy') {
-                $file = '../../content/site/pages/' . $type . '-' . $which . '.txt';
-                $filecopy = '../../content/site/pages/' . $type . '-' . $which . '-copy.txt';
+            } elseif (isset($_GET['op']) && (string) $_GET['op'] === 'copy') {
+                $post_id_to_clone = (int) $_GET['which'];
 
-                if (copy($file, $filecopy)) {
-                    echo '<div class="thin-ui-notification thin-ui-notification-success">' . ucwords($type) . ' copied successfully.</div>';
+                if (hound_clone_post($post_id_to_clone)) {
+                    echo '<div class="thin-ui-notification thin-ui-notification-success">Post copied successfully.</div>';
                 } else {
-                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while copying ' . $type . '.</div>';
+                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while copying the post.</div>';
                 }
             }
             ?>
@@ -78,7 +77,7 @@ if ((string) $temppass === HOUND_PASS) {
                                 //if (preg_match("/\bcopy\b/i", $file)) {
                                 //    echo '<i class="fa fa-fw fa-files-o" aria-hidden="true"></i> ';
                                 //}
-                                echo '<a href="edit.php?type=' . $type . '&which=' . $post['post_slug'] . '">' . $post['post_title'] . '</a>';
+                                echo '<a href="edit.php?type=' . $type . '&which=' . $post['post_id'] . '">' . $post['post_title'] . '</a>';
                                 //if (preg_match("/\bcopy\b/i", $file)) {
                                 //    echo ' (copy)';
                                 //}
@@ -90,56 +89,13 @@ if ((string) $temppass === HOUND_PASS) {
                             echo '<td>
                                 <a href="../../' . $post['post_slug'] . '">View</a> | ';
                                 if ($post['post_slug'] != 'index') {
-                                    echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $post['post_slug'] . '"> Clone</a> | ';
+                                    echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $post['post_id'] . '"> Clone</a> | ';
                                 }
                                 if ($post['post_slug'] != 'index') {
-                                    echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="content.php?type=' . $type . '&op=del&which=' . $post['post_slug'] . '"> Delete</a>';
+                                    echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="content.php?type=' . $type . '&op=del&which=' . $post['post_id'] . '"> Delete</a>';
                                 }
                             echo '</td>';
                         echo '</tr>';
-                    }
-
-                    $fileindir = hound_get_files('../../content/site/pages/');
-                    foreach ($fileindir as $file) {
-                        if (preg_match("/\b$type\b/i", $file)) {
-                            $parampage = hound_read_parameter($file);
-                            //$listofpage[$i]['title'] = $parampage['title'];
-                            //$listofpage[$i]['url'] = $parampage['url'];
-                            //$listofpage[$i]['slug'] = $parampage['slug'];
-                            $nameofpage = str_replace('../../content/site/pages/', "", $file);
-                            $nameofpage = str_replace($type . '-', "", $nameofpage);
-                            $nameofpage = str_replace('.txt', "", $nameofpage);
-                            //$i++;
-
-                            $fileinfo = stat($file);
-                            echo '<tr>
-                                <td></td>
-                                <td>';
-                                    if ($parampage['slug'] == "index") {
-                                        echo '<i class="fa fa-fw fa-home" aria-hidden="true"></i> ';
-                                    }
-                                    if (preg_match("/\bcopy\b/i", $file)) {
-                                        echo '<i class="fa fa-fw fa-files-o" aria-hidden="true"></i> ';
-                                    }
-                                    echo '<a href="edit.php?type=' . $type . '&which=' . $nameofpage . '">' . $parampage['title'] . '</a>';
-                                    if (preg_match("/\bcopy\b/i", $file)) {
-                                        echo ' (copy)';
-                                    }
-                                echo '</td>';
-                                echo '<td>' . $parampage['slug'] . '</td>';
-                                echo '<td><code>' . str_replace('.php', '', $parampage['template']) . '</code></td>';
-                                echo '<td><small>' . date('F d Y H:i:s', filemtime($file)) . ' <code>' . formatSizeUnits($fileinfo['size']) . '</code></small></td>';
-                                echo '<td>
-                                    <a href="../../' . $parampage['slug'] . '">View</a> | ';
-                                    if ($parampage['slug'] != 'index') {
-                                        echo '<a href="content.php?type=' . $type . '&op=copy&which=' . $nameofpage . '"> Clone</a> | ';
-                                    }
-                                    if ($parampage['slug'] != 'index') {
-                                        echo '<a style="color: #C0392B;" onclick="return confirm(\'Are you sure?\');" href="content.php?type=' . $type . '&op=del&which=' . $nameofpage . '"> Delete</a>';
-                                    }
-                                echo '</td>';
-                            echo '</tr>';
-                        }
                     }
                     ?>
                 </tbody>

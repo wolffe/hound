@@ -26,6 +26,7 @@ include 'includes/sidebar.php';
 		}
 
         if (isset($_POST['op']) && (string) $_POST['op'] === 'mod' && (string) $_POST['title'] !== 'admin') {
+            $id = $_POST['post_id'];
             $slug = $_POST['slug'];
             $title = $_POST['title'];
             $content = $_POST['content'];
@@ -38,8 +39,8 @@ include 'includes/sidebar.php';
             // @todo
             $author = 1;
 
-            $file = '../../content/site/pages/' . $type . '-' . $which . '.txt';
             $arrayvalue = array(
+                'post_id' => $id,
                 'type' => $type,
                 'slug' => $slug,
                 'title' => $title,
@@ -49,22 +50,21 @@ include 'includes/sidebar.php';
             );
 
             if (hound_update_post($arrayvalue)) {
-            //if (writeParam($arrayvalue, $file)) {
                 echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
             } else {
                 echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
             }
 
-            rename('../../content/site/pages/' . $type . '-' . $which . '.txt', '../../content/site/pages/' . $type . '-' . $slug . '.txt');
-            $which = $slug;
+            $which = $id;
         }
 
         //
-        $post = hound_get_post(0, $type, $which);
+        $post = hound_get_post($_GET['which'], $type, '');
         $paramofpage = [];
 
         if ($post) {
             // Display the post details
+            $paramofpage['post_id'] = $post['post_id'];
             $paramofpage['slug'] = $post['post_slug'];
             $paramofpage['title'] = $post['post_title'];
             $paramofpage['type'] = $post['post_type'];
@@ -77,7 +77,6 @@ include 'includes/sidebar.php';
         }
         //
 
-        //$paramofpage=hound_read_parameter('../../content/site/pages/' . $type . '-' . $which . '.txt');
         $paramofpage['content'] = str_replace("\\", "", $paramofpage['content']);
         ?>
 
@@ -85,16 +84,17 @@ include 'includes/sidebar.php';
 
         <form role="form" id="commentForm" action="edit.php?type=<?php echo $type; ?>&which=<?php echo $which; ?>" method="post">
             <input type="hidden" value="mod" name="op">
+            <input type="hidden" value="<?php echo $paramofpage['post_id']; ?>" name="post_id">
 
             <p>
                 <b>Title</b><br>
-                <input name="title" value="<?php echo $paramofpage['title'];?>" type="text" class="thin-ui-input" size="64" required>
+                <input name="title" value="<?php echo $paramofpage['title']; ?>" type="text" class="thin-ui-input" size="64" required>
             </p>
 
             <?php if ($paramofpage['slug'] != 'index') { ?>
                 <p>
                     <b>Permalink</b><br>
-                    <input name="slug" value="<?php echo $paramofpage['slug'];?>" type="text" class="thin-ui-input" size="64" required>
+                    <input name="slug" value="<?php echo $paramofpage['slug']; ?>" type="text" class="thin-ui-input" size="64" required>
                 </p>
             <?php } else { ?>
                 <input name="slug" value="index" type="hidden">
