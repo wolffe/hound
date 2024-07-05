@@ -14,18 +14,28 @@ function get_theme_url($partial) {
 }
 
 function hound_count_content($type) {
-    if ($type === 'page' || $type === 'menu') {
-        $dir = '../../content/site/pages/';
-        $list = glob($dir . $type . '-*.txt');
-    } else if ($type === 'post') {
-        $dir = '../../content/site/pages/';
-        $list = glob($dir . $type . '-*.txt');
-    } else if ($type === 'asset') {
+    $db = hound_db();
+
+    if ($type === 'page' || $type === 'menu' || $type === 'post') {
+        $stmt = $db->prepare('SELECT COUNT(*) AS post_count FROM posts WHERE post_type = :post_type');
+        $stmt->bindParam(':post_type', $type, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result && isset($result['post_count'])) {
+            return (int) $result['post_count'];
+        } else {
+            return 0;
+        }
+    } elseif ($type === 'asset') {
         $dir = '../../content/files/images/';
         $list = glob($dir . '*.*');
+
+        return (int) count($list);
     }
 
-    return (int) count($list);
+    return 0;
 }
 
 function hound_compare($a, $b) {
@@ -33,14 +43,8 @@ function hound_compare($a, $b) {
 }
 
 function hound_render_blog($echo = true) {
-    //$i = 0;
-    //$arrayOfPosts = array();
-
     $found_posts = hound_get_posts('post');
     $blogPosts = '';
-
-    //$getPosts = glob('content/site/pages/post-*.txt');
-    //usort($getPosts, 'hound_compare');
 
     foreach ($found_posts as $post) {
         $post_url = rtrim( HOUND_URL, '/\\' ) . '/' . $post['post_slug'];
