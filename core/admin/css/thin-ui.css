@@ -8,14 +8,7 @@ body {
     color: #333333;
     background-color: #ECF0F1;
 
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
     flex-direction: row;
 }
 
@@ -121,9 +114,6 @@ table td {
 
 
 .column {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     flow-direction: column;
     width: 100%;
@@ -138,8 +128,6 @@ table td {
     background-color: #2C3E50;
     border-right: 1px solid #000000;
 
-    -webkit-flex-shrink: 0;
-    -ms-flex-negative: 0;
     flex-shrink: 0;
     overflow-x: hidden;
 }
@@ -166,14 +154,7 @@ table td {
 .content {
     padding-left: 200px;
 
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     flex-direction: column;
     width: 100%;
     height: 100%;
@@ -188,26 +169,12 @@ table td {
 }
 
 .row {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
     flex-direction: row;
 }
 
 .column {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     flex-direction: column;
 }
 
@@ -293,7 +260,6 @@ table td {
  *
  * @since 0.1.7
  */
-.thin-ui {}
 
 .thin-ui-infobox {
     background-color: #FFFFFF;
@@ -303,8 +269,6 @@ table td {
     width: 50%;
     margin: 8px;
 
-    -webkit-flex: 1;
-    -ms-flex: 1;
     flex: 1;
 }
 .thin-ui-infobox h3 {
@@ -355,8 +319,6 @@ table td {
     background-color: #FFFFFF;
     outline: none;
     display: inline-block;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     cursor: pointer;
     color: #666666;
@@ -364,11 +326,6 @@ table td {
     border-radius: 2px;
     box-shadow: inset 0.2px 2px 3px rgba(0, 0, 0, 0.1);
     padding: 0 10px;
-}
-
-.thin-ui-select-wrapper select::-ms-expand {
-  /* for IE 11 */
-  display: none;
 }
 
 
@@ -477,7 +434,5 @@ table td {
 }
 
 .thin-ui-flex-grid {
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
 }

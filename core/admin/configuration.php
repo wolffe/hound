@@ -34,11 +34,6 @@ if ((string) $temppass === HOUND_PASS) {
             $stmt->execute();
 
             $settings = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            echo '<pre>';
-            print_r($settings);
-            echo '</pre>';
-
             ?>
 
             <form role="form" id="commentForm" action="" method="post">
