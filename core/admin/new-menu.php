@@ -22,18 +22,14 @@ if ((string) $temppass === HOUND_PASS) {
                 $link=$_POST['link'];
                 $slug=trim($item);
 
-                $file="../../content/site/pages/menu-$slug.txt";
-
-                //create file
-                $myfile = fopen($file, "a") or die("Unable to open file!");
-                fclose($myfile);
-
-                $arrayvalue = [
-                    'Order' => $order,
-                    'Item' => $item,
-                    'Link' => $link
+                $node_array = [
+                    'node_url' => $link,
+                    'node_title' => $item,
+                    'node_order' => $order,
+                    'node_location' => 'menu'
                 ];
-                if (writeParam($arrayvalue, $file)) {
+
+                if (hound_insert_node($node_array)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
                 } else {
                     echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
@@ -57,7 +53,7 @@ if ((string) $temppass === HOUND_PASS) {
 
           <div class="form-group form-group-lg">
               <b>Item</b>
-              <label class="sr-only" for="inputHelpBlock">Item</label>
+              <label class="sr-only" for="inputHelpBlock">Title</label>
               <span class="help-block">Menu</span>
               <input name="item" required type="text" class="form-control">
           </div>

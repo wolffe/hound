@@ -7,8 +7,6 @@ include 'includes/functions.php';
 
 $temppass = $_SESSION['temppass'];
 
-$param = hound_read_parameter('../../content/site/config.txt');
-
 if ((string) $temppass === HOUND_PASS) {
     include 'includes/header.php';
     include 'includes/sidebar.php'; ?>
@@ -56,21 +54,7 @@ if ((string) $temppass === HOUND_PASS) {
                 );
                 //
 
-                //create file
-                $myfile = fopen($file, "a") or die("Unable to open file!");
-                fclose($myfile);
-
-                $arrayvalue = [
-                    'Slug' => $slug,
-                    'Title' => $title,
-                    'Content' => $content,
-                    'Template'=> $template
-                ];
-                if (writeParam($arrayvalue, $file)) {
-                    echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
-                } else {
-                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
-                }
+                echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved successfully.</div>';
             }
             ?>
 
@@ -104,9 +88,9 @@ if ((string) $temppass === HOUND_PASS) {
                     <div class="thin-ui-select-wrapper">
                         <select name="template" id="template">
                             <?php
-                            $dirtmpl = scandir('../../content/site/templates/' . $param['template'] . '/');
+                            $dirtmpl = scandir('../../content/site/templates/' . hound_get_option('site_theme') . '/');
                             foreach ($dirtmpl as $itemtpl) {
-                                if (!is_dir("../../content/site/templates/".$param['template']."/".$itemtpl) && $itemtpl!="." && $itemtpl!=".." && $itemtpl!=".DS_Store") {
+                                if (!is_dir("../../content/site/templates/".hound_get_option('site_theme')."/".$itemtpl) && $itemtpl!="." && $itemtpl!=".." && $itemtpl!=".DS_Store") {
                                     if ($itemtpl == $paramofpage['template']) {
                                         $sel2="selected";
                                     } else {

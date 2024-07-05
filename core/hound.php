@@ -1,13 +1,13 @@
 <?php
 function get_theme_directory($partial) {
-    $themeSlug = hound_get_parameter('template');
+    $themeSlug = hound_get_option('site_theme');;
     $themeDirectory = HOUND_DIR . '/content/site/templates/' . $themeSlug . '/' . $partial;
 
     return $themeDirectory;
 }
 
 function get_theme_url($partial) {
-    $themeSlug = hound_get_parameter('template');
+    $themeSlug = hound_get_option('site_theme');;
     $themeDirectory = HOUND_URL . '/content/site/templates/' . $themeSlug . '/' . $partial;
 
     return $themeDirectory;
@@ -28,115 +28,28 @@ function hound_count_content($type) {
     return (int) count($list);
 }
 
-/**
- * Get configuration parameter
- * 
- * @since 0.1.4
- * @author Ciprian Popescu
- * 
- * @param string $name Name of parameter from configuration file
- * @return string
- */
-function hound_get_parameter($name) {
-    $parameter = hound_read_parameter(HOUND_DIR . '/content/site/config.txt');
-
-    return (string) $parameter[$name];
-}
-
-function hound_get_contents($url) {
-    if (function_exists('file_get_contents')) {
-        $urlGetContentsData = file_get_contents($url);
-    } else if (function_exists('fopen') && function_exists('stream_get_contents')) {
-        $handle = fopen($url, "r");
-        $urlGetContentsData = stream_get_contents($handle);
-    } else {
-        $urlGetContentsData = false;
-    }
-
-    return $urlGetContentsData;
-}
-
-function hound_read_parameter($file) {
-    $headers = array(
-        'title' => 'Title',
-        'content' => 'Content',
-        'template' => 'Template',
-        'menu' => 'Menu',
-        'url' => 'Url',
-        'slug' => 'Slug',
-        'order' => 'Order',
-        'link' => 'Link',
-        'item' => 'Item',
-        'include' => '',
-    );
-
-    $content = hound_get_contents($file);
-
-    // Add support for custom headers by hooking into the headers array
-    foreach ($headers as $field => $regex) {
-        if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
-            $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
-        } else {
-            $headers[$field] = '';
-        }
-    }
-
-    return $headers;
-}
-
-
-
 function hound_compare($a, $b) {
     return filemtime($b) - filemtime($a);
 }
 
 function hound_render_blog($echo = true) {
-    $i = 0;
-    $arrayOfPosts = array();
+    //$i = 0;
+    //$arrayOfPosts = array();
 
-    $getPosts = glob('content/site/pages/post-*.txt');
-    usort($getPosts, 'hound_compare');
-
-    foreach($getPosts as $file) {
-        $headers = array(
-            'title' => 'Title',
-            'content' => 'Content',
-            'template' => 'Template',
-            'slug' => 'Slug',
-        );
-
-        $content = hound_get_contents($file);
-
-        // Add support for custom headers by hooking into the headers array
-        foreach ($headers as $field => $regex) {
-            if (preg_match('/^[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $content, $match) && $match[1]) {
-                $headers[$field] = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $match[1]));
-            } else {
-                $headers[$field] = '';
-            }
-        }
-
-        $postParam = $headers;
-
-        $arrayOfPosts[$i]['slug'] = $postParam['slug'];
-        $arrayOfPosts[$i]['title'] = $postParam['title'];
-        $arrayOfPosts[$i]['content'] = $postParam['content'];
-
-        $arrayOfPosts[$i]['date'] = date('F d Y H:i:s', filemtime($file));
-
-        $i++;
-    }
-
-    // Build blog
+    $found_posts = hound_get_posts('post');
     $blogPosts = '';
-    if (!empty($arrayOfPosts) && is_array($arrayOfPosts)) {
-        foreach ($arrayOfPosts as $blogPost) {
-            $blogPosts .= '<div class="post">
-                <h3><a href="' . $blogPost['slug'] . '">' . $blogPost['title'] . '</a></h3>
-                <div class"post-meta">' . $blogPost['date'] . '</div>
-                <div class="post-content">' . $blogPost['content'] . '</div>
-            </div>';
-        }
+
+    //$getPosts = glob('content/site/pages/post-*.txt');
+    //usort($getPosts, 'hound_compare');
+
+    foreach ($found_posts as $post) {
+        $post_url = rtrim( HOUND_URL, '/\\' ) . '/' . $post['post_slug'];
+
+        $blogPosts .= '<div class="post">
+            <h3><a href="' . $post_url . '">' . $post['post_title'] . '</a></h3>
+            <div class"post-meta">' . $post['post_date'] . '</div>
+            <div class="post-content">' . $post['post_content'] . '</div>
+        </div>';
     }
 
     if ($echo === true) {
@@ -190,13 +103,10 @@ function hound_init_plugins() {
 function hound_init() {
     hound_init_plugins();
 
-    $listofpage = array();
-
     /**
      * Read template
      */
-    $config = hound_read_parameter('content/site/config.txt');
-    $titleofsite = $config['title'];
+    $titleofsite = hound_get_option('site_title');
 
     /**
      * Get current page
@@ -205,46 +115,18 @@ function hound_init() {
     $currentPageSlug = str_replace(HOUND_DIR_SINGLE, '', $currentPageSlug);
 
     /**
-     * Load files in /content/pages/
-     */
-    $i = 0;
-    $fileindir = hound_get_files('content/site/pages/');
-    foreach ($fileindir as $file) {
-        if (preg_match("/\bpage\b/i", $file)) {
-            $listofpage[] = str_replace('content/site/pages/', '', $file);
-        }
-        if (preg_match("/\bpost\b/i", $file)) {
-            $listofpage[] = str_replace('content/site/pages/', '', $file);
-        }
-
-        if (preg_match("/\bmenu\b/i", $file)) {
-            $menuparam = hound_read_parameter($file);
-            $arrayofmenu[$i]['order'] = $menuparam['order'];
-            $arrayofmenu[$i]['link'] = $menuparam['link'];
-            $arrayofmenu[$i]['item'] = $menuparam['item'];
-            $i++;
-        }
-    }
-
-    /**
-     * Read file content
-     */
-    if (in_array('page-' . $currentPageSlug . '.txt', $listofpage)) {
-        $pageparam = hound_read_parameter('content/site/pages/page-' . $currentPageSlug . '.txt');
-    } else if (in_array('post-' . $currentPageSlug . '.txt', $listofpage)) {
-        $pageparam = hound_read_parameter('content/site/pages/post-' . $currentPageSlug . '.txt');
-    } else {
-        $pageparam = hound_read_parameter('content/site/pages/page-index.txt');
-    }
-
-    /**
      * Build menu
      */
+    $arrayofmenu = hound_get_menu();
+
     $menuitems = '';
     if (!empty($arrayofmenu) && is_array($arrayofmenu)) {
-        array_multisort($arrayofmenu);
+        usort($arrayofmenu, function ($a, $b) {
+            return $a['node_order'] <=> $b['node_order'];
+        });
+
         foreach ($arrayofmenu as $itemmenu) {
-            $menuitems .= '<li><a href="' . $itemmenu['link'] . '">' . $itemmenu['item'] . '</a></li>';
+            $menuitems .= '<li><a href="' . $itemmenu['node_url'] . '">' . $itemmenu['node_title'] . '</a></li>';
         }
     }
 
@@ -280,23 +162,19 @@ function hound_init() {
     /**
      * Render layout
      */
-    //$layout = new Template('content/site/templates/' . $config['template'] . '/' . $pageparam['template']);
-    $layout = new Template('content/site/templates/' . $config['template'] . '/' . $db_template);
-    //$layout->set('title', $pageparam['title']);
+    $layout = new Template('content/site/templates/' . hound_get_option('site_theme') . '/' . $db_template);
     $layout->set('title', $db_title);
 
     /**
      * Parse content hook(s)
      */
-    //$pageparam['content'] = hook('content', $pageparam['content']);
     $pageparam['content'] = hook('content', $db_content);
 
     $layout->set('content', $pageparam['content']);
     $layout->set('menu', $menuitems);  
     $layout->set('urlwebsite', HOUND_URL); 
-    $layout->set('site.title', $config['title']);
+    $layout->set('site.title', hound_get_option('site_title'));
 
-    $layout->set('slug', $pageparam['slug']);
     $layout->set('slug', $db_slug);
     $layout->set('excerpt', substr(strip_tags(trim($pageparam['content'])), 0, 300));
 

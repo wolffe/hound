@@ -20,19 +20,25 @@ if ((string) $temppass === HOUND_PASS) {
                 $sitename = $_POST['sitename'];
                 $templatename = $_POST['templatename'];
 
-                $file = '../../content/site/config.txt';
-                $arrayvalue = [
-                    'Title' => $sitename,
-                    'Template' => $templatename,
-                    'Version' => HOUND_VERSION,
-                ];
+                hound_update_option('site_title', $sitename);
+                hound_update_option('site_theme', $templatename);
 
-                if (writeParam($arrayvalue, $file)) {
-                    echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved.</div>';
-                } else {
-                    echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while saving changes.</div>';
-                }
+                echo '<div class="thin-ui-notification thin-ui-notification-success">Changes saved.</div>';
             }
+
+            $db = new PDO('sqlite:' . HOUND_DB_PATH);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $db->prepare('SELECT * FROM settings');
+
+            $stmt->execute();
+
+            $settings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            echo '<pre>';
+            print_r($settings);
+            echo '</pre>';
+
             ?>
 
             <form role="form" id="commentForm" action="" method="post">
@@ -40,7 +46,7 @@ if ((string) $temppass === HOUND_PASS) {
 
                 <p>
                     <b>Site Title</b><br>
-                    <input name="sitename" value="<?php echo hound_get_parameter('title');?>" required type="text" id="sitename" class="thin-ui-input" size="64">
+                    <input name="sitename" value="<?php echo hound_get_option('site_title');?>" required type="text" id="sitename" class="thin-ui-input" size="64">
                     <br><small>The title of your website.</small>
                 </p>
 
@@ -53,7 +59,7 @@ if ((string) $temppass === HOUND_PASS) {
                             $dirtmpl = scandir('../../content/site/templates');
                             foreach ($dirtmpl as $itemtpl) {
                                 if (is_dir('../../content/site/templates/' . $itemtpl) && ($itemtpl != '.') && ($itemtpl != '..')) {
-                                    if ($itemtpl === hound_get_parameter('template')) {
+                                    if ($itemtpl === hound_get_option('site_theme')) {
                                         $sel2 = 'selected';
                                     } else {
                                         $sel2 = '';

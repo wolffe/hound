@@ -9,8 +9,6 @@ houndCheckLogin();
 
 $which = houndSanitizeString($_GET['which']);
 
-$param = hound_read_parameter('../../content/site/config.txt');
-
 include 'includes/header.php';
 include 'includes/sidebar.php';
 ?>
@@ -110,9 +108,9 @@ include 'includes/sidebar.php';
                 <div class="thin-ui-select-wrapper">
                     <select name="template" id="template">
                         <?php
-                        $dirtmpl = scandir('../../content/site/templates/' . $param['template'] . '/');
+                        $dirtmpl = scandir('../../content/site/templates/' . hound_get_option('site_theme') . '/');
                         foreach ($dirtmpl as $itemtpl) {
-                            if (!is_dir('../../content/site/templates/' . $param['template'] . '/' . $itemtpl) && $itemtpl != '.' && $itemtpl != '..' && $itemtpl != '.DS_Store') {
+                            if (!is_dir('../../content/site/templates/' . hound_get_option('site_theme') . '/' . $itemtpl) && $itemtpl != '.' && $itemtpl != '..' && $itemtpl != '.DS_Store') {
                                 if ($itemtpl == $paramofpage['template'])
                                     $sel2 = 'selected';
                                 else

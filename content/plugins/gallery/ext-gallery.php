@@ -33,11 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 add_listener('content', 'pluginGallery');
 
 function pluginGallery($args) {
-    $config = hound_read_parameter('content/site/config.txt');
-
     $pattern = '/\[gallery(.*?)?\](?:(.+?)?\[\/gallery\])?/';
     $content = $args[0];
-    $template = $config['template'];
+    $template = hound_get_option('site_theme');;
 
     preg_match($pattern, $content, $matches, PREG_OFFSET_CAPTURE, 3);
 

@@ -20,9 +20,7 @@ if ((string) $temppass === HOUND_PASS) {
         <div class="content main">
             <?php
             if (isset($_GET['op']) && (string) $_GET['op'] === "del") {
-                $file = '../../content/site/pages/menu-' . $page . '.txt';
-
-                if (unlink($file)) {
+                if (hound_delete_node($page)) {
                     echo '<div class="thin-ui-notification thin-ui-notification-success">Menu item deleted successfully.</div>';
                 } else {
                     echo '<div class="thin-ui-notification thin-ui-notification-error">An error occurred while deleting menu item.</div>';
@@ -38,32 +36,32 @@ if ((string) $temppass === HOUND_PASS) {
             <table class="default zebra hd-sortable" data-table-theme="default zebra hd-sortable">
                 <thead>
                     <tr>
-                        <th>Order</th>
-                        <th>Name</th>
+                        <th>ID</th>
+                        <th>Title</th>
                         <th>Link</th>
-                        <th></th>
-                        <th></th>
+                        <th>Order</th>
+                        <th>Location</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $fileindir = hound_get_files('../../content/site/pages/');
-                    foreach ($fileindir as $file) {
-                        if (preg_match("/\\bmenu\\b/i", $file)) {
-                            $parampage = hound_read_parameter($file);
-                            $nameofmenu = str_replace('../../content/site/pages/', '', $file);
-                            $nameofmenu = str_replace('menu-', '', $nameofmenu);
-                            $nameofmenu = str_replace('.txt', '', $nameofmenu);
-                            //$i++;
+                   <?php
+                    $posts = hound_get_nodes('');
 
-                            echo '<tr>
-                                <td>' . $parampage['order'] . '</td>
-                                <td>' . $parampage['item'] . '</td>
-                                <td>' . $parampage['link'] . '</td>
-                                <td><a href="edit-menu.php?page=' . $nameofmenu . '">Edit</a></td>
-                                <td><a style="color: red" onclick="return confirm(\'Are you sure?\');" href="menu.php?op=del&page=' . $nameofmenu . '">Delete</a></td>
-                            </tr>';
-                        }
+                    foreach ($posts as $post) {
+                        echo '<tr>
+                            <td>' . $post['node_id'] . '</td>
+                            <td>';
+                                echo '<a href="edit-menu.php?page=' . $post['node_id'] . '">' . $post['node_title'] . '</a>';
+                            echo '</td>';
+                            echo '<td>' . $post['node_url'] . '</td>';
+                            echo '<td>' . $post['node_order'] . '</td>';
+                            echo '<td><small>' . $post['node_location'] . '</small></td>';
+                            echo '<td>
+                                    <a href="edit-menu.php?page=' . $post['node_id'] . '">Edit</a> | 
+                                    <a style="color: red" onclick="return confirm(\'Are you sure?\');" href="menu.php?op=del&page=' . $post['node_id'] . '">Delete</a>
+                                </td>';
+                        echo '</tr>';
                     }
                     ?>
                 </tbody>
